@@ -3,29 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#06040d">
+<meta name="theme-color" content="#08060f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>BrainMax</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 :root {
-  --bg: oklch(6% 0.03 290); --surface: oklch(14% 0.04 290 / 0.55); --surface-2: oklch(18% 0.05 290 / 0.7);
-  --border: oklch(40% 0.06 290 / 0.35); --text: oklch(98% 0.01 290); --text-2: oklch(72% 0.02 290); --text-3: oklch(55% 0.03 290);
-  --purple: oklch(62% 0.26 300); --purple-b: oklch(58% 0.24 285); --violet: oklch(55% 0.28 310); --blue: oklch(60% 0.24 265);
-  --green: oklch(80% 0.19 150); --warm: oklch(82% 0.16 70); --pink: oklch(72% 0.24 340); --cyan: oklch(80% 0.16 200); --red: oklch(65% 0.22 25); --fire: oklch(75% 0.18 60);
+  --bg: oklch(7% 0.03 290); --surface: oklch(13% 0.035 290 / 0.55); --border: oklch(32% 0.05 290 / 0.4);
+  --text: oklch(98% 0.008 290); --text-2: oklch(70% 0.02 290); --text-3: oklch(52% 0.02 290);
+  --purple: oklch(66% 0.26 300); --purple-b: oklch(58% 0.24 285); --violet: oklch(60% 0.26 320);
+  --blue: oklch(66% 0.22 265); --green: oklch(80% 0.19 150); --warm: oklch(82% 0.16 70); --pink: oklch(72% 0.24 340); --cyan: oklch(80% 0.16 200); --red: oklch(66% 0.22 25);
+  --fire1: oklch(80% 0.17 65); --fire2: oklch(70% 0.2 40);
   --safe-b: env(safe-area-inset-bottom, 0px); --safe-t: env(safe-area-inset-top, 0px);
-  --spring: cubic-bezier(0.34, 1.4, 0.5, 1); --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring: cubic-bezier(0.34, 1.35, 0.5, 1); --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 16px; overscroll-behavior: none; -webkit-user-select: none; user-select: none; }
 .aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .ab { position: absolute; border-radius: 50%; filter: blur(70px); mix-blend-mode: screen; }
-.ab1 { width: 420px; height: 420px; top: -12%; left: -18%; background: var(--violet); opacity: 0.5; animation: d1 20s ease-in-out infinite; }
-.ab2 { width: 360px; height: 360px; top: 25%; right: -22%; background: var(--blue); opacity: 0.45; animation: d2 24s ease-in-out infinite; }
-.ab3 { width: 340px; height: 340px; bottom: 2%; left: 8%; background: var(--purple); opacity: 0.4; animation: d3 22s ease-in-out infinite; }
-@keyframes d1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(50px,70px) scale(1.18)} 66%{transform:translate(-40px,40px) scale(0.9)} }
-@keyframes d2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-60px,90px) scale(1.22)} }
-@keyframes d3 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(70px,-50px) scale(1.12)} 75%{transform:translate(-30px,-70px) scale(0.94)} }
+.ab1 { width: 420px; height: 420px; top: -10%; left: 50%; margin-left: -210px; background: radial-gradient(circle, var(--violet), transparent 68%); opacity: 0.6; animation: au1 16s ease-in-out infinite; }
+.ab2 { width: 360px; height: 360px; top: 25%; right: -25%; background: radial-gradient(circle, var(--blue), transparent 68%); opacity: 0.5; animation: au2 20s ease-in-out infinite; }
+.ab3 { width: 340px; height: 340px; bottom: -5%; left: -20%; background: radial-gradient(circle, var(--purple), transparent 68%); opacity: 0.5; animation: au3 18s ease-in-out infinite; }
+@keyframes au1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-50px,50px) scale(1.15)} 66%{transform:translate(40px,20px) scale(0.92)} }
+@keyframes au2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-70px,60px) scale(1.2)} }
+@keyframes au3 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(60px,-40px) scale(1.12)} 75%{transform:translate(30px,-70px) scale(0.95)} }
 .phone { height: 100dvh; display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; z-index: 1; }
 .header { padding: calc(var(--safe-t) + 22px) 24px 6px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .h-context { font-size: 0.72rem; font-weight: 600; color: var(--text-3); letter-spacing: 0.08em; text-transform: uppercase; }
@@ -34,26 +35,26 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .track { display: flex; width: 100%; height: 100%; transition: transform 0.5s var(--spring); will-change: transform; }
 .view { flex: 0 0 100%; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 0 24px; -webkit-overflow-scrolling: touch; }
 .view::-webkit-scrollbar { display: none; }
-.view > * { animation: rise 0.55s var(--ease) both; }
+.view > * { animation: rise 0.6s var(--ease) both; }
 @keyframes rise { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-.screen-head { padding: 20px 0 16px; }
+.screen-head { padding: 20px 0 18px; }
 .screen-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
 .screen-sub { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
 .stats-inner { padding-bottom: 30px; }
-/* Point-cloud brain canvas */
-.brain-wrap { display: flex; flex-direction: column; align-items: center; position: relative; padding: 8px 0 0; }
-.brain-canvas { width: 220px; height: 200px; }
+.brain-hero { display: flex; flex-direction: column; align-items: center; position: relative; padding: 4px 0; }
+.brain-wrap { width: 220px; height: 190px; position: relative; }
+#brainCanvas { width: 100%; height: 100%; }
 .cq-block { text-align: center; margin-top: -8px; }
-.cq-number { font-size: 4.6rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; background: linear-gradient(135deg, var(--violet), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cq-number { font-size: 4.6rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; background: linear-gradient(135deg, var(--violet), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .cq-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-3); margin-top: 8px; }
 .cq-delta { font-size: 0.82rem; font-weight: 600; color: var(--green); margin-top: 10px; }
-/* FIRE-GLOW primary button (used sparingly) */
-.fire-btn { position: relative; width: 100%; margin-top: 26px; border: none; border-radius: 20px; padding: 19px; background: oklch(20% 0.06 300); color: var(--text); font-family: 'Sora'; font-size: 1.02rem; font-weight: 700; cursor: pointer; overflow: visible; transition: transform 0.18s var(--spring); z-index: 1; }
-.fire-btn:active { transform: scale(0.97); }
-.fire-btn::before { content: ''; position: absolute; inset: -2px; border-radius: 22px; padding: 2px; background: linear-gradient(120deg, var(--violet), var(--pink), var(--blue), var(--violet)); background-size: 300% 300%; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: flow 4s linear infinite; z-index: -1; }
-.fire-btn::after { content: ''; position: absolute; inset: -6px; border-radius: 26px; background: linear-gradient(120deg, var(--violet), var(--pink), var(--blue)); background-size: 300% 300%; filter: blur(16px); opacity: 0.55; animation: flow 4s linear infinite; z-index: -2; }
-@keyframes flow { 0%{background-position:0% 50%} 100%{background-position:300% 50%} }
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+.fire-btn { position: relative; width: 100%; margin-top: 28px; border-radius: 20px; padding: 2px; cursor: pointer; }
+.fire-btn::before { content: ''; position: absolute; inset: -2px; border-radius: 22px; background: conic-gradient(from 0deg, var(--fire2), var(--fire1), oklch(85% 0.15 90), var(--fire1), var(--fire2)); filter: blur(7px); opacity: 0.9; animation: spin 4s linear infinite; z-index: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.fire-btn-inner { position: relative; z-index: 1; background: oklch(12% 0.02 60); border-radius: 18px; padding: 17px; text-align: center; font-size: 1rem; font-weight: 700; color: var(--text); transition: transform 0.2s var(--spring); }
+.fire-btn:active .fire-btn-inner { transform: scale(0.97); }
+.fire-btn-sub { font-size: 0.72rem; color: var(--warm); font-weight: 500; margin-top: 3px; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
 .stat-card { background: var(--surface); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 20px; padding: 16px 18px; }
 .stat-card-v { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
 .sc-green{color:var(--green)} .sc-warm{color:var(--warm)} .sc-accent{color:var(--purple)} .sc-pink{color:var(--pink)}
@@ -68,43 +69,35 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .zones-title { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin: 26px 0 12px; }
 .zone-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
 .zone-name { font-size: 0.85rem; font-weight: 500; width: 108px; flex-shrink: 0; }
-.zone-track { flex: 1; height: 8px; background: oklch(22% 0.04 290 / 0.6); border-radius: 4px; overflow: hidden; }
+.zone-track { flex: 1; height: 8px; background: oklch(20% 0.03 290 / 0.6); border-radius: 4px; overflow: hidden; }
 .zone-fill { height: 100%; border-radius: 4px; transition: width 0.9s var(--spring); }
 .zf-a{background:linear-gradient(90deg,var(--purple-b),var(--violet))} .zf-g{background:linear-gradient(90deg,oklch(60% 0.15 150),var(--green))} .zf-w{background:linear-gradient(90deg,oklch(65% 0.13 70),var(--warm))} .zf-p{background:linear-gradient(90deg,oklch(58% 0.18 340),var(--pink))} .zf-c{background:linear-gradient(90deg,oklch(62% 0.14 210),var(--cyan))}
 .zone-val { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 700; color: var(--text-2); width: 28px; text-align: right; }
-/* TRAIN carousel */
-.train-view { display: flex; flex-direction: column; }
-.carousel { position: relative; overflow: hidden; margin: 4px -24px 0; }
-.carousel-track { display: flex; transition: transform 0.5s var(--spring); }
-.slide { flex: 0 0 100%; padding: 8px 24px 0; }
-.tcard { position: relative; border-radius: 26px; padding: 30px 24px; min-height: 260px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; cursor: pointer; transition: transform 0.2s var(--spring); }
-.tcard:active { transform: scale(0.98); }
-.tcard.locked { cursor: default; }
-.tcard-glow { position: absolute; inset: 0; opacity: 0.9; }
-.tg-parietal { background: radial-gradient(circle at 30% 20%, oklch(50% 0.2 150 / 0.5), transparent 60%), oklch(16% 0.05 150 / 0.5); }
-.tg-frontal { background: radial-gradient(circle at 30% 20%, oklch(50% 0.22 300 / 0.5), transparent 60%), oklch(16% 0.06 300 / 0.5); }
-.tg-hippo { background: radial-gradient(circle at 30% 20%, oklch(50% 0.2 340 / 0.5), transparent 60%), oklch(16% 0.05 340 / 0.5); }
-.tg-focus { background: radial-gradient(circle at 30% 20%, oklch(55% 0.16 70 / 0.5), transparent 60%), oklch(16% 0.04 70 / 0.5); }
-.tg-creative { background: radial-gradient(circle at 30% 20%, oklch(55% 0.16 200 / 0.5), transparent 60%), oklch(16% 0.04 200 / 0.5); }
-.tg-reason { background: radial-gradient(circle at 30% 20%, oklch(55% 0.14 45 / 0.5), transparent 60%), oklch(16% 0.04 45 / 0.5); }
-.tcard-inner { position: relative; z-index: 1; }
-.tcard-emoji { font-size: 2.6rem; margin-bottom: auto; }
-.tcard-lvl { position: absolute; top: 0; right: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--text); background: oklch(15% 0.03 290 / 0.6); backdrop-filter: blur(8px); padding: 5px 11px; border-radius: 10px; z-index: 2; }
-.tcard-name { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 14px; }
-.tcard-zone { font-size: 0.8rem; color: var(--text-2); margin-top: 4px; font-weight: 500; }
-.tcard-lock { position: absolute; inset: 0; background: oklch(8% 0.02 290 / 0.72); backdrop-filter: blur(3px); z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 26px; }
-.tcard-lock svg { width: 30px; height: 30px; stroke: var(--text-2); fill: none; stroke-width: 2; margin-bottom: 10px; }
-.tcard-lock-t { font-size: 0.85rem; font-weight: 600; color: var(--text-2); }
-.explain { background: var(--surface); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 20px; padding: 18px 20px; margin-top: 16px; transition: opacity 0.4s, transform 0.4s var(--ease); }
-.explain-h { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 8px; }
-.explain-t { font-size: 0.9rem; line-height: 1.55; color: var(--text-2); }
-.explain-t b { color: var(--text); }
-.play-btn { width: 100%; margin: 16px 0 20px; border: none; border-radius: 18px; padding: 17px; background: linear-gradient(135deg, var(--violet), var(--pink)); color: oklch(14% 0.02 300); font-family: 'Sora'; font-size: 0.98rem; font-weight: 700; cursor: pointer; transition: transform 0.18s var(--spring); }
-.play-btn:active { transform: scale(0.97); }
-.play-btn:disabled { background: oklch(20% 0.02 290); color: var(--text-3); cursor: default; }
-.dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: oklch(30% 0.04 290); transition: all 0.3s var(--spring); }
-.dot.on { background: var(--violet); width: 20px; border-radius: 3px; }
+.train-hint { text-align: center; font-size: 0.72rem; color: var(--text-3); margin-bottom: 10px; }
+.carousel { position: relative; height: 62vh; overflow: hidden; }
+.carousel-track { display: flex; height: 100%; transition: transform 0.5s var(--spring); }
+.tcard { flex: 0 0 100%; height: 100%; padding: 0 2px; }
+.tcard-inner { height: 100%; background: var(--surface); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 26px; padding: 26px 24px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.tcard-inner::before { content: ''; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 240px; height: 240px; border-radius: 50%; filter: blur(50px); opacity: 0.5; }
+.tc-glow-g::before { background: var(--green); } .tc-glow-a::before { background: var(--purple); } .tc-glow-p::before { background: var(--pink); } .tc-glow-w::before { background: var(--warm); } .tc-glow-c::before { background: var(--cyan); }
+.tc-emoji { width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; position: relative; z-index: 1; margin-bottom: 18px; }
+.tce-g{background:oklch(28% 0.09 150 / 0.8)} .tce-a{background:oklch(28% 0.11 300 / 0.8)} .tce-p{background:oklch(28% 0.1 340 / 0.8)} .tce-w{background:oklch(28% 0.09 70 / 0.8)} .tce-c{background:oklch(28% 0.09 200 / 0.8)}
+.tc-name { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.02em; position: relative; z-index: 1; }
+.tc-zone { font-size: 0.8rem; color: var(--text-2); margin-top: 4px; position: relative; z-index: 1; }
+.tc-lvl { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-2); background: oklch(20% 0.03 290 / 0.7); padding: 4px 10px; border-radius: 8px; font-weight: 700; margin-top: 14px; position: relative; z-index: 1; align-self: flex-start; }
+.tc-explain-h { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin: 22px 0 8px; position: relative; z-index: 1; }
+.tc-explain { font-size: 0.92rem; line-height: 1.55; color: var(--text-2); position: relative; z-index: 1; }
+.tc-explain b { color: var(--text); }
+.tc-play { margin-top: auto; position: relative; z-index: 1; }
+.tc-play-btn { width: 100%; padding: 16px; border-radius: 16px; border: none; background: linear-gradient(135deg, var(--purple), var(--violet)); color: oklch(14% 0.02 300); font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: transform 0.2s var(--spring); }
+.tc-play-btn:active { transform: scale(0.97); }
+.carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+.cdot { width: 6px; height: 6px; border-radius: 50%; background: oklch(30% 0.03 290); transition: all 0.3s var(--spring); }
+.cdot.on { width: 22px; background: var(--purple); }
+.carousel-nav { display: flex; justify-content: space-between; margin-top: 14px; }
+.cnav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-2); padding: 10px 18px; border-radius: 12px; font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+.cnav-btn:active { transform: scale(0.95); }
+.cnav-btn:disabled { opacity: 0.3; }
 .synergy { text-align: center; padding: 28px 0 24px; }
 .synergy-v { font-size: 3.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; background: linear-gradient(135deg,var(--green),var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .synergy-l { font-size: 0.7rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px; }
@@ -115,28 +108,26 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .stack-b { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--green); flex-shrink: 0; }
 .stack-del { color: var(--text-3); font-size: 1.3rem; padding: 4px 8px; cursor: pointer; flex-shrink: 0; }
 .stack-del:active { color: var(--red); }
-.btn-ghost { width: 100%; background: transparent; border: 1px dashed var(--border); color: var(--text-2); padding: 16px; border-radius: 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 14px 0 24px; }
+.btn-ghost { width: 100%; background: transparent; border: 1px dashed var(--border); color: var(--text-2); padding: 16px; border-radius: 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 14px 0 24px; font-family: inherit; }
 .btn-ghost:active { background: var(--surface); }
-.lock-state { min-height: 56vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
-.lock-icon { width: 66px; height: 66px; border-radius: 22px; background: var(--surface); backdrop-filter: blur(14px); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
-.lock-icon svg { width: 28px; height: 28px; stroke: var(--text-3); fill: none; stroke-width: 2; }
-.lock-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
-.lock-desc { font-size: 0.88rem; color: var(--text-3); line-height: 1.5; max-width: 30ch; margin-bottom: 26px; }
-.lock-progress { width: 100%; max-width: 260px; }
-.lock-bar { height: 6px; background: oklch(22% 0.04 290 / 0.6); border-radius: 4px; overflow: hidden; }
-.lock-fill { height: 100%; background: linear-gradient(90deg,var(--violet),var(--pink)); border-radius: 4px; transition: width 0.7s var(--spring); }
-.lock-count { font-size: 0.74rem; color: var(--text-3); margin-top: 12px; font-family: 'JetBrains Mono', monospace; }
-.lock-hint { font-size: 0.82rem; color: var(--purple); margin-top: 20px; font-weight: 700; cursor: pointer; }
-.proto-wrap { display: none; padding-bottom: 24px; }
-.proto-wrap.unlocked { display: block; }
-.proto-item { display: flex; align-items: center; gap: 15px; padding: 15px 4px; border-bottom: 1px solid var(--border); cursor: pointer; }
-.proto-item:last-child { border-bottom: none; }
-.proto-check { width: 25px; height: 25px; border-radius: 8px; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.3s var(--spring); }
-.proto-check.on { background: var(--green); border-color: var(--green); transform: scale(1.1); }
-.proto-check.on::after { content: '✓'; color: oklch(12% 0.02 150); font-size: 0.82rem; font-weight: 800; }
-.proto-n { font-size: 0.9rem; font-weight: 600; }
-.proto-n.done { color: var(--text-3); text-decoration: line-through; }
-.proto-d { font-size: 0.71rem; color: var(--text-3); margin-top: 2px; }
+.unlock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-bottom: 24px; }
+.ucard { aspect-ratio: 0.72; border-radius: 20px; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; text-align: center; transition: transform 0.3s var(--spring); }
+.ucard.locked { background: oklch(12% 0.02 290 / 0.6); border: 1px solid var(--border); }
+.ucard.unlocked { background: linear-gradient(160deg, oklch(30% 0.14 300 / 0.7), oklch(18% 0.08 320 / 0.7)); border: 1px solid oklch(55% 0.2 300 / 0.5); box-shadow: 0 0 30px oklch(55% 0.2 300 / 0.3), inset 0 0 20px oklch(50% 0.15 310 / 0.2); }
+.ucard.justunlocked { animation: unlockPop 0.7s var(--spring); }
+@keyframes unlockPop { 0%{transform:scale(0.85);filter:brightness(2)} 50%{transform:scale(1.06)} 100%{transform:scale(1);filter:brightness(1)} }
+.ucard:active { transform: scale(0.96); }
+.uc-num { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+.ucard.locked .uc-num { color: var(--text-3); }
+.ucard.unlocked .uc-num { color: var(--text); text-shadow: 0 0 16px oklch(70% 0.2 300); }
+.uc-icon { font-size: 1.8rem; margin-bottom: 10px; }
+.ucard.locked .uc-icon { filter: grayscale(1) brightness(0.5); }
+.uc-name { font-size: 0.82rem; font-weight: 600; line-height: 1.25; }
+.ucard.locked .uc-name { color: var(--text-3); }
+.uc-req { font-size: 0.62rem; color: var(--text-3); margin-top: 6px; }
+.uc-lockico { position: absolute; top: 10px; right: 10px; opacity: 0.5; }
+.uc-lockico svg { width: 15px; height: 15px; stroke: var(--text-3); fill: none; stroke-width: 2; }
+.protocol-intro { font-size: 0.85rem; color: var(--text-2); line-height: 1.5; margin-bottom: 18px; }
 .learn-list { display: flex; flex-direction: column; padding-bottom: 24px; }
 .learn-item { padding: 18px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity 0.15s; }
 .learn-item:active { opacity: 0.55; }
@@ -145,9 +136,6 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .learn-tier { font-size: 0.64rem; font-weight: 700; }
 .lt-1{color:var(--green)} .lt-2{color:var(--warm)}
 .learn-meta { font-size: 0.71rem; color: var(--text-3); }
-.notif-card { background: var(--surface); backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 16px; padding: 15px 16px; margin-bottom: 10px; display: flex; gap: 12px; align-items: center; }
-.notif-ico { width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg,var(--violet),var(--pink)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; font-weight: 800; color: oklch(15% 0.02 300); }
-.notif-t { font-size: 0.86rem; font-weight: 600; line-height: 1.35; }
 .reader { position: absolute; inset: 0; background: var(--bg); z-index: 50; transform: translateX(100%); transition: transform 0.4s var(--spring); display: flex; flex-direction: column; }
 .reader.open { transform: translateX(0); }
 .reader-top { padding: calc(var(--safe-t) + 16px) 24px 12px; display: flex; align-items: center; flex-shrink: 0; border-bottom: 1px solid var(--border); }
@@ -168,10 +156,10 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .game-quit { color: var(--text-3); font-size: 1.6rem; cursor: pointer; line-height: 1; padding: 4px; }
 .game-title { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.02em; }
 .game-level { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--purple); font-weight: 700; }
-.timer-bar { height: 4px; background: oklch(22% 0.04 290 / 0.6); margin: 0 24px; border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.timer-bar { height: 4px; background: oklch(20% 0.03 290 / 0.6); margin: 0 24px; border-radius: 2px; overflow: hidden; flex-shrink: 0; }
 .timer-fill { height: 100%; background: linear-gradient(90deg,var(--warm),var(--pink)); border-radius: 2px; width: 100%; }
-.game-progress { height: 3px; background: oklch(22% 0.04 290 / 0.6); margin: 6px 24px 0; border-radius: 2px; overflow: hidden; flex-shrink: 0; }
-.game-progress-fill { height: 100%; background: linear-gradient(90deg,var(--violet),var(--pink)); border-radius: 2px; width: 0%; transition: width 0.4s var(--ease); }
+.game-progress { height: 3px; background: oklch(20% 0.03 290 / 0.6); margin: 6px 24px 0; border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.game-progress-fill { height: 100%; background: linear-gradient(90deg,var(--purple),var(--violet)); border-radius: 2px; width: 0%; transition: width 0.4s var(--ease); }
 .game-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 24px calc(var(--safe-b) + 26px); position: relative; overflow-y: auto; }
 .game-body::-webkit-scrollbar { display: none; }
 .game-body > * { animation: gRise 0.4s var(--ease) both; }
@@ -182,7 +170,7 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .rot-fig svg { width: 116px; height: 116px; }
 .rot-vs { color: var(--text-3); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
 .rot-controls { display: flex; gap: 12px; width: 100%; max-width: 340px; }
-.rot-btn { flex: 1; padding: 20px; border-radius: 18px; border: 2px solid var(--border); background: var(--surface); backdrop-filter: blur(8px); color: var(--text); font-family: 'Sora'; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.15s var(--spring); }
+.rot-btn { flex: 1; padding: 20px; border-radius: 18px; border: 2px solid var(--border); background: var(--surface); backdrop-filter: blur(8px); color: var(--text); font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.15s var(--spring); }
 .rot-btn:active { transform: scale(0.94); }
 .rot-btn.correct { background: oklch(32% 0.1 150); border-color: var(--green); color: var(--green); }
 .rot-btn.wrong { background: oklch(32% 0.1 25); border-color: var(--red); color: var(--red); }
@@ -192,17 +180,17 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .math-pad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; width: 100%; max-width: 300px; }
 .math-key { padding: 17px; border-radius: 14px; background: var(--surface); backdrop-filter: blur(8px); border: 1px solid var(--border); color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: all 0.12s var(--spring); }
 .math-key:active { transform: scale(0.92); }
-.math-key.ok { background: linear-gradient(135deg,var(--violet),var(--pink)); color: oklch(14% 0.02 300); border-color: transparent; }
+.math-key.ok { background: linear-gradient(135deg,var(--purple),var(--violet)); color: oklch(14% 0.02 300); border-color: transparent; }
 .math-feedback { position: absolute; top: 28%; font-size: 4rem; opacity: 0; pointer-events: none; }
 .math-feedback.show { animation: pop 0.6s var(--spring); }
 @keyframes pop { 0%{opacity:0;transform:scale(0.4)} 30%{opacity:1;transform:scale(1.15)} 100%{opacity:0;transform:scale(1)} }
 .grid9 { width: 250px; height: 250px; display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(3,1fr); gap: 10px; margin-bottom: 26px; }
 .cell { background: var(--surface); backdrop-filter: blur(8px); border-radius: 16px; transition: all 0.2s var(--spring); }
-.cell.lit { background: linear-gradient(135deg,var(--violet),var(--pink)); box-shadow: 0 0 36px oklch(62% 0.22 320 / 0.7); transform: scale(1.06); }
+.cell.lit { background: linear-gradient(135deg,var(--purple),var(--violet)); box-shadow: 0 0 34px oklch(65% 0.22 305 / 0.7); transform: scale(1.06); }
 .status-txt { color: var(--text-3); font-size: 0.85rem; }
 .stroop-word { font-size: 3.6rem; font-weight: 800; margin-bottom: 40px; letter-spacing: -0.02em; }
 .stroop-opts, .ct-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 320px; }
-.stroop-btn { padding: 18px; border-radius: 16px; background: var(--surface); backdrop-filter: blur(8px); border: 1px solid var(--border); color: var(--text); font-family: 'Sora'; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.12s var(--spring); }
+.stroop-btn { padding: 18px; border-radius: 16px; background: var(--surface); backdrop-filter: blur(8px); border: 1px solid var(--border); color: var(--text); font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.12s var(--spring); }
 .stroop-btn:active { transform: scale(0.93); }
 .stroop-btn.correct { border-color: var(--green); background: oklch(28% 0.08 150); }
 .stroop-btn.wrong { border-color: var(--red); background: oklch(28% 0.08 25); }
@@ -231,7 +219,6 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .results-icon { font-size: 3.6rem; margin-bottom: 12px; animation: pop 0.7s var(--spring); }
 .results-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
 .pr-badge { font-size: 0.72rem; font-weight: 700; color: oklch(15% 0.02 70); background: var(--warm); padding: 5px 12px; border-radius: 20px; margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.05em; animation: pop 0.6s var(--spring) 0.1s both; }
-.unlock-badge { font-size: 0.75rem; font-weight: 700; color: oklch(14% 0.02 300); background: linear-gradient(135deg,var(--violet),var(--pink)); padding: 8px 16px; border-radius: 20px; margin-bottom: 18px; animation: pop 0.7s var(--spring); }
 .results-stats { display: flex; gap: 26px; margin: 8px 0 22px; }
 .rst { text-align: center; }
 .rst-v { font-size: 1.7rem; font-weight: 700; }
@@ -244,10 +231,10 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .trained-zone { flex: 1; font-size: 0.85rem; font-weight: 500; }
 .trained-gain { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 700; color: var(--green); }
 .trained-lvl { font-size: 0.75rem; color: var(--warm); margin-top: 10px; font-weight: 600; }
-.results-cta { width: 100%; max-width: 320px; background: linear-gradient(135deg,var(--violet),var(--pink)); color: oklch(14% 0.02 300); border: none; padding: 17px; border-radius: 18px; font-family: 'Sora'; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
+.results-cta { width: 100%; max-width: 320px; background: linear-gradient(135deg,var(--purple),var(--violet)); color: oklch(14% 0.02 300); border: none; padding: 17px; border-radius: 18px; font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
 .results-cta:active { transform: scale(0.96); }
-.countdown { font-size: 6rem; font-weight: 800; background: linear-gradient(135deg,var(--violet),var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; animation: cd 0.7s var(--spring); }
-@keyframes cd { 0%{opacity:0;transform:scale(1.6)} 40%{opacity:1;transform:scale(1)} }
+.countdown { font-size: 6rem; font-weight: 800; background: linear-gradient(135deg,var(--purple),var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; animation: cdPop 0.6s var(--spring); }
+@keyframes cdPop { 0%{opacity:0;transform:scale(1.6)} 40%{opacity:1;transform:scale(1)} 100%{opacity:1} }
 .tabbar { flex-shrink: 0; display: flex; background: oklch(9% 0.03 290 / 0.75); backdrop-filter: blur(28px); border-top: 1px solid var(--border); padding: 11px 10px calc(var(--safe-b) + 11px); position: relative; }
 .tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 0; cursor: pointer; color: var(--text-3); transition: color 0.3s; position: relative; }
 .tab.active { color: var(--purple); }
@@ -255,10 +242,9 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 .tab.active svg { transform: translateY(-2px) scale(1.08); }
 .tab-l { font-size: 0.58rem; font-weight: 600; }
 .tab.locked { opacity: 0.38; }
-.tab-lock-dot { position: absolute; top: 2px; right: 50%; margin-right: -14px; width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); }
 .modal-back { position: absolute; inset: 0; background: oklch(4% 0.01 290 / 0.7); backdrop-filter: blur(6px); z-index: 60; opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: flex-end; }
 .modal-back.open { opacity: 1; pointer-events: auto; }
-.modal { width: 100%; background: oklch(13% 0.04 290); border-radius: 26px 26px 0 0; padding: 24px 24px calc(var(--safe-b) + 24px); transform: translateY(100%); transition: transform 0.4s var(--spring); max-height: 80vh; overflow-y: auto; }
+.modal { width: 100%; background: oklch(13% 0.03 290); border-radius: 26px 26px 0 0; padding: 24px 24px calc(var(--safe-b) + 24px); transform: translateY(100%); transition: transform 0.4s var(--spring); max-height: 80vh; overflow-y: auto; }
 .modal::-webkit-scrollbar { display: none; }
 .modal-back.open .modal { transform: translateY(0); }
 .modal-h { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
@@ -274,19 +260,20 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
 <body>
 <div class="aurora"><div class="ab ab1"></div><div class="ab ab2"></div><div class="ab ab3"></div></div>
 <div class="phone">
-  <header class="header"><div class="h-context" id="ctx">Overview</div><div class="h-age" id="ageBadge">Brain age --</div></header>
+  <header class="header"><div class="h-context" id="ctx">Dashboard</div><div class="h-age" id="ageBadge">Brain age --</div></header>
   <div class="views"><div class="track" id="track">
     <section class="view"><div class="stats-inner">
-      <div class="brain-wrap"><canvas class="brain-canvas" id="brainCanvas" width="440" height="400"></canvas>
+      <div class="brain-hero"><div class="brain-wrap"><canvas id="brainCanvas"></canvas></div>
         <div class="cq-block"><div class="cq-number" id="cqNum">100</div><div class="cq-label">CQ Score</div><div class="cq-delta" id="cqDelta">Play to raise it</div></div>
       </div>
-      <button class="fire-btn" onclick="goToFrontier()">Train your weakest zone</button>
+      <div class="fire-btn" onclick="goTo(1)"><div class="fire-btn-inner">Start Training<div class="fire-btn-sub">Your brain is waiting</div></div></div>
       <div class="stat-grid">
         <div class="stat-card"><div class="stat-card-v sc-green" id="statAge">--</div><div class="stat-card-l">Brain Age</div><div class="stat-card-d" id="statAgeD">take a session</div></div>
         <div class="stat-card"><div class="stat-card-v sc-warm" id="stackStat">+42%</div><div class="stat-card-l">Stack Boost</div><div class="stat-card-d">5 active</div></div>
         <div class="stat-card"><div class="stat-card-v sc-accent" id="statSessions">0</div><div class="stat-card-l">Sessions</div><div class="stat-card-d">all time</div></div>
         <div class="stat-card"><div class="stat-card-v sc-pink" id="statRecords">0</div><div class="stat-card-l">Personal Bests</div><div class="stat-card-d">records set</div></div>
       </div>
+      <div class="frontier" onclick="goToFrontier()"><div class="frontier-tag">🎯 Your frontier</div><div class="frontier-txt" id="frontierTxt">Growth lives at your edge.</div><div class="frontier-go">Attack it →</div></div>
       <div class="zones-title">Neural zones · mastery by playing</div>
       <div class="zone-row"><div class="zone-name">Frontal</div><div class="zone-track"><div class="zone-fill zf-a" id="zf-frontal" style="width:0%"></div></div><div class="zone-val" id="zv-frontal">0</div></div>
       <div class="zone-row"><div class="zone-name">Parietal</div><div class="zone-track"><div class="zone-fill zf-g" id="zf-parietal" style="width:0%"></div></div><div class="zone-val" id="zv-parietal">0</div></div>
@@ -294,12 +281,11 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
       <div class="zone-row"><div class="zone-name">Creativity</div><div class="zone-track"><div class="zone-fill zf-c" id="zf-creative" style="width:0%"></div></div><div class="zone-val" id="zv-creative">0</div></div>
       <div class="zone-row"><div class="zone-name">Reasoning</div><div class="zone-track"><div class="zone-fill zf-w" id="zf-reason" style="width:0%"></div></div><div class="zone-val" id="zv-reason">0</div></div>
     </div></section>
-    <section class="view train-view">
-      <div class="screen-head"><div class="screen-title">Train</div><div class="screen-sub">Swipe the cards. Unlock more as you level.</div></div>
+    <section class="view">
+      <div class="screen-head"><div class="screen-title">Train</div><div class="screen-sub">Swipe or use arrows to browse.</div></div>
       <div class="carousel"><div class="carousel-track" id="ctrack"></div></div>
-      <div class="dots" id="dots"></div>
-      <div class="explain" id="explain"></div>
-      <button class="play-btn" id="playBtn">Play</button>
+      <div class="carousel-dots" id="cdots"></div>
+      <div class="carousel-nav"><button class="cnav-btn" id="cprev">← Prev</button><button class="cnav-btn" id="cnext">Next →</button></div>
     </section>
     <section class="view">
       <div class="screen-head"><div class="screen-title">Stack</div><div class="screen-sub">What you take, and how it amplifies training.</div></div>
@@ -308,15 +294,9 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
       <button class="btn-ghost" id="addBtn">+ Add compound</button>
     </section>
     <section class="view">
-      <div class="screen-head"><div class="screen-title">Protocol</div><div class="screen-sub">Today's optimized sequence.</div></div>
-      <div class="lock-state" id="lockState"><div class="lock-icon"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div><div class="lock-title">Complete a session to unlock</div><div class="lock-desc">Your protocol generates after one training session.</div><div class="lock-progress"><div class="lock-bar"><div class="lock-fill" id="lockFill" style="width:0%"></div></div><div class="lock-count" id="lockCount">0 / 1 session</div></div><div class="lock-hint" onclick="goTo(1)">→ Go to Train</div></div>
-      <div class="proto-wrap" id="protoWrap">
-        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check on"></div><div><div class="proto-n done">Mental Rotation</div><div class="proto-d">Parietal</div></div></div>
-        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Adaptive Math</div><div class="proto-d">Frontal</div></div></div>
-        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Creative Flow</div><div class="proto-d">Creativity</div></div></div>
-        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Critical Thinking</div><div class="proto-d">Reasoning</div></div></div>
-        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Cardio (BDNF)</div><div class="proto-d">+35% BDNF</div></div></div>
-      </div>
+      <div class="screen-head"><div class="screen-title">Unlocks</div><div class="screen-sub">Raise your CQ to unlock new exercises.</div></div>
+      <div class="protocol-intro" id="protoIntro"></div>
+      <div class="unlock-grid" id="unlockGrid"></div>
     </section>
     <section class="view">
       <div class="screen-head"><div class="screen-title">Learn</div><div class="screen-sub">The science, tiered by evidence.</div></div>
@@ -326,123 +306,53 @@ html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, san
   <div class="reader" id="reader"><div class="reader-top"><div class="reader-back" id="readerBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back</div></div><div class="reader-body" id="readerBody"></div></div>
   <div class="game" id="game"><div class="game-top"><div class="game-quit" id="gameQuit">✕</div><div class="game-title" id="gameTitle"></div><div class="game-level" id="gameLevel"></div></div><div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div><div class="game-progress"><div class="game-progress-fill" id="gameProg"></div></div><div class="game-body" id="gameBody"></div></div>
   <div class="modal-back" id="modalBack"><div class="modal"><div class="modal-h">Add compound</div><div id="compoundOpts"></div><div class="modal-close" id="modalClose">Cancel</div></div></div>
-  <div class="modal-back" id="notifModal"><div class="modal"><div class="modal-h">How we nudge you</div><div class="modal-sub">Curiosity, not guilt.</div><div id="notifList"></div><div class="modal-close" id="notifClose">Got it</div></div></div>
   <nav class="tabbar">
     <div class="tab active" data-v="0"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span class="tab-l">Stats</span></div>
     <div class="tab" data-v="1"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span class="tab-l">Train</span></div>
     <div class="tab" data-v="2"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span class="tab-l">Stack</span></div>
-    <div class="tab locked" data-v="3" id="protoTab"><span class="tab-lock-dot" id="lockDot"></span><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span class="tab-l">Protocol</span></div>
+    <div class="tab" data-v="3"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tab-l">Unlocks</span></div>
     <div class="tab" data-v="4"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="tab-l">Learn</span></div>
   </nav>
 </div>
 <script>
-const DEF={cq:100,sessions:0,records:0,bestAcc:0,zones:{frontal:15,parietal:15,hippo:15,creative:15,reason:15},levels:{rotation:1,math:1,memory:1,stroop:1,creative:1,critical:1},best:{},seenNotif:false};
+const DEF={cq:100,sessions:0,records:0,bestAcc:0,zones:{frontal:15,parietal:15,hippo:15,creative:15,reason:15},levels:{rotation:1,math:1,memory:1,stroop:1,creative:1,critical:1},best:{}};
 let S=JSON.parse(localStorage.getItem('bmx5')||'null')||JSON.parse(JSON.stringify(DEF));
 function save(){localStorage.setItem('bmx5',JSON.stringify(S));}
-function vib(p){if(navigator.vibrate)navigator.vibrate(p);}
 const track=document.getElementById('track'),tabs=document.querySelectorAll('.tab'),ctx=document.getElementById('ctx'),viewsEl=document.querySelector('.views');
-const NUM=5;let current=0,sessionDone=false;
-const ctxText=['Overview','Train','Stack','Protocol','Learn'];
-function goTo(i){if(i===3&&!sessionDone){flashLock();return;}current=Math.max(0,Math.min(NUM-1,i));track.style.transform=`translateX(-${current*100}%)`;tabs.forEach((t,idx)=>t.classList.toggle('active',idx===current));ctx.textContent=ctxText[current];const v=viewsEl.querySelectorAll('.view')[current];v.querySelectorAll(':scope > *').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});vib(6);}
+const NUM=5;let current=0;
+const ctxText=['Dashboard','Train','Stack','Unlocks','Learn'];
+function vib(p){if(navigator.vibrate)navigator.vibrate(p);}
+function goTo(i){current=Math.max(0,Math.min(NUM-1,i));track.style.transform=`translateX(-${current*100}%)`;tabs.forEach((t,idx)=>t.classList.toggle('active',idx===current));ctx.textContent=ctxText[current];const v=viewsEl.querySelectorAll('.view')[current];v.querySelectorAll(':scope > *').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});vib(6);}
 tabs.forEach(t=>t.addEventListener('click',()=>goTo(parseInt(t.dataset.v))));
 let sx=0,sy=0,drag=false,lk=null;
-viewsEl.addEventListener('touchstart',e=>{if(e.target.closest('.carousel'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=true;lk=null;track.style.transition='none';},{passive:true});
-viewsEl.addEventListener('touchmove',e=>{if(!drag)return;const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;if(lk===null)lk=Math.abs(dx)>Math.abs(dy)?'x':'y';if(lk==='x'){const base=-current*100,pct=(dx/viewsEl.offsetWidth)*100;let n=base+pct;if(current===2&&dx<0&&!sessionDone)n=base+pct*0.25;if(current===0&&dx>0)n=base+pct*0.35;if(current===NUM-1&&dx<0)n=base+pct*0.35;track.style.transform=`translateX(${n}%)`;}},{passive:true});
-viewsEl.addEventListener('touchend',e=>{if(!drag)return;drag=false;track.style.transition='transform 0.5s var(--spring)';if(lk==='x'){const dx=e.changedTouches[0].clientX-sx,th=viewsEl.offsetWidth*0.2;if(dx<-th&&current<NUM-1){if(current===2&&!sessionDone)goTo(4);else goTo(current+1);}else if(dx>th&&current>0){if(current===4&&!sessionDone)goTo(2);else goTo(current-1);}else goTo(current);}},{passive:true});
-function flashLock(){const el=document.getElementById('lockState');el.animate([{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},{transform:'translateX(0)'}],{duration:320,easing:'cubic-bezier(0.34,1.4,0.5,1)'});vib([20,30,20]);}
-function toggleP(row){const c=row.querySelector('.proto-check'),n=row.querySelector('.proto-n');c.classList.toggle('on');n.classList.toggle('done');vib(10);}
-function completeSession(){if(sessionDone)return;sessionDone=true;document.getElementById('lockState').style.display='none';document.getElementById('protoWrap').classList.add('unlocked');document.getElementById('protoTab').classList.remove('locked');document.getElementById('lockDot').style.display='none';document.getElementById('lockFill').style.width='100%';document.getElementById('lockCount').textContent='1 / 1 session';vib([10,40,20]);}
+viewsEl.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=true;lk=null;track.style.transition='none';},{passive:true});
+viewsEl.addEventListener('touchmove',e=>{if(!drag)return;const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;if(lk===null)lk=Math.abs(dx)>Math.abs(dy)?'x':'y';if(lk==='x'){const base=-current*100,pct=(dx/viewsEl.offsetWidth)*100;let n=base+pct;if(current===0&&dx>0)n=base+pct*0.35;if(current===NUM-1&&dx<0)n=base+pct*0.35;track.style.transform=`translateX(${n}%)`;}},{passive:true});
+viewsEl.addEventListener('touchend',e=>{if(!drag)return;drag=false;track.style.transition='transform 0.5s var(--spring)';if(lk==='x'){const dx=e.changedTouches[0].clientX-sx,th=viewsEl.offsetWidth*0.2;if(dx<-th&&current<NUM-1)goTo(current+1);else if(dx>th&&current>0)goTo(current-1);else goTo(current);}},{passive:true});
+const canvas=document.getElementById('brainCanvas');const cx2=canvas.getContext('2d');
+let pts=[],W,H,DPR;
+function initBrain(){DPR=Math.min(2,window.devicePixelRatio||1);const r=canvas.getBoundingClientRect();W=r.width;H=r.height;canvas.width=W*DPR;canvas.height=H*DPR;cx2.setTransform(1,0,0,1,0,0);cx2.scale(DPR,DPR);pts=[];const N=520;for(let i=0;i<N;i++){const u=Math.random(),v=Math.random();const theta=u*Math.PI*2,phi=Math.acos(2*v-1);let R=1+0.12*Math.sin(phi*5)+0.1*Math.cos(theta*4);let x=R*Math.sin(phi)*Math.cos(theta);let y=R*Math.sin(phi)*Math.sin(theta)*0.78;let z=R*Math.cos(phi);x*=1.25;y-=Math.abs(x)*0.12;pts.push({x,y,z});}}
+let rot=0;
+function drawBrain(){cx2.clearRect(0,0,W,H);rot+=0.006;const cxp=W/2,cyp=H/2,scale=Math.min(W,H)*0.34;const cosR=Math.cos(rot),sinR=Math.sin(rot);const proj=pts.map(p=>{const x=p.x*cosR - p.z*sinR;const z=p.x*sinR + p.z*cosR;return {x,y:p.y,z};});proj.sort((a,b)=>a.z-b.z);proj.forEach(p=>{const persp=1/(2.4-p.z*0.5);const sx2=cxp+p.x*scale*persp;const sy2=cyp+p.y*scale*persp;const depth=(p.z+1.5)/3;const size=(0.7+depth*1.9);const alpha=0.25+depth*0.7;const hue=290+p.z*18;cx2.beginPath();cx2.arc(sx2,sy2,size,0,Math.PI*2);cx2.fillStyle=`oklch(${60+depth*18}% ${0.2+depth*0.06} ${hue} / ${alpha})`;cx2.shadowBlur=depth*6;cx2.shadowColor=`oklch(65% 0.24 300 / ${alpha*0.6})`;cx2.fill();});cx2.shadowBlur=0;requestAnimationFrame(drawBrain);}
+setTimeout(()=>{initBrain();drawBrain();},60);
+window.addEventListener('resize',()=>{setTimeout(initBrain,100);});
 function brainAge(){const z=S.zones;const avg=(z.frontal+z.parietal+z.hippo+z.creative+z.reason)/5;return Math.max(16,Math.round(40-avg*0.28));}
 const zoneMeta={frontal:{n:'Frontal',c:'var(--purple)',ex:'math'},parietal:{n:'Parietal',c:'var(--green)',ex:'rotation'},hippo:{n:'Hippocampus',c:'var(--pink)',ex:'memory'},creative:{n:'Creativity',c:'var(--cyan)',ex:'creative'},reason:{n:'Reasoning',c:'var(--warm)',ex:'critical'}};
 function weakestZone(){let mk='frontal',mv=999;for(const k in S.zones){if(S.zones[k]<mv){mv=S.zones[k];mk=k;}}return mk;}
-function goToFrontier(){const wk=weakestZone();startGame(zoneMeta[wk].ex);}
-function renderStats(){document.getElementById('cqNum').textContent=S.cq;document.getElementById('statSessions').textContent=S.sessions;document.getElementById('statRecords').textContent=S.records;document.getElementById('cqDelta').textContent=S.sessions?('across '+S.sessions+' sessions'):'Play to raise it';const age=S.sessions?brainAge():'--';document.getElementById('statAge').textContent=age;document.getElementById('ageBadge').textContent='Brain age '+age;document.getElementById('statAgeD').textContent=S.sessions?'lower is better':'take a session';[['frontal','frontal'],['parietal','parietal'],['hippo','hippo'],['creative','creative'],['reason','reason']].forEach(([k,id])=>{const v=Math.min(100,S.zones[k]);document.getElementById('zf-'+id).style.width=v+'%';document.getElementById('zv-'+id).textContent=Math.round(v);});renderCarousel();}
-/* ===== POINT-CLOUD BRAIN ===== */
-const canvas=document.getElementById('brainCanvas'),cx2=canvas.getContext('2d');
-let brainPts=[];
-(function buildBrain(){
-  // generate points on a brain-ish double-lobe shape
-  const N=900;
-  for(let i=0;i<N;i++){
-    // two hemispheres via param surface + noise
-    const u=Math.random()*Math.PI*2, v=Math.acos(2*Math.random()-1);
-    let x=Math.sin(v)*Math.cos(u), y=Math.sin(v)*Math.sin(u), z=Math.cos(v);
-    // squash into brain proportions
-    x*=1.15; y*=0.82; z*=0.95;
-    // hemisphere split gap
-    if(Math.abs(x)<0.08) { if(Math.random()<0.6) continue; }
-    // frontal bulge / occipital taper
-    y+=0.12*Math.sin(x*3);
-    // gyri wrinkle
-    const wr=0.06*Math.sin(u*9)*Math.sin(v*7);
-    const r=1+wr;
-    brainPts.push({x:x*r,y:y*r,z:z*r});
-  }
-})();
-let rot=0;
-function drawBrain(){
-  cx2.clearRect(0,0,canvas.width,canvas.height);
-  const cxp=canvas.width/2, cyp=canvas.height/2, scale=115;
-  rot+=0.006;
-  const cosR=Math.cos(rot),sinR=Math.sin(rot);
-  const pts=brainPts.map(p=>{const x=p.x*cosR - p.z*sinR;const z=p.x*sinR + p.z*cosR;return {x,y:p.y,z};});
-  pts.sort((a,b)=>a.z-b.z);
-  pts.forEach(p=>{
-    const depth=(p.z+1.4)/2.8;
-    const px=cxp+p.x*scale, py=cyp+p.y*scale;
-    const size=0.7+depth*1.9;
-    const alpha=0.15+depth*0.7;
-    // color gradient violet->pink by x
-    const hue=300+p.x*18;
-    cx2.beginPath();
-    cx2.fillStyle=`oklch(${55+depth*20}% ${0.2} ${hue} / ${alpha})`;
-    cx2.arc(px,py,size,0,6.283);
-    cx2.fill();
-  });
-  requestAnimationFrame(drawBrain);
-}
-drawBrain();
-/* ===== TRAIN CAROUSEL with unlock ===== */
-const exercises=[
-  {id:'rotation',emoji:'🔮',name:'Mental Rotation',zone:'Parietal',glow:'tg-parietal',lvlKey:'rotation',unlockAt:0,ex:'<b>What it trains:</b> spatial reasoning. You judge if two 3D shapes are the same rotated, or mirror images. Reaction time rises with the rotation angle: your brain literally spins the object. Gains persist up to 90 days.'},
-  {id:'math',emoji:'⚡',name:'Adaptive Math',zone:'Frontal',glow:'tg-frontal',lvlKey:'math',unlockAt:0,ex:'<b>What it trains:</b> working memory + processing speed in the frontal lobe. Difficulty auto-scales: 3 right in a row levels you up, a miss drops you back. Always at your edge.'},
-  {id:'memory',emoji:'🎯',name:'Memory Sequence',zone:'Hippocampus',glow:'tg-hippo',lvlKey:'memory',unlockAt:0,ex:'<b>What it trains:</b> the hippocampus, your memory encoder. Watch a sequence light up, then repeat it. Longer sequences as you improve.'},
-  {id:'stroop',emoji:'🎨',name:'Stroop Focus',zone:'Frontal',glow:'tg-focus',lvlKey:'stroop',unlockAt:2,ex:'<b>What it trains:</b> inhibition and attention control. Tap the ink color, ignore the word. Suppressing the automatic reading response builds focus that spills into real life.'},
-  {id:'creative',emoji:'🌀',name:'Creative Flow',zone:'Creativity',glow:'tg-creative',lvlKey:'creative',unlockAt:4,ex:'<b>What it trains:</b> divergent thinking. Name as many uses for an object as you can in 45s. Confirmed to boost creative performance across 5 decades of studies.'},
-  {id:'critical',emoji:'🧩',name:'Critical Thinking',zone:'Reasoning',glow:'tg-reason',lvlKey:'critical',unlockAt:6,ex:'<b>What it trains:</b> logical reasoning. Spot the flaw in an argument (false dilemma, ad hominem, slippery slope). Builds a mental checklist your brain runs on any new claim.'}
-];
-let cIndex=0;
-function totalLevels(){return Object.values(S.levels).reduce((a,b)=>a+b,0);}
-function isUnlocked(ex){return totalLevels()-6>=ex.unlockAt;}
-function renderCarousel(){
-  const ct=document.getElementById('ctrack');ct.innerHTML='';
-  exercises.forEach((ex,i)=>{
-    const unlocked=isUnlocked(ex);
-    const slide=document.createElement('div');slide.className='slide';
-    slide.innerHTML=`<div class="tcard ${unlocked?'':'locked'}" data-i="${i}"><div class="tcard-glow ${ex.glow}"></div>${unlocked?`<span class="tcard-lvl">Lv ${S.levels[ex.lvlKey]}</span>`:''}<div class="tcard-inner"><div class="tcard-emoji">${ex.emoji}</div><div class="tcard-name">${ex.name}</div><div class="tcard-zone">${ex.zone}</div></div>${unlocked?'':`<div class="tcard-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg><div class="tcard-lock-t">Reach total level ${ex.unlockAt+6} to unlock</div></div>`}</div>`;
-    ct.appendChild(slide);
-  });
-  const dots=document.getElementById('dots');dots.innerHTML=exercises.map((e,i)=>`<div class="dot ${i===cIndex?'on':''}"></div>`).join('');
-  updateCarousel();
-}
-function updateCarousel(){
-  document.getElementById('ctrack').style.transform=`translateX(-${cIndex*100}%)`;
-  document.querySelectorAll('#dots .dot').forEach((d,i)=>d.classList.toggle('on',i===cIndex));
-  const ex=exercises[cIndex];const unlocked=isUnlocked(ex);
-  const exp=document.getElementById('explain');exp.style.opacity='0';exp.style.transform='translateY(8px)';
-  setTimeout(()=>{exp.innerHTML=`<div class="explain-h">${ex.zone} · what it trains</div><div class="explain-t">${ex.ex}</div>`;exp.style.opacity='1';exp.style.transform='translateY(0)';},180);
-  const pb=document.getElementById('playBtn');
-  if(unlocked){pb.disabled=false;pb.textContent='Play '+ex.name;}else{pb.disabled=true;pb.textContent='🔒 Locked';}
-}
-document.getElementById('playBtn').addEventListener('click',()=>{const ex=exercises[cIndex];if(isUnlocked(ex))startGame(ex.id);});
-// carousel swipe
-let csx=0,cdrag=false,clk=null;
-const carEl=document.querySelector('.carousel');
-carEl.addEventListener('touchstart',e=>{csx=e.touches[0].clientX;cdrag=true;clk=null;document.getElementById('ctrack').style.transition='none';},{passive:true});
-carEl.addEventListener('touchmove',e=>{if(!cdrag)return;const dx=e.touches[0].clientX-csx,dy=e.touches[0].clientY-(e.touches[0].clientY);if(clk===null)clk=Math.abs(dx)>6?'x':null;if(clk==='x'){const base=-cIndex*100,pct=(dx/carEl.offsetWidth)*100;let n=base+pct;if(cIndex===0&&dx>0)n=base+pct*0.35;if(cIndex===exercises.length-1&&dx<0)n=base+pct*0.35;document.getElementById('ctrack').style.transform=`translateX(${n}%)`;e.stopPropagation();}},{passive:true});
-carEl.addEventListener('touchend',e=>{if(!cdrag)return;cdrag=false;document.getElementById('ctrack').style.transition='transform 0.5s var(--spring)';const dx=e.changedTouches[0].clientX-csx,th=carEl.offsetWidth*0.2;if(dx<-th&&cIndex<exercises.length-1)cIndex++;else if(dx>th&&cIndex>0)cIndex--;updateCarousel();vib(6);},{passive:true});
-renderStats();
-/* ===== GAME ENGINE ===== */
+function goToFrontier(){startGame(zoneMeta[weakestZone()].ex);}
+function renderStats(){document.getElementById('cqNum').textContent=S.cq;document.getElementById('statSessions').textContent=S.sessions;document.getElementById('statRecords').textContent=S.records;document.getElementById('cqDelta').textContent=S.sessions?('across '+S.sessions+' sessions'):'Play to raise it';const age=S.sessions?brainAge():'--';document.getElementById('statAge').textContent=age;document.getElementById('ageBadge').textContent='Brain age '+age;document.getElementById('statAgeD').textContent=S.sessions?'lower is better':'take a session';[['frontal','frontal'],['parietal','parietal'],['hippo','hippo'],['creative','creative'],['reason','reason']].forEach(([k,id])=>{const v=Math.min(100,S.zones[k]);document.getElementById('zf-'+id).style.width=v+'%';document.getElementById('zv-'+id).textContent=Math.round(v);});document.getElementById('frontierTxt').innerHTML=`Weakest zone: <b>${zoneMeta[weakestZone()].n}</b> (${Math.round(S.zones[weakestZone()])}/100). Growth lives at your edge.`;renderUnlocks();}
+const exercises=[{id:'rotation',emoji:'🔮',cls:'g',name:'Mental Rotation',zone:'Parietal lobe',explain:'Two 3D objects appear. You decide if the second is the <b>same shape rotated</b> or a <b>mirror image</b>. This trains <b>spatial reasoning</b>: your parietal lobe literally rotates the object in your mind. Gains can last 90 days.'},{id:'math',emoji:'⚡',cls:'a',name:'Adaptive Math',zone:'Frontal cortex',explain:'Timed arithmetic that <b>scales to your level</b>. Three right in a row and it gets harder; slip and it eases back. Trains <b>working memory and processing speed</b> in the frontal cortex.'},{id:'memory',emoji:'🎯',cls:'p',name:'Memory Sequence',zone:'Hippocampus',explain:'Watch a sequence light up, then repeat it. Each success adds length. Trains the <b>hippocampus</b>, your brain encoder for turning moments into long-term memory.'},{id:'stroop',emoji:'🎨',cls:'w',name:'Stroop Focus',zone:'Frontal cortex',explain:'The word RED printed in blue ink. Tap the <b>ink color</b>, not the word. Trains <b>inhibition and attention control</b>: suppressing the automatic response that wants to read.'},{id:'creative',emoji:'🌀',cls:'c',name:'Creative Flow',zone:'Creativity',explain:'Name as many uses for an object as you can in 45s. Weird ideas count more. Trains <b>divergent thinking</b>, the engine of creativity, proven to reshape brain structure.'},{id:'critical',emoji:'🧩',cls:'w',name:'Critical Thinking',zone:'Reasoning',explain:'Read an argument, spot the logical flaw (slippery slope, false dilemma, ad hominem). Builds a mental checklist your brain runs automatically on every new claim.'}];
+let cIdx=0;
+function renderCarousel(){const t=document.getElementById('ctrack');t.innerHTML='';exercises.forEach(e=>{const lvl=S.levels[e.id];const card=document.createElement('div');card.className='tcard';card.innerHTML=`<div class="tcard-inner tc-glow-${e.cls}"><div class="tc-emoji tce-${e.cls}">${e.emoji}</div><div class="tc-name">${e.name}</div><div class="tc-zone">${e.zone}</div><span class="tc-lvl">Level ${lvl}</span><div class="tc-explain-h">What it trains</div><div class="tc-explain">${e.explain}</div><div class="tc-play"><button class="tc-play-btn" data-ex="${e.id}">Play now</button></div></div>`;t.appendChild(card);});t.querySelectorAll('.tc-play-btn').forEach(b=>b.addEventListener('click',()=>startGame(b.dataset.ex)));const dots=document.getElementById('cdots');dots.innerHTML=exercises.map((_,i)=>`<div class="cdot ${i===cIdx?'on':''}"></div>`).join('');updateCarousel();}
+function updateCarousel(){document.getElementById('ctrack').style.transform=`translateX(-${cIdx*100}%)`;document.querySelectorAll('.cdot').forEach((d,i)=>d.classList.toggle('on',i===cIdx));document.getElementById('cprev').disabled=cIdx===0;document.getElementById('cnext').disabled=cIdx===exercises.length-1;}
+document.getElementById('cprev').onclick=()=>{if(cIdx>0){cIdx--;updateCarousel();vib(8);}};
+document.getElementById('cnext').onclick=()=>{if(cIdx<exercises.length-1){cIdx++;updateCarousel();vib(8);}};
+const carEl=document.querySelector('.carousel');let csx=0,cdrag=false,clk=null,csy=0;
+carEl.addEventListener('touchstart',e=>{csx=e.touches[0].clientX;csy=e.touches[0].clientY;cdrag=true;clk=null;},{passive:true});
+carEl.addEventListener('touchmove',e=>{if(!cdrag)return;const dx=e.touches[0].clientX-csx,dy=e.touches[0].clientY-csy;if(clk===null)clk=Math.abs(dx)>Math.abs(dy)?'x':'y';if(clk==='x')e.stopPropagation();},{passive:false});
+carEl.addEventListener('touchend',e=>{if(!cdrag)return;cdrag=false;if(clk==='x'){const dx=e.changedTouches[0].clientX-csx;if(dx<-40&&cIdx<exercises.length-1){cIdx++;updateCarousel();vib(8);}else if(dx>40&&cIdx>0){cIdx--;updateCarousel();vib(8);}}},{passive:true});
+const unlockables=[{id:'rotation',emoji:'🔮',name:'Mental Rotation',req:0},{id:'math',emoji:'⚡',name:'Adaptive Math',req:0},{id:'memory',emoji:'🎯',name:'Memory Sequence',req:110},{id:'stroop',emoji:'🎨',name:'Stroop Focus',req:125},{id:'creative',emoji:'🌀',name:'Creative Flow',req:145},{id:'critical',emoji:'🧩',name:'Critical Thinking',req:170}];
+let prevUnlocked=new Set(JSON.parse(localStorage.getItem('bmx5_unlocked')||'[]'));
+function renderUnlocks(){const g=document.getElementById('unlockGrid');g.innerHTML='';const nextLocked=unlockables.find(u=>S.cq<u.req);document.getElementById('protoIntro').innerHTML=nextLocked?`You are at <b style="color:var(--purple)">CQ ${S.cq}</b>. Next unlock: <b>${nextLocked.name}</b> at CQ ${nextLocked.req}.`:`All exercises unlocked. You are at <b style="color:var(--purple)">CQ ${S.cq}</b>.`;unlockables.forEach(u=>{const unlocked=S.cq>=u.req;const isNew=unlocked&&!prevUnlocked.has(u.id);const c=document.createElement('div');c.className='ucard '+(unlocked?'unlocked':'locked')+(isNew?' justunlocked':'');c.innerHTML=unlocked?`<div class="uc-icon">${u.emoji}</div><div class="uc-name">${u.name}</div><div class="uc-req">Unlocked</div>`:`<div class="uc-lockico"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div><div class="uc-icon">${u.emoji}</div><div class="uc-name">${u.name}</div><div class="uc-req">CQ ${u.req}</div>`;if(unlocked)c.onclick=()=>startGame(u.id);g.appendChild(c);if(isNew){prevUnlocked.add(u.id);vib([10,40,20,40]);}});localStorage.setItem('bmx5_unlocked',JSON.stringify([...prevUnlocked]));}
 const gameEl=document.getElementById('game'),gBody=document.getElementById('gameBody'),gTitle=document.getElementById('gameTitle'),gLevel=document.getElementById('gameLevel'),gProg=document.getElementById('gameProg'),timerFill=document.getElementById('timerFill');
 let gs={};
 document.getElementById('gameQuit').addEventListener('click',endGame);
@@ -452,21 +362,16 @@ function setProg(d,t){gProg.style.width=(d/t*100)+'%';}
 function startTimer(ms,onExpire){if(gs.rtimer)clearInterval(gs.rtimer);const t0=Date.now();timerFill.style.width='100%';gs.rExpire=onExpire;gs.rStart=t0;gs.rtimer=setInterval(()=>{const el=Date.now()-t0;const pct=Math.max(0,100-el/ms*100);timerFill.style.width=pct+'%';if(el>=ms){clearInterval(gs.rtimer);if(gs.rExpire)gs.rExpire();}},40);}
 function stopTimer(){if(gs.rtimer)clearInterval(gs.rtimer);return Date.now()-gs.rStart;}
 function startGame(type){const titles={rotation:'Mental Rotation',math:'Adaptive Math',memory:'Memory Sequence',stroop:'Stroop Focus',creative:'Creative Flow',critical:'Critical Thinking'};openGame(titles[type]);gLevel.textContent='Get ready';let n=3;gBody.innerHTML=`<div class="countdown">${n}</div>`;const fns={rotation:startRotation,math:startMath,memory:startMemory,stroop:startStroop,creative:startCreative,critical:startCritical};const cd=setInterval(()=>{n--;if(n<=0){clearInterval(cd);fns[type]();}else{gBody.innerHTML=`<div class="countdown">${n}</div>`;vib(20);}},600);gs.timer=cd;}
-function polycube(rotation,mirror){const cubes=[[0,0],[1,0],[1,1],[2,1]];const s=22;function iso(x,y,z){const ix=(x-y)*s*0.87;const iy=(x+y)*s*0.5-z*s;return [ix,iy];}let paths='';cubes.forEach(([cx,cy])=>{const top=[iso(cx,cy,1),iso(cx+1,cy,1),iso(cx+1,cy+1,1),iso(cx,cy+1,1)];const left=[iso(cx,cy+1,1),iso(cx,cy+1,0),iso(cx,cy,0),iso(cx,cy,1)];const right=[iso(cx+1,cy,1),iso(cx+1,cy,0),iso(cx+1,cy+1,0),iso(cx+1,cy+1,1)];const P=a=>a.map(p=>p.join(',')).join(' ');paths+=`<polygon points="${P(top)}" fill="oklch(72% 0.24 305)" stroke="oklch(34% 0.06 305)" stroke-width="1.5"/>`;paths+=`<polygon points="${P(left)}" fill="oklch(52% 0.2 305)" stroke="oklch(34% 0.06 305)" stroke-width="1.5"/>`;paths+=`<polygon points="${P(right)}" fill="oklch(40% 0.14 305)" stroke="oklch(34% 0.06 305)" stroke-width="1.5"/>`;});const mir=mirror?'scale(-1,1)':'';return `<svg viewBox="-70 -70 140 140"><g transform="rotate(${rotation}) ${mir}">${paths}</g></svg>`;}
-function startRotation(){const lvl=S.levels.rotation,total=8;let q=0,correct=0,rt=[];const angles=[45,90,135,180];function newQ(){q++;if(q>total)return done();setProg(q-1,total);gLevel.textContent=`Lv ${lvl} · ${q}/${total}`;const isMirror=Math.random()<0.5;const minA=Math.min(45+(lvl-1)*15,180);const rotA=angles[Math.floor(Math.random()*angles.length)]+(minA-45);gBody.innerHTML=`<div class="game-hint">Left is reference. Is the right the <b>same</b> object rotated, or a <b>mirror</b>?</div><div class="rot-pair"><div class="rot-fig">${polycube(0,false)}</div><div class="rot-vs">vs</div><div class="rot-fig">${polycube(rotA%360,isMirror)}</div></div><div class="rot-controls"><button class="rot-btn" id="rbSame">SAME</button><button class="rot-btn" id="rbMir">MIRROR</button></div>`;let answered=false;const answer=(pick)=>{if(answered)return;answered=true;rt.push(stopTimer());const sB=document.getElementById('rbSame'),mB=document.getElementById('rbMir');sB.style.pointerEvents='none';mB.style.pointerEvents='none';const uMir=(pick==='mirror');const right=(uMir===isMirror);const picked=uMir?mB:sB;const truth=isMirror?mB:sB;if(right){correct++;picked.classList.add('correct');vib(20);}else{picked.classList.add('wrong');truth.classList.add('reveal');vib([30,20,30]);}setTimeout(newQ,650);};document.getElementById('rbSame').onclick=()=>answer('same');document.getElementById('rbMir').onclick=()=>answer('mirror');startTimer(Math.max(3000,7000-lvl*300),()=>answer('t'));}function done(){const acc=Math.round(correct/total*100);const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999;adapt('rotation',acc);finish('🔮',acc,avg,'parietal','rotation');}newQ();}
+function polycube(rotation,mirror){const cubes=[[0,0],[1,0],[1,1],[2,1]];const s=22;function iso(x,y,z){const ix=(x-y)*s*0.87;const iy=(x+y)*s*0.5-z*s;return [ix,iy];}let paths='';cubes.forEach(([cx,cy])=>{const top=[iso(cx,cy,1),iso(cx+1,cy,1),iso(cx+1,cy+1,1),iso(cx,cy+1,1)];const left=[iso(cx,cy+1,1),iso(cx,cy+1,0),iso(cx,cy,0),iso(cx,cy,1)];const right=[iso(cx+1,cy,1),iso(cx+1,cy,0),iso(cx+1,cy+1,0),iso(cx+1,cy+1,1)];const P=a=>a.map(p=>p.join(',')).join(' ');paths+=`<polygon points="${P(top)}" fill="oklch(72% 0.22 300)" stroke="oklch(34% 0.06 300)" stroke-width="1.5"/>`;paths+=`<polygon points="${P(left)}" fill="oklch(52% 0.18 300)" stroke="oklch(34% 0.06 300)" stroke-width="1.5"/>`;paths+=`<polygon points="${P(right)}" fill="oklch(40% 0.14 300)" stroke="oklch(34% 0.06 300)" stroke-width="1.5"/>`;});const mir=mirror?'scale(-1,1)':'';return `<svg viewBox="-70 -70 140 140"><g transform="rotate(${rotation}) ${mir}">${paths}</g></svg>`;}
+function startRotation(){const lvl=S.levels.rotation,total=8;let q=0,correct=0,rt=[];const angles=[45,90,135,180];function newQ(){q++;if(q>total)return done();setProg(q-1,total);gLevel.textContent=`Lv ${lvl} · ${q}/${total}`;const isMirror=Math.random()<0.5;const minA=Math.min(45+(lvl-1)*15,180);const rotA=angles[Math.floor(Math.random()*angles.length)]+(minA-45);gBody.innerHTML=`<div class="game-hint">Same object rotated, or a mirror?</div><div class="rot-pair"><div class="rot-fig">${polycube(0,false)}</div><div class="rot-vs">vs</div><div class="rot-fig">${polycube(rotA%360,isMirror)}</div></div><div class="rot-controls"><button class="rot-btn" id="rbSame">SAME</button><button class="rot-btn" id="rbMir">MIRROR</button></div>`;let answered=false;const answer=(pick)=>{if(answered)return;answered=true;rt.push(stopTimer());const sB=document.getElementById('rbSame'),mB=document.getElementById('rbMir');sB.style.pointerEvents='none';mB.style.pointerEvents='none';const uMir=(pick==='mirror');const right=(uMir===isMirror);const picked=uMir?mB:sB;const truth=isMirror?mB:sB;if(right){correct++;picked.classList.add('correct');vib(20);}else{picked.classList.add('wrong');truth.classList.add('reveal');vib([30,20,30]);}setTimeout(newQ,650);};document.getElementById('rbSame').onclick=()=>answer('same');document.getElementById('rbMir').onclick=()=>answer('mirror');startTimer(Math.max(3000,7000-lvl*300),()=>answer('t'));}function done(){const acc=Math.round(correct/total*100);const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999;adapt('rotation',acc);finish('🔮',acc,avg,'parietal','rotation');}newQ();}
 function startMath(){let lvl=S.levels.math,total=10,q=0,correct=0,val='',a=0,streak=0,startLvl=lvl,rt=[];function genFor(L){const terms=Math.min(2+Math.floor(L/3),4);const maxN=8+L*3;let expr='',acc=0;for(let i=0;i<terms;i++){const ops=L<3?['+','-']:['+','-','×'];const op=i===0?'+':ops[Math.floor(Math.random()*ops.length)];const num=Math.floor(Math.random()*maxN)+2;if(i===0){acc=num;expr=''+num;}else if(op==='+'){acc+=num;expr+=' + '+num;}else if(op==='-'){acc-=num;expr+=' − '+num;}else{acc*=num;expr+=' × '+num;}}return {expr,acc};}function newQ(){q++;if(q>total)return done();setProg(q-1,total);gLevel.textContent=`Lv ${lvl} · ${q}/${total}`;const g=genFor(lvl);a=g.acc;val='';gBody.innerHTML=`<div class="math-feedback" id="mfb"></div><div class="math-q">${g.expr}</div><div class="math-input" id="mIn">_</div><div class="math-pad">${[1,2,3,4,5,6,7,8,9].map(d=>`<button class="math-key" data-d="${d}">${d}</button>`).join('')}<button class="math-key" data-d="-">±</button><button class="math-key" data-d="0">0</button><button class="math-key ok" data-d="ok">✓</button></div>`;document.querySelectorAll('.math-key').forEach(k=>k.addEventListener('click',()=>{const d=k.dataset.d;vib(8);if(d==='ok')check();else if(d==='-'){val=val.startsWith('-')?val.slice(1):'-'+val;upd();}else{val+=d;upd();}}));upd();startTimer(Math.max(4000,10000-lvl*400),()=>check(true));}function upd(){document.getElementById('mIn').textContent=val||'_';}function check(t){rt.push(stopTimer());const fb=document.getElementById('mfb');if(!t&&parseInt(val)===a){correct++;streak++;fb.textContent='✓';fb.style.color='var(--green)';vib(20);if(streak>=3){lvl++;streak=0;}}else{fb.textContent='✗';fb.style.color='var(--red)';vib([30,20,30]);streak=0;if(lvl>1)lvl--;}fb.classList.add('show');setTimeout(()=>{fb.classList.remove('show');newQ();},600);}function done(){const acc=Math.round(correct/total*100);const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999;S.levels.math=lvl;const note=lvl>startLvl?('Math level up → Lv '+lvl):(lvl<startLvl?('Math level → Lv '+lvl):null);finish('⚡',acc,avg,'frontal','math',note);}newQ();}
 function startMemory(){let lvl=S.levels.memory,len=2+lvl,correct=0,total=6,round=0,maxLen=len;function showSeq(){round++;if(round>total)return done();setProg(round-1,total);gLevel.textContent=`Length ${len} · ${round}/${total}`;const seq=Array.from({length:len},()=>Math.floor(Math.random()*9));gBody.innerHTML=`<div class="game-hint">Watch the order, then repeat it</div><div class="grid9" id="mg">${Array(9).fill('<div class="cell"></div>').join('')}</div><div class="status-txt" id="mst">Watch…</div>`;const cells=[...document.querySelectorAll('#mg .cell')];let i=0;timerFill.style.width='100%';const sh=setInterval(()=>{cells.forEach(c=>c.classList.remove('lit'));if(i<seq.length){cells[seq[i]].classList.add('lit');vib(8);i++;}else{clearInterval(sh);cells.forEach(c=>c.classList.remove('lit'));setTimeout(()=>input(seq,cells),350);}},Math.max(350,650-lvl*25));}function input(seq,cells){let inp=[];document.getElementById('mst').textContent='Your turn';cells.forEach((c,idx)=>{c.onclick=()=>{c.classList.add('lit');vib(10);inp.push(idx);setTimeout(()=>c.classList.remove('lit'),180);if(inp.length===seq.length){const ok=inp.every((v,k)=>v===seq[k]);cells.forEach(x=>x.onclick=null);if(ok){correct++;len++;maxLen=Math.max(maxLen,len);vib(20);}else{if(len>3)len--;vib([30,20,30]);}setTimeout(showSeq,450);}};});}function done(){const acc=Math.round(correct/total*100);S.levels.memory=Math.max(1,maxLen-2);finish('🎯',acc,3000,'hippo','memory');}showSeq();}
-function startStroop(){const lvl=S.levels.stroop,total=12;let q=0,correct=0,rt=[];const colors=[['RED','var(--red)'],['GREEN','var(--green)'],['BLUE','oklch(65% 0.15 250)'],['YELLOW','var(--warm)']];function newQ(){q++;if(q>total)return done();setProg(q-1,total);gLevel.textContent=`Lv ${lvl} · ${q}/${total}`;const wI=Math.floor(Math.random()*4);let iI=Math.floor(Math.random()*4);if(Math.random()<0.75&&iI===wI)iI=(iI+1)%4;const word=colors[wI][0],ink=colors[iI][1],inkName=colors[iI][0];const opts=[...colors].sort(()=>Math.random()-0.5);gBody.innerHTML=`<div class="game-hint">Tap the <b>ink color</b>, ignore the word</div><div class="stroop-word" style="color:${ink}">${word}</div><div class="stroop-opts">${opts.map(o=>`<button class="stroop-btn" data-c="${o[0]}">${o[0]}</button>`).join('')}</div>`;let answered=false;const pick=(c,btn)=>{if(answered)return;answered=true;rt.push(stopTimer());document.querySelectorAll('.stroop-btn').forEach(x=>x.style.pointerEvents='none');if(c===inkName){correct++;if(btn)btn.classList.add('correct');vib(20);}else{if(btn)btn.classList.add('wrong');document.querySelector(`.stroop-btn[data-c="${inkName}"]`).classList.add('correct');vib([30,20,30]);}setTimeout(newQ,500);};document.querySelectorAll('.stroop-btn').forEach(b=>b.onclick=()=>pick(b.dataset.c,b));startTimer(Math.max(2000,4000-lvl*150),()=>pick('t',null));}function done(){const acc=Math.round(correct/total*100);const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999;adapt('stroop',acc);finish('🎨',acc,avg,'frontal','stroop');}newQ();}
-function startCreative(){const objs=['a brick','a paperclip','a shoe','a spoon','an umbrella','a rubber band','a newspaper','a bottle','a key','a towel'];const obj=objs[Math.floor(Math.random()*objs.length)];let ideas=[];gBody.innerHTML=`<div class="game-hint">Name as many uses as you can. Weird counts more.</div><div class="cr-prompt">${obj}</div><div class="cr-sub">How many uses can you invent?</div><div class="cr-count" id="crCount">0</div><div class="cr-count-l">ideas</div><div class="cr-inputrow"><input class="cr-field" id="crField" placeholder="a use for ${obj}…" autocomplete="off"><button class="cr-send" id="crSend">+</button></div><div class="cr-list" id="crList"></div>`;gLevel.textContent='45s';const field=document.getElementById('crField'),list=document.getElementById('crList');function add(){const v=field.value.trim();if(v.length<2)return;if(ideas.some(x=>x.toLowerCase()===v.toLowerCase())){field.value='';return;}ideas.push(v);document.getElementById('crCount').textContent=ideas.length;const chip=document.createElement('div');chip.className='cr-chip';chip.textContent=v;list.prepend(chip);field.value='';vib(10);}document.getElementById('crSend').onclick=add;field.addEventListener('keydown',e=>{if(e.key==='Enter')add();});setTimeout(()=>field.focus(),200);startTimer(45000,done);function done(){field.blur();const n=ideas.length;const acc=Math.min(100,n*12);if(n>=6)S.levels.creative++;else if(n<3&&S.levels.creative>1)S.levels.creative--;finish('🌀',acc,2500,'creative','creative',n+' original ideas');}}
-const ctItems=[{s:'"Everyone I know loves this movie, so it must be the best film ever."',opts:['Hasty generalization','Valid conclusion','Circular reasoning','Appeal to authority'],a:0},{s:'"The rooster crows before sunrise. So the rooster causes the sun to rise."',opts:['Correlation ≠ causation','Straw man','Valid cause','Ad hominem'],a:0},{s:'"You cannot trust his climate argument, he failed science in school."',opts:['Attacking the person','Slippery slope','Sound reasoning','False dilemma'],a:0},{s:'"Either we ban all cars, or the planet is doomed. No other option."',opts:['False dilemma','Correlation error','Valid logic','Appeal to emotion'],a:0},{s:'"This medicine is natural, so it must be completely safe."',opts:['Appeal to nature','Circular reasoning','Correct inference','Hasty generalization'],a:0},{s:'"Let students redo one test and soon they redo everything and school collapses."',opts:['Slippery slope','Ad hominem','Valid prediction','False cause'],a:0},{s:'"It is true because the book says so, and we trust the book because it is true."',opts:['Circular reasoning','Straw man','Valid argument','Appeal to nature'],a:0},{s:'"He wants better public transport. So he wants to ban all cars."',opts:['Straw man','Slippery slope','Fair summary','Correlation error'],a:0}];
-function startCritical(){const total=6;let q=0,correct=0,rt=[];const pool=[...ctItems].sort(()=>Math.random()-0.5).slice(0,total);function newQ(){if(q>=total)return done();const it=pool[q];q++;setProg(q-1,total);gLevel.textContent=`${q}/${total}`;const opts=it.opts.map((o,i)=>({o,correct:i===it.a})).sort(()=>Math.random()-0.5);gBody.innerHTML=`<div class="game-hint">Read the argument. Find the reasoning flaw.</div><div class="ct-scenario">${it.s}</div><div class="ct-q">What is the flaw?</div><div class="ct-opts">${opts.map(o=>`<button class="ct-btn" data-c="${o.correct}">${o.o}</button>`).join('')}</div>`;let answered=false;const pick=(btn,ok)=>{if(answered)return;answered=true;rt.push(stopTimer());document.querySelectorAll('.ct-btn').forEach(x=>x.style.pointerEvents='none');if(ok){correct++;btn.classList.add('correct');vib(20);}else{btn.classList.add('wrong');document.querySelector('.ct-btn[data-c="true"]').classList.add('correct');vib([30,20,30]);}setTimeout(newQ,900);};document.querySelectorAll('.ct-btn').forEach(b=>b.onclick=()=>pick(b,b.dataset.c==='true'));startTimer(15000,()=>{const t=document.querySelector('.ct-btn[data-c="true"]');pick(t,false);});}function done(){const acc=Math.round(correct/total*100);const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999;adapt('critical',acc);finish('🧩',acc,avg,'reason','critical');}newQ();}
+function startStroop(){const lvl=S.levels.stroop,total=12;let q=0,correct=0,rt=[];const colors=[['RED','var(--red)'],['GREEN','var(--green)'],['BLUE','oklch(65% 0.15 250)'],['YELLOW','var(--warm)']];function newQ(){q++;if(q>total)return done();setProg(q-1,total);gLevel.textContent=`Lv ${lvl} · ${q}/${total}`;const wI=Math.floor(Math.random()*4);let iI=Math.floor(Math.random()*4);if(Math.random()<0.75&&iI===wI)iI=(iI+1)%4;const word=colors[wI][0],ink=colors[iI][1],inkName=colors[iI][0];const opts=[...colors].sort(()=>Math.random()-0.5);gBody.innerHTML=`<div class="game-hint">Tap the ink color, ignore the word</div><div class="stroop-word" style="color:${ink}">${word}</div><div class="stroop-opts">${opts.map(o=>`<button class="stroop-btn" data-c="${o[0]}">${o[0]}</button>`).join('')}</div>`;let answered=false;const pick=(c,btn)=>{if(answered)return;answered=true;rt.push(stopTimer());document.querySelectorAll('.stroop-btn').forEach(x=>x.style.pointerEvents='none');if(c===inkName){correct++;if(btn)btn.classList.add('correct');vib(20);}else{if(btn)btn.classList.add('wrong');document.querySelector(`.stroop-btn[data-c="${inkName}"]`).classList.add('correct');vib([30,20,30]);}setTimeout(newQ,500);};document.querySelectorAll('.stroop-btn').forEach(b=>b.onclick=()=>pick(b.dataset.c,b));startTimer(Math.max(2000,4000-lvl*150),()=>pick('t',null));}function done(){const acc=Math.round(correct/total*100);const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999;adapt('stroop',acc);finish('🎨',acc,avg,'frontal','stroop');}newQ();}
+function startCreative(){const objs=['a brick','a paperclip','a shoe','a spoon','an umbrella','a rubber band','a newspaper','a bottle','a key','a towel'];const obj=objs[Math.floor(Math.random()*objs.length)];let ideas=[];gBody.innerHTML=`<div class="game-hint">Name as many uses as you can. Weird counts more.</div><div class="cr-prompt">${obj}</div><div class="cr-sub">Invent uses</div><div class="cr-count" id="crCount">0</div><div class="cr-count-l">ideas</div><div class="cr-inputrow"><input class="cr-field" id="crField" placeholder="a use for ${obj}…" autocomplete="off"><button class="cr-send" id="crSend">+</button></div><div class="cr-list" id="crList"></div>`;gLevel.textContent='45s';const field=document.getElementById('crField'),list=document.getElementById('crList');function add(){const v=field.value.trim();if(v.length<2)return;if(ideas.some(x=>x.toLowerCase()===v.toLowerCase())){field.value='';return;}ideas.push(v);document.getElementById('crCount').textContent=ideas.length;const chip=document.createElement('div');chip.className='cr-chip';chip.textContent=v;list.prepend(chip);field.value='';vib(10);}document.getElementById('crSend').onclick=add;field.addEventListener('keydown',e=>{if(e.key==='Enter')add();});setTimeout(()=>field.focus(),200);startTimer(45000,done);function done(){field.blur();const n=ideas.length;const acc=Math.min(100,n*12);if(n>=6)S.levels.creative++;else if(n<3&&S.levels.creative>1)S.levels.creative--;finish('🌀',acc,2500,'creative','creative',n+' original ideas');}}
+const ctItems=[{s:'"Everyone I know loves this movie, so it must be the best film ever."',opts:['Hasty generalization','Valid conclusion','Circular reasoning','Appeal to authority'],a:0},{s:'"The rooster crows before sunrise. So the rooster causes the sun to rise."',opts:['Correlation ≠ causation','Straw man','Valid cause','Ad hominem'],a:0},{s:'"You cannot trust his climate argument, he failed science in school."',opts:['Attacking the person','Slippery slope','Sound reasoning','False dilemma'],a:0},{s:'"Either we ban all cars, or the planet is doomed. No other option."',opts:['False dilemma','Correlation error','Valid logic','Appeal to emotion'],a:0},{s:'"This medicine is natural, so it must be completely safe."',opts:['Appeal to nature','Circular reasoning','Correct inference','Hasty generalization'],a:0},{s:'"Let students redo one test and soon school collapses entirely."',opts:['Slippery slope','Ad hominem','Valid prediction','False cause'],a:0},{s:'"It is true because the book says so, and we trust the book because it is true."',opts:['Circular reasoning','Straw man','Valid argument','Appeal to nature'],a:0},{s:'"He wants better public transport. So he wants to ban all cars."',opts:['Straw man','Slippery slope','Fair summary','Correlation error'],a:0}];
+function startCritical(){const total=6;let q=0,correct=0,rt=[];const pool=[...ctItems].sort(()=>Math.random()-0.5).slice(0,total);function newQ(){if(q>=total)return done();const it=pool[q];q++;setProg(q-1,total);gLevel.textContent=`${q}/${total}`;const opts=it.opts.map((o,i)=>({o,correct:i===it.a})).sort(()=>Math.random()-0.5);gBody.innerHTML=`<div class="game-hint">Find the reasoning flaw.</div><div class="ct-scenario">${it.s}</div><div class="ct-q">What is the flaw?</div><div class="ct-opts">${opts.map(o=>`<button class="ct-btn" data-c="${o.correct}">${o.o}</button>`).join('')}</div>`;let answered=false;const pick=(btn,ok)=>{if(answered)return;answered=true;rt.push(stopTimer());document.querySelectorAll('.ct-btn').forEach(x=>x.style.pointerEvents='none');if(ok){correct++;btn.classList.add('correct');vib(20);}else{btn.classList.add('wrong');document.querySelector('.ct-btn[data-c="true"]').classList.add('correct');vib([30,20,30]);}setTimeout(newQ,900);};document.querySelectorAll('.ct-btn').forEach(b=>b.onclick=()=>pick(b,b.dataset.c==='true'));startTimer(15000,()=>{const t=document.querySelector('.ct-btn[data-c="true"]');pick(t,false);});}function done(){const acc=Math.round(correct/total*100);const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999;adapt('critical',acc);finish('🧩',acc,avg,'reason','critical');}newQ();}
 function adapt(key,acc){if(acc>=80)S.levels[key]++;else if(acc<50&&S.levels[key]>1)S.levels[key]--;}
-function finish(icon,acc,avgRtMs,zoneKey,gameKey,extraNote){if(gs.timer)clearInterval(gs.timer);if(gs.rtimer)clearInterval(gs.rtimer);setProg(1,1);gLevel.textContent='Complete';const before=totalLevels();const speedFactor=Math.max(0.4,Math.min(1.3,4000/Math.max(800,avgRtMs)));const zoneGain=Math.max(1,Math.round(acc/16));S.zones[zoneKey]=Math.min(100,S.zones[zoneKey]+zoneGain);const cqGain=Math.max(0,Math.round((acc/100)*(S.levels[gameKey]||1)*speedFactor*1.2));S.cq+=cqGain;S.sessions++;S.bestAcc=Math.max(S.bestAcc,acc);let isRecord=false;const prev=S.best[gameKey]||0;if(acc>prev){S.best[gameKey]=acc;if(prev>0){isRecord=true;S.records++;}}let milestone=null;const zv=S.zones[zoneKey];if(zv>=100&&prev<100)milestone=zoneMeta[zoneKey].n+' zone MASTERED';else if(zv>=75&&zv-zoneGain<75)milestone=zoneMeta[zoneKey].n+' reached 75';else if(zv>=50&&zv-zoneGain<50)milestone=zoneMeta[zoneKey].n+' badge unlocked';
-  // did a new exercise unlock?
-  const after=totalLevels();let unlockedEx=null;exercises.forEach(ex=>{if(before-6<ex.unlockAt && after-6>=ex.unlockAt)unlockedEx=ex;});
-  save();renderStats();const zm=zoneMeta[zoneKey];
-  gBody.innerHTML=`<div class="results show"><div class="results-icon">${icon}</div><div class="results-title">${acc>=70?'Well done':'Good effort'}</div>${unlockedEx?`<div class="unlock-badge">🌟 Unlocked: ${unlockedEx.name}</div>`:(isRecord?'<div class="pr-badge">★ New personal best</div>':'')}<div class="results-stats"><div class="rst"><div class="rst-v">${acc}%</div><div class="rst-l">Accuracy</div></div><div class="rst"><div class="rst-v">+${cqGain}</div><div class="rst-l">CQ</div></div><div class="rst"><div class="rst-v">${(avgRtMs/1000).toFixed(1)}s</div><div class="rst-l">Avg speed</div></div></div><div class="trained"><div class="trained-h">What you trained</div><div class="trained-row"><span class="trained-dot" style="background:${zm.c}"></span><span class="trained-zone">${zm.n}</span><span class="trained-gain">+${zoneGain}</span></div><div class="trained-row"><span class="trained-dot" style="background:var(--purple)"></span><span class="trained-zone">CQ Score</span><span class="trained-gain">+${cqGain}</span></div>${extraNote?`<div class="trained-lvl">${extraNote}</div>`:''}${milestone?`<div class="trained-lvl">🏆 ${milestone}</div>`:''}</div><button class="results-cta" id="resCta">Finish session</button></div>`;
-  document.getElementById('resCta').addEventListener('click',()=>{completeSession();endGame();goTo(3);if(!S.seenNotif){S.seenNotif=true;save();setTimeout(showNotifModal,600);}});vib(unlockedEx?[20,60,30,60,30]:(milestone?[15,50,25,50,25]:[15,50,25]));}
+function finish(icon,acc,avgRtMs,zoneKey,gameKey,extraNote){if(gs.timer)clearInterval(gs.timer);if(gs.rtimer)clearInterval(gs.rtimer);setProg(1,1);gLevel.textContent='Complete';const speedFactor=Math.max(0.4,Math.min(1.3,4000/Math.max(800,avgRtMs)));const zoneGain=Math.max(1,Math.round(acc/16));S.zones[zoneKey]=Math.min(100,S.zones[zoneKey]+zoneGain);const cqGain=Math.max(0,Math.round((acc/100)*(S.levels[gameKey]||1)*speedFactor*1.2));S.cq+=cqGain;S.sessions++;S.bestAcc=Math.max(S.bestAcc,acc);let isRecord=false;const prev=S.best[gameKey]||0;if(acc>prev){S.best[gameKey]=acc;if(prev>0){isRecord=true;S.records++;}}let milestone=null;const zv=S.zones[zoneKey];if(zv>=100&&prev<100)milestone=zoneMeta[zoneKey].n+' zone MASTERED';else if(zv>=75&&zv-zoneGain<75)milestone=zoneMeta[zoneKey].n+' reached 75';else if(zv>=50&&zv-zoneGain<50)milestone=zoneMeta[zoneKey].n+' badge unlocked';save();renderStats();renderCarousel();const zm=zoneMeta[zoneKey];gBody.innerHTML=`<div class="results show"><div class="results-icon">${icon}</div><div class="results-title">${acc>=70?'Well done':'Good effort'}</div>${isRecord?'<div class="pr-badge">★ New personal best</div>':''}<div class="results-stats"><div class="rst"><div class="rst-v">${acc}%</div><div class="rst-l">Accuracy</div></div><div class="rst"><div class="rst-v">+${cqGain}</div><div class="rst-l">CQ</div></div><div class="rst"><div class="rst-v">${(avgRtMs/1000).toFixed(1)}s</div><div class="rst-l">Avg speed</div></div></div><div class="trained"><div class="trained-h">What you trained</div><div class="trained-row"><span class="trained-dot" style="background:${zm.c}"></span><span class="trained-zone">${zm.n}</span><span class="trained-gain">+${zoneGain}</span></div><div class="trained-row"><span class="trained-dot" style="background:var(--purple)"></span><span class="trained-zone">CQ Score</span><span class="trained-gain">+${cqGain}</span></div>${extraNote?`<div class="trained-lvl">${extraNote}</div>`:''}${milestone?`<div class="trained-lvl">🏆 ${milestone}</div>`:''}</div><button class="results-cta" id="resCta">Finish</button></div>`;document.getElementById('resCta').addEventListener('click',()=>{endGame();goTo(0);});vib(milestone?[15,50,25,50,25]:[15,50,25]);}
 let stack=[{id:'cr',nm:'Creatine',ds:'5g · Morning · ATP resynthesis',b:8},{id:'sx',nm:'Semax',ds:'600mcg · Intranasal · BDNF ↑1.4x',b:12},{id:'om',nm:'Omega-3 DHA',ds:'2000mg · With meal · Membranes',b:6},{id:'lm',nm:"Lion's Mane",ds:'1000mg · Morning · NGF synthesis',b:5},{id:'lt',nm:'L-Theanine',ds:'200mg · Pre-session · Alpha waves',b:4}];
 const available=[{id:'bc',nm:'Bacopa Monnieri',ds:'300mg · 8-12wk memory',b:5},{id:'ag',nm:'Alpha-GPC',ds:'300mg · Choline precursor',b:4},{id:'ps',nm:'Phosphatidylserine',ds:'100mg · Membrane support',b:3},{id:'cu',nm:'Curcumin + EGCG',ds:'500mg · Anti-inflammatory',b:4},{id:'pr',nm:'Probiotic',ds:'Multi-strain · Gut-brain axis',b:3},{id:'md',nm:'Modafinil',ds:'100mg · Wakefulness · Rx',b:6}];
 function renderStack(){const list=document.getElementById('stackList');list.innerHTML='';let total=0;stack.forEach(s=>{total+=s.b;const el=document.createElement('div');el.className='stack-item';el.innerHTML=`<div style="flex:1;min-width:0"><div class="stack-nm">${s.nm}</div><div class="stack-ds">${s.ds}</div></div><span class="stack-b">+${s.b}%</span><span class="stack-del" data-id="${s.id}">×</span>`;list.appendChild(el);});document.getElementById('synergyVal').textContent='+'+total+'%';document.getElementById('compCount').textContent=stack.length;document.getElementById('stackStat').textContent='+'+total+'%';list.querySelectorAll('.stack-del').forEach(d=>d.addEventListener('click',ev=>{ev.stopPropagation();stack=stack.filter(x=>x.id!==d.dataset.id);renderStack();vib(12);}));}
@@ -476,15 +381,13 @@ function renderOpts(){const box=document.getElementById('compoundOpts');box.inne
 document.getElementById('addBtn').addEventListener('click',()=>{renderOpts();modalBack.classList.add('open');});
 function closeModal(){modalBack.classList.remove('open');}
 document.getElementById('modalClose').addEventListener('click',closeModal);modalBack.addEventListener('click',e=>{if(e.target===modalBack)closeModal();});
-const notifs=['Your brain forgets 40% of today by tomorrow. 3 min locks it in.','You left Parietal at 62. That is the exact edge of growth.','Quick: what is 13 × 14? No calculator.','You found 6 uses for a brick last time. Beat it?','Brain age dropped 2 years this week. Keep it moving.'];
-function showNotifModal(){document.getElementById('notifList').innerHTML=notifs.map(n=>`<div class="notif-card"><div class="notif-ico">B</div><div class="notif-t">${n}</div></div>`).join('');document.getElementById('notifModal').classList.add('open');}
-document.getElementById('notifClose').addEventListener('click',()=>document.getElementById('notifModal').classList.remove('open'));document.getElementById('notifModal').addEventListener('click',e=>{if(e.target.id==='notifModal')document.getElementById('notifModal').classList.remove('open');});
-const articles=[{t:'Can You Actually Train Creativity?',tier:1,zone:'Creativity',read:'5 min',body:`<p>Yes. A 2024 meta-analysis in <strong>Psychological Bulletin</strong> reviewed 5 decades of creativity training and confirmed it works.</p><h2>The Alternative Uses Task</h2><p>Name as many uses for an object as you can. Trains <strong>divergent thinking</strong>, which even changes brain structure.</p><div class="callout">Quantity breeds quality. The more ideas you force out, the more original the later ones get.</div>`},{t:'The “Too Easy” Trap',tier:1,zone:'Psychology',read:'5 min',body:`<p>You want to train but pride stops you: “I already know I can.”</p><h2>What is happening</h2><p><strong>Psychological reactance</strong> + ego protection. Your brain avoids tasks where it might not be perfect.</p><div class="callout">The fix: the Frontier. Train your weakest zone, where reps actually rewire you.</div>`},{t:'Why We Chose Mastery Over Streaks',tier:1,zone:'Retention',read:'6 min',body:`<p>Streaks backfire. Self-determination theory shows external rewards <strong>crowd out</strong> internal motivation.</p><div class="callout">You come here to get sharper, not to feed a flame. So we track records, brain age, and mastery.</div>`},{t:'Mental Rotation: Same or Mirror?',tier:1,zone:'Parietal',read:'3 min',body:`<p>Shepard-Metzler (1971, 6000+ citations). Reaction time rises with rotation angle.</p><div class="callout">A 2025 Nature study found gains persist 90 days.</div>`},{t:'Semax: BDNF Amplification',tier:2,zone:'Hippocampus',read:'6 min',body:`<p>A synthetic peptide. One intranasal dose raised BDNF <strong>1.4x</strong> in rat hippocampus.</p><div class="callout">Human RCTs limited: Tier 2.</div>`}];
+const articles=[{t:'Can You Actually Train Creativity?',tier:1,zone:'Creativity',read:'5 min',body:`<p>Yes. A 2024 meta-analysis in <strong>Psychological Bulletin</strong> reviewed 5 decades of creativity training and confirmed it works.</p><h2>Alternative Uses Task</h2><p>Name as many uses for an object as you can. Trains <strong>divergent thinking</strong>, which reshapes brain structure.</p><div class="callout">Quantity breeds quality. The more ideas you force out, the more original the later ones get.</div>`},{t:'The Too Easy Trap',tier:1,zone:'Psychology',read:'5 min',body:`<p>You want to train but pride stops you: I already know I can.</p><h2>What is happening</h2><p><strong>Psychological reactance</strong> + ego protection. Your brain avoids tasks where it might not be perfect.</p><div class="callout">The fix: the Frontier. Train your weakest zone, where reps actually rewire you.</div>`},{t:'Why We Chose Mastery Over Streaks',tier:1,zone:'Retention',read:'6 min',body:`<p>Streaks backfire. Self-determination theory shows external rewards <strong>crowd out</strong> internal motivation.</p><div class="callout">You come here to get sharper, not to feed a flame.</div>`},{t:'Mental Rotation: Same or Mirror?',tier:1,zone:'Parietal',read:'3 min',body:`<p>Shepard-Metzler (1971, 6000+ citations). Reaction time rises with rotation angle.</p><div class="callout">A 2025 Nature study found gains persist 90 days.</div>`},{t:'Semax: BDNF Amplification',tier:2,zone:'Hippocampus',read:'6 min',body:`<p>A synthetic peptide. One intranasal dose raised BDNF <strong>1.4x</strong> in rat hippocampus.</p><div class="callout">Human RCTs limited: Tier 2.</div>`}];
 function renderLearn(){const list=document.getElementById('learnList');list.innerHTML='';articles.forEach((a,i)=>{const el=document.createElement('div');el.className='learn-item';el.innerHTML=`<div class="learn-t">${a.t}</div><div class="learn-m"><span class="learn-tier lt-${a.tier}">Tier ${a.tier}</span><span class="learn-meta">${a.zone} · ${a.read}</span></div>`;el.addEventListener('click',()=>openArticle(i));list.appendChild(el);});}
 renderLearn();
 const reader=document.getElementById('reader');
 function openArticle(i){const a=articles[i];document.getElementById('readerBody').innerHTML=`<div class="reader-tier lt-${a.tier}">Tier ${a.tier} evidence</div><h1 class="reader-h1">${a.t}</h1><div class="reader-meta">${a.zone} · ${a.read} read</div>${a.body}`;reader.classList.add('open');document.getElementById('readerBody').scrollTop=0;}
 document.getElementById('readerBack').addEventListener('click',()=>reader.classList.remove('open'));
+renderStats();renderCarousel();
 </script>
 </body>
 </html>
