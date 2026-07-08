@@ -3,35 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0d0a14">
+<meta name="theme-color" content="#0a0810">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>BrainMax</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 :root {
-  --bg: oklch(6% 0.015 270);
-  --surface: oklch(10% 0.02 270);
-  --surface-2: oklch(13% 0.022 270);
-  --surface-3: oklch(16% 0.018 270);
-  --border: oklch(18% 0.018 270);
-  --border-subtle: oklch(14% 0.014 270);
-  --text: oklch(94% 0.007 270);
-  --text-2: oklch(70% 0.01 270);
-  --text-3: oklch(50% 0.008 270);
-  --accent: oklch(72% 0.19 285);
-  --accent-dim: oklch(40% 0.1 285);
-  --green: oklch(72% 0.16 155);
-  --green-dim: oklch(30% 0.06 155);
-  --warm: oklch(76% 0.15 55);
-  --warm-dim: oklch(30% 0.06 55);
-  --pink: oklch(70% 0.16 330);
-  --pink-dim: oklch(30% 0.06 330);
-  --blue: oklch(70% 0.14 240);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-top: env(safe-area-inset-top, 0px);
+  --bg: oklch(5% 0.012 285);
+  --surface: oklch(9% 0.016 285);
+  --surface-2: oklch(12% 0.018 285);
+  --border: oklch(16% 0.015 285);
+  --text: oklch(96% 0.006 285);
+  --text-2: oklch(65% 0.01 285);
+  --text-3: oklch(44% 0.008 285);
+  --accent: oklch(74% 0.17 285);
+  --accent-soft: oklch(30% 0.09 285);
+  --green: oklch(74% 0.15 155);
+  --warm: oklch(78% 0.14 60);
+  --pink: oklch(72% 0.15 330);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
 }
 
 html, body {
@@ -40,579 +34,636 @@ html, body {
   font-family: 'Inter', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-size: 15px;
+  font-size: 16px;
   overscroll-behavior: none;
-  user-select: none;
+  -webkit-user-select: none; user-select: none;
 }
 
 .phone {
-  height: 100vh;
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  position: relative;
   max-width: 480px;
   margin: 0 auto;
+  position: relative;
   overflow: hidden;
 }
 
 .header {
-  padding: calc(var(--safe-top) + 14px) 20px 12px;
+  padding: calc(var(--safe-t) + 20px) 24px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  background: var(--bg);
-  z-index: 20;
 }
+.h-context { font-size: 0.72rem; font-weight: 600; color: var(--text-3); letter-spacing: 0.04em; text-transform: uppercase; }
+.h-streak { font-size: 0.8rem; font-weight: 600; color: var(--warm); }
 
-.header-left { display: flex; align-items: center; gap: 10px; }
-.logo-mark {
-  width: 34px; height: 34px;
-  background: linear-gradient(135deg, var(--accent), var(--pink));
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: 1rem; color: oklch(98% 0.005 270);
-  letter-spacing: -0.05em;
-}
-.header-title { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.03em; }
-.header-sub { font-size: 0.6rem; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
-.header-right { display: flex; align-items: center; gap: 8px; }
-.streak-pill {
-  display: flex; align-items: center; gap: 4px;
-  background: var(--warm-dim); color: var(--warm);
-  padding: 6px 11px; border-radius: 20px;
-  font-size: 0.75rem; font-weight: 700;
-}
-
-.swipe-hint {
-  display: flex; align-items: center; justify-content: center;
-  gap: 6px; padding: 4px;
-  font-size: 0.6rem; color: var(--text-3);
-  flex-shrink: 0;
-}
-.swipe-hint svg { width: 12px; height: 12px; stroke: var(--text-3); fill: none; stroke-width: 2; }
-
-.views {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-}
-
-.views-track {
-  display: flex;
-  width: 500%;
-  height: 100%;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-.view {
-  width: 20%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 4px 16px 16px;
-  -webkit-overflow-scrolling: touch;
-}
-
+.views { flex: 1; display: flex; overflow: hidden; }
+.track { display: flex; width: 500%; height: 100%; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); will-change: transform; }
+.view { width: 20%; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 0 24px; -webkit-overflow-scrolling: touch; }
 .view::-webkit-scrollbar { display: none; }
 
-.view-title {
-  font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em;
-  margin: 8px 0 4px;
+.home-inner { min-height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 16px 0 40px; }
+
+.brain-hero { display: flex; flex-direction: column; align-items: center; position: relative; margin-bottom: 8px; }
+.brain-hero::before {
+  content: ''; position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, oklch(45% 0.16 285 / 0.25), transparent 65%);
+  filter: blur(30px); pointer-events: none;
 }
-.view-desc { font-size: 0.78rem; color: var(--text-3); margin-bottom: 16px; }
+.brain-box { width: 240px; height: 210px; position: relative; z-index: 1; }
+.brain-box svg { width: 100%; height: 100%; }
 
-.hero-brain {
-  background: var(--surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 18px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 12px;
-  position: relative;
-  overflow: hidden;
-}
+.cq-block { text-align: center; margin-top: 4px; z-index: 1; }
+.cq-number { font-family: 'JetBrains Mono', monospace; font-size: 4rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.cq-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-3); margin-top: 6px; }
+.cq-delta { font-size: 0.82rem; font-weight: 500; color: var(--green); margin-top: 10px; }
 
-.hero-brain::before {
-  content: '';
-  position: absolute;
-  top: -40%; left: 50%;
-  transform: translateX(-50%);
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, oklch(40% 0.15 285 / 0.3), transparent 70%);
-  filter: blur(20px);
-  pointer-events: none;
-}
-
-.brain-svg-box { width: 200px; height: 180px; position: relative; z-index: 1; }
-.brain-svg-box svg { width: 100%; height: 100%; }
-
-.brain-cq-label {
-  position: absolute;
-  bottom: 6px; left: 50%; transform: translateX(-50%);
-  text-align: center;
-  background: oklch(8% 0.02 270 / 0.85);
-  padding: 4px 14px; border-radius: 10px;
-  border: 1px solid var(--border);
-  backdrop-filter: blur(8px);
-}
-.brain-cq-label .n { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; }
-.brain-cq-label .l { font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); }
-
-.zones-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
-  width: 100%; margin-top: 12px;
-}
-.zone-cell {
-  text-align: center; padding: 8px 4px;
-  background: var(--surface-2); border-radius: 10px;
-}
-.zone-cell .zn { font-size: 0.58rem; color: var(--text-3); font-weight: 500; margin-bottom: 2px; }
-.zone-cell .zv { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; }
-.zv-a { color: var(--accent); } .zv-g { color: var(--green); }
-.zv-w { color: var(--warm); } .zv-p { color: var(--pink); }
-
-.stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
-.stat-box { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 14px 16px; }
-.stat-box .sl { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 5px; }
-.stat-box .sv { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
-.sv-a { color: var(--accent); } .sv-g { color: var(--green); } .sv-w { color: var(--warm); } .sv-p { color: var(--pink); }
-.stat-box .sd { font-size: 0.62rem; color: var(--green); margin-top: 5px; font-weight: 500; }
-
-.btn-primary {
-  width: 100%;
-  background: var(--accent); color: oklch(8% 0.01 270);
-  border: none; padding: 16px; border-radius: 14px;
-  font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em;
-  cursor: pointer; margin-bottom: 12px;
+.home-cta {
+  width: 100%; background: var(--accent); color: oklch(6% 0.01 285);
+  border: none; padding: 18px; border-radius: 16px;
+  font-size: 1rem; font-weight: 700; letter-spacing: -0.01em;
+  cursor: pointer; margin-top: 36px;
   transition: transform 0.15s;
 }
-.btn-primary:active { transform: scale(0.97); }
+.home-cta:active { transform: scale(0.97); }
 
-.ex-list { display: flex; flex-direction: column; gap: 10px; }
-.ex-card {
-  background: var(--surface); border: 1px solid var(--border-subtle);
-  border-radius: 14px; padding: 15px 16px;
-  display: flex; align-items: center; gap: 13px;
-  cursor: pointer; transition: all 0.15s;
-}
-.ex-card:active { background: var(--surface-2); transform: scale(0.99); }
-.ex-ic {
-  width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; flex-shrink: 0;
-}
-.ex-ic--a { background: oklch(20% 0.06 285); }
-.ex-ic--g { background: oklch(20% 0.05 155); }
-.ex-ic--w { background: oklch(20% 0.05 55); }
-.ex-ic--p { background: oklch(20% 0.05 330); }
-.ex-ic--b { background: oklch(20% 0.05 240); }
-.ex-body { flex: 1; min-width: 0; }
-.ex-nm { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.01em; }
-.ex-zn { font-size: 0.68rem; color: var(--text-3); margin-top: 2px; }
-.ex-pbar { height: 4px; background: var(--surface-3); border-radius: 3px; margin-top: 8px; overflow: hidden; }
-.ex-pfill { height: 100%; border-radius: 3px; }
-.pf-a { background: var(--accent); } .pf-g { background: var(--green); }
-.pf-w { background: var(--warm); } .pf-p { background: var(--pink); } .pf-b { background: var(--blue); }
-.ex-lv { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; color: var(--text-3); background: var(--surface-3); padding: 3px 8px; border-radius: 6px; flex-shrink: 0; }
+.home-stats { display: flex; justify-content: center; gap: 28px; margin-top: 28px; }
+.hs { text-align: center; }
+.hs-v { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 600; }
+.hs-l { font-size: 0.62rem; color: var(--text-3); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
 
-.synergy-banner {
-  background: linear-gradient(135deg, oklch(20% 0.08 285), oklch(16% 0.06 330));
-  border-radius: 16px; padding: 18px; margin-bottom: 16px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.synergy-banner .sb-l { font-size: 0.7rem; color: var(--text-2); font-weight: 500; }
-.synergy-banner .sb-v { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 800; color: var(--text); letter-spacing: -0.03em; }
-.synergy-banner .sb-d { font-size: 0.65rem; color: var(--green); font-weight: 600; }
+.screen-head { padding: 24px 0 20px; }
+.screen-title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
+.screen-sub { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
 
-.stack-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-.stack-row {
-  background: var(--surface); border: 1px solid var(--border-subtle);
-  border-radius: 12px; padding: 13px 15px;
-  display: flex; align-items: center; gap: 12px;
+.recommended {
+  background: linear-gradient(135deg, var(--accent-soft), oklch(20% 0.06 330));
+  border-radius: 18px; padding: 20px; margin-bottom: 20px;
+  cursor: pointer; transition: transform 0.15s;
 }
-.stack-badge {
-  width: 38px; height: 38px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem; font-weight: 800; flex-shrink: 0;
-}
-.sb--cr { background: oklch(18% 0.04 240); color: var(--blue); }
-.sb--sx { background: oklch(18% 0.04 155); color: var(--green); }
-.sb--om { background: oklch(18% 0.04 55); color: var(--warm); }
-.sb--lm { background: oklch(18% 0.04 330); color: var(--pink); }
-.sb--lt { background: oklch(18% 0.04 285); color: var(--accent); }
-.stack-info { flex: 1; min-width: 0; }
-.stack-nm { font-size: 0.85rem; font-weight: 700; }
-.stack-ds { font-size: 0.65rem; color: var(--text-3); margin-top: 1px; }
-.stack-bst { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--green); background: var(--green-dim); padding: 4px 8px; border-radius: 8px; flex-shrink: 0; }
+.recommended:active { transform: scale(0.99); }
+.rec-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; }
+.rec-name { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; }
+.rec-zone { font-size: 0.8rem; color: var(--text-2); margin-top: 4px; }
+.rec-go { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
 
-.btn-add {
-  width: 100%; background: var(--surface-2); border: 1px dashed var(--border);
-  color: var(--text-2); padding: 14px; border-radius: 12px;
-  font-size: 0.82rem; font-weight: 600; cursor: pointer;
-}
-.btn-add:active { background: var(--surface-3); }
+.section-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin: 4px 0 12px; }
 
-.proto-list { display: flex; flex-direction: column; gap: 8px; }
-.proto-row {
-  background: var(--surface); border: 1px solid var(--border-subtle);
-  border-radius: 12px; padding: 14px 15px;
-  display: flex; align-items: center; gap: 12px;
-  cursor: pointer; transition: all 0.15s;
+.ex-list { display: flex; flex-direction: column; gap: 2px; padding-bottom: 20px; }
+.ex-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 4px; cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.15s;
 }
-.proto-row:active { transform: scale(0.99); }
-.proto-box {
-  width: 24px; height: 24px; border-radius: 8px;
-  border: 2px solid var(--border); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.proto-box.checked { background: var(--green-dim); border-color: var(--green); }
-.proto-box.checked::after { content: '✓'; color: var(--green); font-size: 0.75rem; font-weight: 800; }
-.proto-body { flex: 1; min-width: 0; }
-.proto-nm { font-size: 0.85rem; font-weight: 600; }
-.proto-nm.done { color: var(--text-3); text-decoration: line-through; }
-.proto-ds { font-size: 0.65rem; color: var(--text-3); margin-top: 2px; }
-.proto-tm { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-3); flex-shrink: 0; }
+.ex-item:active { opacity: 0.6; }
+.ex-item:last-child { border-bottom: none; }
+.ex-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.d-a { background: var(--accent); } .d-g { background: var(--green); }
+.d-w { background: var(--warm); } .d-p { background: var(--pink); }
+.ex-txt { flex: 1; min-width: 0; }
+.ex-n { font-size: 0.95rem; font-weight: 600; }
+.ex-z { font-size: 0.72rem; color: var(--text-3); margin-top: 1px; }
+.ex-lvl { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-2); font-weight: 500; }
 
-.proto-progress {
-  background: var(--surface); border: 1px solid var(--border-subtle);
-  border-radius: 14px; padding: 16px; margin-bottom: 14px;
-}
-.pp-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
-.pp-label { font-size: 0.75rem; color: var(--text-2); font-weight: 500; }
-.pp-count { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--green); }
-.pp-bar { height: 8px; background: var(--surface-3); border-radius: 5px; overflow: hidden; }
-.pp-fill { height: 100%; background: var(--green); border-radius: 5px; width: 33%; transition: width 0.4s; }
+.synergy { text-align: center; padding: 28px 0 24px; }
+.synergy-v { font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: 700; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
+.synergy-l { font-size: 0.72rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; }
 
-.kb-list { display: flex; flex-direction: column; gap: 10px; }
-.kb-card {
-  background: var(--surface); border: 1px solid var(--border-subtle);
-  border-radius: 14px; padding: 15px 16px; cursor: pointer;
-  transition: all 0.15s;
+.stack-list { display: flex; flex-direction: column; gap: 8px; }
+.stack-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
 }
-.kb-card:active { background: var(--surface-2); }
-.kb-title { font-size: 0.88rem; font-weight: 700; line-height: 1.35; margin-bottom: 8px; }
-.kb-meta { display: flex; gap: 8px; align-items: center; }
-.kb-tier { font-size: 0.62rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-.kt-1 { color: var(--green); background: var(--green-dim); }
-.kt-2 { color: var(--warm); background: var(--warm-dim); }
-.kb-zone { font-size: 0.65rem; color: var(--text-3); }
-.kb-read { font-size: 0.65rem; color: var(--text-3); margin-left: auto; }
+.stack-nm { font-size: 0.92rem; font-weight: 600; }
+.stack-ds { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+.stack-b { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600; color: var(--green); }
+.stack-del { color: var(--text-3); font-size: 1.2rem; padding: 4px 8px; cursor: pointer; }
+.stack-del:active { color: var(--pink); }
+
+.btn-ghost {
+  width: 100%; background: transparent; border: 1px dashed var(--border);
+  color: var(--text-2); padding: 15px; border-radius: 14px;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 12px 0 20px;
+}
+.btn-ghost:active { background: var(--surface); }
+
+.lock-state {
+  min-height: 60vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; padding: 0 20px;
+}
+.lock-icon {
+  width: 64px; height: 64px; border-radius: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+}
+.lock-icon svg { width: 28px; height: 28px; stroke: var(--text-3); fill: none; stroke-width: 2; }
+.lock-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+.lock-desc { font-size: 0.88rem; color: var(--text-3); line-height: 1.5; max-width: 30ch; margin-bottom: 24px; }
+.lock-progress { width: 100%; max-width: 260px; }
+.lock-bar { height: 6px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.lock-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.5s cubic-bezier(0.22,1,0.36,1); }
+.lock-count { font-size: 0.75rem; color: var(--text-3); margin-top: 10px; font-family: 'JetBrains Mono', monospace; }
+.lock-hint { font-size: 0.8rem; color: var(--accent); margin-top: 18px; font-weight: 500; cursor: pointer; }
+
+.proto-wrap { display: none; padding-bottom: 20px; }
+.proto-wrap.unlocked { display: block; }
+.proto-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 15px 4px; border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.proto-item:last-child { border-bottom: none; }
+.proto-check {
+  width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--border);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.proto-check.on { background: var(--green); border-color: var(--green); }
+.proto-check.on::after { content: '✓'; color: oklch(10% 0.02 155); font-size: 0.8rem; font-weight: 800; }
+.proto-txt { flex: 1; min-width: 0; }
+.proto-n { font-size: 0.92rem; font-weight: 600; }
+.proto-n.done { color: var(--text-3); text-decoration: line-through; }
+.proto-d { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+
+.learn-list { display: flex; flex-direction: column; padding-bottom: 20px; }
+.learn-item {
+  padding: 18px 0; border-bottom: 1px solid var(--border); cursor: pointer;
+  transition: opacity 0.15s;
+}
+.learn-item:active { opacity: 0.6; }
+.learn-t { font-size: 1rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
+.learn-m { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+.learn-tier { font-size: 0.65rem; font-weight: 700; }
+.lt-1 { color: var(--green); } .lt-2 { color: var(--warm); }
+.learn-meta { font-size: 0.72rem; color: var(--text-3); }
+
+.reader {
+  position: absolute; inset: 0; background: var(--bg);
+  z-index: 50; transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+  display: flex; flex-direction: column;
+}
+.reader.open { transform: translateX(0); }
+.reader-top {
+  padding: calc(var(--safe-t) + 16px) 24px 12px;
+  display: flex; align-items: center; gap: 14px; flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+.reader-back { display: flex; align-items: center; gap: 6px; color: var(--accent); font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+.reader-back svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+.reader-body { flex: 1; overflow-y: auto; padding: 24px 24px calc(var(--safe-b) + 40px); }
+.reader-body::-webkit-scrollbar { display: none; }
+.reader-tier { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.reader-h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
+.reader-meta { font-size: 0.78rem; color: var(--text-3); margin-bottom: 24px; }
+.reader-body p { font-size: 1rem; line-height: 1.7; color: var(--text-2); margin-bottom: 18px; }
+.reader-body h2 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 12px; letter-spacing: -0.02em; }
+.reader-body strong { color: var(--text); font-weight: 600; }
+.reader-body .callout {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 18px; margin: 20px 0;
+  font-size: 0.92rem; line-height: 1.6; color: var(--text-2);
+}
 
 .tabbar {
-  flex-shrink: 0;
-  display: flex;
-  background: oklch(8% 0.018 270 / 0.95);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border-subtle);
-  padding: 8px 8px calc(var(--safe-bottom) + 8px);
+  flex-shrink: 0; display: flex;
+  background: oklch(7% 0.014 285 / 0.9); backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border);
+  padding: 10px 12px calc(var(--safe-b) + 10px);
   position: relative;
-  z-index: 20;
 }
-
 .tab {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 6px 0;
-  cursor: pointer;
-  color: var(--text-3);
-  transition: color 0.2s;
-  position: relative;
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 4px 0; cursor: pointer; color: var(--text-3); transition: color 0.2s; position: relative;
 }
 .tab.active { color: var(--accent); }
-.tab svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s; }
-.tab.active svg { transform: translateY(-1px); }
-.tab-label { font-size: 0.6rem; font-weight: 600; letter-spacing: -0.01em; }
-.tab-indicator {
-  position: absolute; top: 0; height: 2px; width: 24px;
-  background: var(--accent); border-radius: 2px;
-  transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+.tab svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tab-l { font-size: 0.6rem; font-weight: 600; }
+.tab.locked { opacity: 0.4; }
+.tab-lock-dot { position: absolute; top: 2px; right: 50%; margin-right: -14px; width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); }
+
+.modal-back {
+  position: absolute; inset: 0; background: oklch(3% 0.01 285 / 0.7);
+  backdrop-filter: blur(4px); z-index: 60; opacity: 0; pointer-events: none;
+  transition: opacity 0.25s; display: flex; align-items: flex-end;
 }
+.modal-back.open { opacity: 1; pointer-events: auto; }
+.modal {
+  width: 100%; background: var(--surface); border-radius: 24px 24px 0 0;
+  padding: 24px 24px calc(var(--safe-b) + 24px);
+  transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.modal-back.open .modal { transform: translateY(0); }
+.modal-h { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; }
+.compound-opt {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 4px; border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.compound-opt:active { opacity: 0.6; }
+.co-n { font-size: 0.92rem; font-weight: 600; }
+.co-d { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+.co-add { color: var(--accent); font-size: 1.4rem; font-weight: 300; }
+.modal-close { text-align: center; color: var(--text-3); font-size: 0.9rem; margin-top: 16px; cursor: pointer; }
 </style>
 </head>
 <body>
 <div class="phone">
   <header class="header">
-    <div class="header-left">
-      <div class="logo-mark">B</div>
-      <div>
-        <div class="header-title" id="hTitle">BrainMax</div>
-        <div class="header-sub" id="hSub">Day 23 · Level 12</div>
-      </div>
-    </div>
-    <div class="header-right">
-      <div class="streak-pill">🔥 14</div>
-    </div>
+    <div class="h-context" id="ctx">Day 23 · Level 12</div>
+    <div class="h-streak">🔥 14</div>
   </header>
 
-  <div class="swipe-hint">
-    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-    swipe or tap to navigate
-    <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-  </div>
-
   <div class="views">
-    <div class="views-track" id="track">
+    <div class="track" id="track">
 
       <section class="view">
-        <div class="hero-brain">
-          <div class="brain-svg-box">
-            <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="gf"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <filter id="gp"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <filter id="gt"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <filter id="go"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <radialGradient id="rgf" cx="50%" cy="40%"><stop offset="0%" stop-color="oklch(55% 0.18 285)" stop-opacity="0.6"/><stop offset="100%" stop-color="oklch(30% 0.1 285)" stop-opacity="0.2"/></radialGradient>
-                <radialGradient id="rgp" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(55% 0.15 155)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.08 155)" stop-opacity="0.15"/></radialGradient>
-                <radialGradient id="rgt" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(55% 0.14 55)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.07 55)" stop-opacity="0.15"/></radialGradient>
-                <radialGradient id="rgo" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(55% 0.15 330)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.08 330)" stop-opacity="0.15"/></radialGradient>
-              </defs>
-              <path filter="url(#gf)" fill="url(#rgf)" stroke="oklch(65% 0.18 285)" stroke-width="1.2" d="M45 135 C40 120 42 100 50 85 C55 72 62 60 75 50 C88 40 100 35 115 33 C125 31 135 32 145 35 C148 55 148 75 145 95 C142 105 138 115 132 125 C120 128 108 130 95 132 C75 135 58 136 45 135Z"/>
-              <path fill="none" stroke="oklch(50% 0.12 285)" stroke-width="0.6" opacity="0.6" d="M70 55 C80 60 90 58 100 62 M65 75 C78 78 92 74 105 80 M60 95 C75 98 90 94 108 100 M55 115 C72 117 90 113 110 118"/>
-              <path filter="url(#gp)" fill="url(#rgp)" stroke="oklch(65% 0.15 155)" stroke-width="1.2" d="M145 35 C158 38 170 44 180 52 C192 62 200 75 205 90 C208 100 208 112 205 122 C195 118 185 115 175 113 C165 112 155 112 145 115 C142 105 140 95 142 85 C144 70 146 55 145 35Z"/>
-              <path fill="none" stroke="oklch(50% 0.1 155)" stroke-width="0.6" opacity="0.6" d="M155 50 C165 55 175 52 185 60 M152 72 C163 75 174 72 186 78 M150 92 C162 95 174 92 188 98"/>
-              <path filter="url(#gt)" fill="url(#rgt)" stroke="oklch(65% 0.14 55)" stroke-width="1.2" d="M45 135 C58 136 75 135 95 132 C108 130 120 128 132 125 C128 140 122 155 118 168 C112 182 105 192 95 198 C82 205 68 205 55 200 C45 195 38 188 35 178 C32 168 33 155 38 145 C40 140 42 137 45 135Z"/>
-              <path fill="none" stroke="oklch(50% 0.1 55)" stroke-width="0.6" opacity="0.6" d="M55 145 C70 148 88 145 105 150 M52 162 C68 165 85 162 100 168 M50 180 C65 182 80 180 92 185"/>
-              <path filter="url(#go)" fill="url(#rgo)" stroke="oklch(65% 0.15 330)" stroke-width="1.2" d="M205 122 C208 135 208 148 205 160 C200 175 192 188 180 198 C168 208 155 212 142 210 C130 208 120 202 112 195 C118 185 122 172 128 160 C132 148 135 138 140 128 C145 115 155 112 165 113 C175 115 185 118 195 120 C200 121 203 122 205 122Z"/>
-              <path fill="none" stroke="oklch(50% 0.1 330)" stroke-width="0.6" opacity="0.6" d="M175 130 C185 138 190 148 192 160 M160 135 C170 145 175 158 178 172 M145 145 C155 155 160 168 162 182"/>
-              <path fill="none" stroke="oklch(35% 0.02 270)" stroke-width="1.5" opacity="0.8" d="M145 35 C144 55 143 75 142 95 C141 105 140 115 142 125"/>
-              <path fill="none" stroke="oklch(35% 0.02 270)" stroke-width="1.3" opacity="0.7" d="M132 125 C135 132 138 138 142 145"/>
-              <path fill="oklch(12% 0.015 270)" stroke="oklch(25% 0.02 270)" stroke-width="1" d="M120 200 C125 208 130 215 132 222 C134 228 133 232 130 235 C127 238 122 238 118 235 C115 232 114 228 116 222 C118 215 122 208 120 200Z"/>
-              <path fill="oklch(14% 0.02 270)" stroke="oklch(28% 0.03 270)" stroke-width="0.8" d="M100 205 C108 210 118 215 120 200 C125 208 135 210 145 208 C148 215 148 225 142 232 C135 240 125 242 115 240 C105 238 98 232 95 225 C92 218 95 210 100 205Z"/>
-              <path fill="none" stroke="oklch(22% 0.02 270)" stroke-width="0.5" d="M102 215 C112 218 125 218 138 215 M105 225 C115 228 128 228 138 225"/>
-              <circle cx="90" cy="80" r="3" fill="oklch(72% 0.19 285)" opacity="0.6"><animate attributeName="r" values="2;5;2" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
-              <circle cx="175" cy="75" r="3" fill="oklch(72% 0.16 155)" opacity="0.5"><animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/></circle>
-              <circle cx="80" cy="165" r="2.5" fill="oklch(76% 0.15 55)" opacity="0.5"><animate attributeName="r" values="1.5;4;1.5" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
-              <circle cx="170" cy="165" r="2.5" fill="oklch(70% 0.16 330)" opacity="0.5"><animate attributeName="r" values="1.5;3.5;1.5" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.8s" repeatCount="indefinite"/></circle>
-            </svg>
-            <div class="brain-cq-label">
-              <div class="n">142</div>
-              <div class="l">CQ Score</div>
+        <div class="home-inner">
+          <div class="brain-hero">
+            <div class="brain-box">
+              <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <filter id="gf"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="gp"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="gt"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="go"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <radialGradient id="rgf" cx="50%" cy="40%"><stop offset="0%" stop-color="oklch(58% 0.18 285)" stop-opacity="0.65"/><stop offset="100%" stop-color="oklch(30% 0.1 285)" stop-opacity="0.2"/></radialGradient>
+                  <radialGradient id="rgp" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.15 155)" stop-opacity="0.55"/><stop offset="100%" stop-color="oklch(30% 0.08 155)" stop-opacity="0.15"/></radialGradient>
+                  <radialGradient id="rgt" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.14 60)" stop-opacity="0.55"/><stop offset="100%" stop-color="oklch(30% 0.07 60)" stop-opacity="0.15"/></radialGradient>
+                  <radialGradient id="rgo" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.15 330)" stop-opacity="0.55"/><stop offset="100%" stop-color="oklch(30% 0.08 330)" stop-opacity="0.15"/></radialGradient>
+                </defs>
+                <path filter="url(#gf)" fill="url(#rgf)" stroke="oklch(68% 0.18 285)" stroke-width="1.2" d="M45 135 C40 120 42 100 50 85 C55 72 62 60 75 50 C88 40 100 35 115 33 C125 31 135 32 145 35 C148 55 148 75 145 95 C142 105 138 115 132 125 C120 128 108 130 95 132 C75 135 58 136 45 135Z"/>
+                <path fill="none" stroke="oklch(52% 0.12 285)" stroke-width="0.6" opacity="0.6" d="M70 55 C80 60 90 58 100 62 M65 75 C78 78 92 74 105 80 M60 95 C75 98 90 94 108 100 M55 115 C72 117 90 113 110 118"/>
+                <path filter="url(#gp)" fill="url(#rgp)" stroke="oklch(68% 0.15 155)" stroke-width="1.2" d="M145 35 C158 38 170 44 180 52 C192 62 200 75 205 90 C208 100 208 112 205 122 C195 118 185 115 175 113 C165 112 155 112 145 115 C142 105 140 95 142 85 C144 70 146 55 145 35Z"/>
+                <path fill="none" stroke="oklch(52% 0.1 155)" stroke-width="0.6" opacity="0.6" d="M155 50 C165 55 175 52 185 60 M152 72 C163 75 174 72 186 78 M150 92 C162 95 174 92 188 98"/>
+                <path filter="url(#gt)" fill="url(#rgt)" stroke="oklch(68% 0.14 60)" stroke-width="1.2" d="M45 135 C58 136 75 135 95 132 C108 130 120 128 132 125 C128 140 122 155 118 168 C112 182 105 192 95 198 C82 205 68 205 55 200 C45 195 38 188 35 178 C32 168 33 155 38 145 C40 140 42 137 45 135Z"/>
+                <path fill="none" stroke="oklch(52% 0.1 60)" stroke-width="0.6" opacity="0.6" d="M55 145 C70 148 88 145 105 150 M52 162 C68 165 85 162 100 168 M50 180 C65 182 80 180 92 185"/>
+                <path filter="url(#go)" fill="url(#rgo)" stroke="oklch(68% 0.15 330)" stroke-width="1.2" d="M205 122 C208 135 208 148 205 160 C200 175 192 188 180 198 C168 208 155 212 142 210 C130 208 120 202 112 195 C118 185 122 172 128 160 C132 148 135 138 140 128 C145 115 155 112 165 113 C175 115 185 118 195 120 C200 121 203 122 205 122Z"/>
+                <path fill="none" stroke="oklch(52% 0.1 330)" stroke-width="0.6" opacity="0.6" d="M175 130 C185 138 190 148 192 160 M160 135 C170 145 175 158 178 172 M145 145 C155 155 160 168 162 182"/>
+                <path fill="none" stroke="oklch(35% 0.02 285)" stroke-width="1.5" opacity="0.8" d="M145 35 C144 55 143 75 142 95 C141 105 140 115 142 125"/>
+                <path fill="oklch(12% 0.015 285)" stroke="oklch(25% 0.02 285)" stroke-width="1" d="M120 200 C125 208 130 215 132 222 C134 228 133 232 130 235 C127 238 122 238 118 235 C115 232 114 228 116 222 C118 215 122 208 120 200Z"/>
+                <path fill="oklch(14% 0.02 285)" stroke="oklch(28% 0.03 285)" stroke-width="0.8" d="M100 205 C108 210 118 215 120 200 C125 208 135 210 145 208 C148 215 148 225 142 232 C135 240 125 242 115 240 C105 238 98 232 95 225 C92 218 95 210 100 205Z"/>
+                <circle cx="90" cy="80" r="3" fill="oklch(74% 0.17 285)" opacity="0.6"><animate attributeName="r" values="2;5;2" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
+                <circle cx="175" cy="75" r="3" fill="oklch(74% 0.15 155)" opacity="0.5"><animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/></circle>
+                <circle cx="80" cy="165" r="2.5" fill="oklch(78% 0.14 60)" opacity="0.5"><animate attributeName="r" values="1.5;4;1.5" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
+                <circle cx="170" cy="165" r="2.5" fill="oklch(72% 0.15 330)" opacity="0.5"><animate attributeName="r" values="1.5;3.5;1.5" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.8s" repeatCount="indefinite"/></circle>
+              </svg>
+            </div>
+            <div class="cq-block">
+              <div class="cq-number">142</div>
+              <div class="cq-label">CQ Score</div>
+              <div class="cq-delta">+7 this week</div>
             </div>
           </div>
-          <div class="zones-grid">
-            <div class="zone-cell"><div class="zn">Frontal</div><div class="zv zv-a">91</div></div>
-            <div class="zone-cell"><div class="zn">Parietal</div><div class="zv zv-g">87</div></div>
-            <div class="zone-cell"><div class="zn">Temporal</div><div class="zv zv-w">72</div></div>
-            <div class="zone-cell"><div class="zn">Occipital</div><div class="zv zv-p">68</div></div>
+
+          <button class="home-cta" id="startBtn">Start Today's Session</button>
+
+          <div class="home-stats">
+            <div class="hs"><div class="hs-v" style="color:var(--green)">19</div><div class="hs-l">Brain Age</div></div>
+            <div class="hs"><div class="hs-v" style="color:var(--warm)">+18%</div><div class="hs-l">Stack</div></div>
+            <div class="hs"><div class="hs-v" style="color:var(--accent)">12.4h</div><div class="hs-l">Weekly</div></div>
           </div>
-        </div>
-
-        <button class="btn-primary">▶ Start Today's Session</button>
-
-        <div class="stat-row">
-          <div class="stat-box"><div class="sl">Brain Age</div><div class="sv sv-g">19</div><div class="sd">-3 yrs from start</div></div>
-          <div class="stat-box"><div class="sl">Cog Reps</div><div class="sv sv-w">3,847</div><div class="sd">+340 today</div></div>
-          <div class="stat-box"><div class="sl">Stack Boost</div><div class="sv sv-p">+18%</div><div class="sd">5 active</div></div>
-          <div class="stat-box"><div class="sl">Weekly Vol</div><div class="sv sv-a">12.4h</div><div class="sd">+2.1h vs last</div></div>
         </div>
       </section>
 
       <section class="view">
-        <h2 class="view-title">Train</h2>
-        <p class="view-desc">9 exercises, each targeting a specific neural zone. Difficulty adapts to you.</p>
+        <div class="screen-head">
+          <div class="screen-title">Train</div>
+          <div class="screen-sub">Adaptive difficulty. One zone at a time.</div>
+        </div>
+
+        <div class="recommended" id="recBtn">
+          <div class="rec-tag">Recommended next</div>
+          <div class="rec-name">Dual N-Back</div>
+          <div class="rec-zone">Prefrontal cortex · your weakest streak today</div>
+          <div class="rec-go">Start now →</div>
+        </div>
+
+        <div class="section-label">All exercises</div>
         <div class="ex-list">
-          <div class="ex-card"><div class="ex-ic ex-ic--a">🧠</div><div class="ex-body"><div class="ex-nm">Dual N-Back</div><div class="ex-zn">Prefrontal · Working Memory</div><div class="ex-pbar"><div class="ex-pfill pf-a" style="width:72%"></div></div></div><div class="ex-lv">L4</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--g">🔮</div><div class="ex-body"><div class="ex-nm">Mental Rotation 3D</div><div class="ex-zn">Parietal · Spatial Reasoning</div><div class="ex-pbar"><div class="ex-pfill pf-g" style="width:87%"></div></div></div><div class="ex-lv">L6</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--w">⚡</div><div class="ex-body"><div class="ex-nm">Progressive Math</div><div class="ex-zn">Intraparietal · Calculation</div><div class="ex-pbar"><div class="ex-pfill pf-w" style="width:64%"></div></div></div><div class="ex-lv">L5</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--p">👁</div><div class="ex-body"><div class="ex-nm">Pattern Matrices</div><div class="ex-zn">Occipital · Fluid Intelligence</div><div class="ex-pbar"><div class="ex-pfill pf-p" style="width:45%"></div></div></div><div class="ex-lv">L3</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--b">🏛</div><div class="ex-body"><div class="ex-nm">Memory Palace</div><div class="ex-zn">Hippocampus · Long-term Memory</div><div class="ex-pbar"><div class="ex-pfill pf-b" style="width:58%"></div></div></div><div class="ex-lv">L4</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--a">🎯</div><div class="ex-body"><div class="ex-nm">Stroop Inhibition</div><div class="ex-zn">ACC · Attention Control</div><div class="ex-pbar"><div class="ex-pfill pf-a" style="width:91%"></div></div></div><div class="ex-lv">L7</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--a">📐</div><div class="ex-body"><div class="ex-nm">Tower Planning</div><div class="ex-zn">DLPFC · Strategic Planning</div><div class="ex-pbar"><div class="ex-pfill pf-a" style="width:40%"></div></div></div><div class="ex-lv">L3</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--g">⚔️</div><div class="ex-body"><div class="ex-nm">Dual-Task Challenge</div><div class="ex-zn">Cross-modal · Full Brain</div><div class="ex-pbar"><div class="ex-pfill pf-g" style="width:55%"></div></div></div><div class="ex-lv">L5</div></div>
-          <div class="ex-card"><div class="ex-ic ex-ic--w">📖</div><div class="ex-body"><div class="ex-nm">Speed Comprehension</div><div class="ex-zn">Temporal · Processing Speed</div><div class="ex-pbar"><div class="ex-pfill pf-w" style="width:62%"></div></div></div><div class="ex-lv">L4</div></div>
+          <div class="ex-item"><span class="ex-dot d-g"></span><div class="ex-txt"><div class="ex-n">Mental Rotation 3D</div><div class="ex-z">Parietal · Spatial reasoning</div></div><span class="ex-lvl">L6</span></div>
+          <div class="ex-item"><span class="ex-dot d-w"></span><div class="ex-txt"><div class="ex-n">Progressive Math</div><div class="ex-z">Intraparietal · Calculation</div></div><span class="ex-lvl">L5</span></div>
+          <div class="ex-item"><span class="ex-dot d-p"></span><div class="ex-txt"><div class="ex-n">Pattern Matrices</div><div class="ex-z">Occipital · Fluid intelligence</div></div><span class="ex-lvl">L3</span></div>
+          <div class="ex-item"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Memory Palace</div><div class="ex-z">Hippocampus · Long-term memory</div></div><span class="ex-lvl">L4</span></div>
+          <div class="ex-item"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Stroop Inhibition</div><div class="ex-z">ACC · Attention control</div></div><span class="ex-lvl">L7</span></div>
+          <div class="ex-item"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Tower Planning</div><div class="ex-z">DLPFC · Strategic planning</div></div><span class="ex-lvl">L3</span></div>
+          <div class="ex-item"><span class="ex-dot d-g"></span><div class="ex-txt"><div class="ex-n">Dual-Task Challenge</div><div class="ex-z">Cross-modal · Full brain</div></div><span class="ex-lvl">L5</span></div>
+          <div class="ex-item"><span class="ex-dot d-w"></span><div class="ex-txt"><div class="ex-n">Speed Comprehension</div><div class="ex-z">Temporal · Processing speed</div></div><span class="ex-lvl">L4</span></div>
         </div>
       </section>
 
       <section class="view">
-        <h2 class="view-title">Stack</h2>
-        <p class="view-desc">Log what you take. See how each compound amplifies your training windows.</p>
-        <div class="synergy-banner">
-          <div>
-            <div class="sb-l">Total Synergy</div>
-            <div class="sb-v">+18%</div>
+        <div class="screen-head">
+          <div class="screen-title">Stack</div>
+          <div class="screen-sub">What you take, and how it amplifies training.</div>
+        </div>
+        <div class="synergy">
+          <div class="synergy-v" id="synergyVal">+18%</div>
+          <div class="synergy-l">Total synergy · <span id="compCount">5</span> active</div>
+        </div>
+        <div class="stack-list" id="stackList"></div>
+        <button class="btn-ghost" id="addBtn">+ Add compound</button>
+      </section>
+
+      <section class="view">
+        <div class="screen-head">
+          <div class="screen-title">Protocol</div>
+          <div class="screen-sub">Today's optimized sequence.</div>
+        </div>
+
+        <div class="lock-state" id="lockState">
+          <div class="lock-icon">
+            <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
           </div>
-          <div style="text-align:right">
-            <div class="sb-d">5 compounds active</div>
-            <div class="sb-l" style="margin-top:2px">BDNF amplification mode</div>
+          <div class="lock-title">Complete a session to unlock</div>
+          <div class="lock-desc">Your daily protocol generates after you finish at least one training session. Earn it first.</div>
+          <div class="lock-progress">
+            <div class="lock-bar"><div class="lock-fill" id="lockFill" style="width:0%"></div></div>
+            <div class="lock-count" id="lockCount">0 / 1 session</div>
           </div>
+          <div class="lock-hint" id="lockHint">→ Go to Train</div>
         </div>
-        <div class="stack-list">
-          <div class="stack-row"><div class="stack-badge sb--cr">Cr</div><div class="stack-info"><div class="stack-nm">Creatine</div><div class="stack-ds">5g · Morning · ATP resynthesis</div></div><div class="stack-bst">+8%</div></div>
-          <div class="stack-row"><div class="stack-badge sb--sx">Sx</div><div class="stack-info"><div class="stack-nm">Semax</div><div class="stack-ds">600mcg · Intranasal · BDNF ↑1.4x</div></div><div class="stack-bst">+12%</div></div>
-          <div class="stack-row"><div class="stack-badge sb--om">Ω3</div><div class="stack-info"><div class="stack-nm">Omega-3 DHA</div><div class="stack-ds">2000mg · With meal · Membranes</div></div><div class="stack-bst">+6%</div></div>
-          <div class="stack-row"><div class="stack-badge sb--lm">🦁</div><div class="stack-info"><div class="stack-nm">Lion's Mane</div><div class="stack-ds">1000mg · Morning · NGF synthesis</div></div><div class="stack-bst">+5%</div></div>
-          <div class="stack-row"><div class="stack-badge sb--lt">Lt</div><div class="stack-info"><div class="stack-nm">L-Theanine</div><div class="stack-ds">200mg · Pre-session · Alpha waves</div></div><div class="stack-bst">+4%</div></div>
-        </div>
-        <button class="btn-add">+ Add compound to stack</button>
-      </section>
 
-      <section class="view">
-        <h2 class="view-title">Protocol</h2>
-        <p class="view-desc">Your optimized sequence for today. Generated from zones you've neglected.</p>
-        <div class="proto-progress">
-          <div class="pp-top"><div class="pp-label">Today's completion</div><div class="pp-count">2 / 6</div></div>
-          <div class="pp-bar"><div class="pp-fill"></div></div>
-        </div>
-        <div class="proto-list">
-          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box checked"></div><div class="proto-body"><div class="proto-nm done">Dual N-Back</div><div class="proto-ds">15 min · Prefrontal activation</div></div><div class="proto-tm">✓ 8:30</div></div>
-          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box checked"></div><div class="proto-body"><div class="proto-nm done">Mental Rotation</div><div class="proto-ds">10 min · Parietal training</div></div><div class="proto-tm">✓ 8:50</div></div>
-          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Progressive Math</div><div class="proto-ds">10 min · Chain calculations</div></div><div class="proto-tm">~5 min</div></div>
-          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Memory Palace</div><div class="proto-ds">8 min · Hippocampus encoding</div></div><div class="proto-tm">~8 min</div></div>
-          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Pattern Matrices</div><div class="proto-ds">10 min · gF training</div></div><div class="proto-tm">~10 min</div></div>
-          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Cardio (BDNF)</div><div class="proto-ds">30 min · Any aerobic · +35% BDNF</div></div><div class="proto-tm">evening</div></div>
+        <div class="proto-wrap" id="protoWrap">
+          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check on"></div><div class="proto-txt"><div class="proto-n done">Dual N-Back</div><div class="proto-d">15 min · Prefrontal activation</div></div></div>
+          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Mental Rotation</div><div class="proto-d">10 min · Parietal training</div></div></div>
+          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Progressive Math</div><div class="proto-d">10 min · Chain calculations</div></div></div>
+          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Memory Palace</div><div class="proto-d">8 min · Hippocampus encoding</div></div></div>
+          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Cardio (BDNF)</div><div class="proto-d">30 min · Any aerobic · +35% BDNF</div></div></div>
         </div>
       </section>
 
       <section class="view">
-        <h2 class="view-title">Learn</h2>
-        <p class="view-desc">The science behind every exercise and compound. Tiered by evidence quality.</p>
-        <div class="kb-list">
-          <div class="kb-card"><div class="kb-title">How Dual N-Back Actually Transfers to IQ</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Prefrontal</span><span class="kb-read">4 min</span></div></div>
-          <div class="kb-card"><div class="kb-title">Semax: The BDNF Amplification Mechanism</div><div class="kb-meta"><span class="kb-tier kt-2">Tier 2</span><span class="kb-zone">Hippocampus</span><span class="kb-read">6 min</span></div></div>
-          <div class="kb-card"><div class="kb-title">Why Mental Rotation Effects Last 90 Days</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Parietal</span><span class="kb-read">3 min</span></div></div>
-          <div class="kb-card"><div class="kb-title">Creatine for the Brain: ATP Under Stress</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Global</span><span class="kb-read">5 min</span></div></div>
-          <div class="kb-card"><div class="kb-title">Progressive Overload for Neural Growth</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Theory</span><span class="kb-read">4 min</span></div></div>
-          <div class="kb-card"><div class="kb-title">Lion's Mane: The NGF Synthesis Pathway</div><div class="kb-meta"><span class="kb-tier kt-2">Tier 2</span><span class="kb-zone">Neuro</span><span class="kb-read">5 min</span></div></div>
-          <div class="kb-card"><div class="kb-title">Why Brain Games Fail (and This Doesn't)</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Meta</span><span class="kb-read">7 min</span></div></div>
+        <div class="screen-head">
+          <div class="screen-title">Learn</div>
+          <div class="screen-sub">The science, tiered by evidence quality.</div>
         </div>
+        <div class="learn-list" id="learnList"></div>
       </section>
 
     </div>
   </div>
 
-  <nav class="tabbar" id="tabbar">
-    <div class="tab-indicator" id="indicator"></div>
-    <div class="tab active" data-view="0">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-      <span class="tab-label">Home</span>
+  <div class="reader" id="reader">
+    <div class="reader-top">
+      <div class="reader-back" id="readerBack">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back
+      </div>
     </div>
-    <div class="tab" data-view="1">
-      <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
-      <span class="tab-label">Train</span>
+    <div class="reader-body" id="readerBody"></div>
+  </div>
+
+  <div class="modal-back" id="modalBack">
+    <div class="modal">
+      <div class="modal-h">Add compound</div>
+      <div id="compoundOpts"></div>
+      <div class="modal-close" id="modalClose">Cancel</div>
     </div>
-    <div class="tab" data-view="2">
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-      <span class="tab-label">Stack</span>
-    </div>
-    <div class="tab" data-view="3">
-      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-      <span class="tab-label">Protocol</span>
-    </div>
-    <div class="tab" data-view="4">
-      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-      <span class="tab-label">Learn</span>
-    </div>
+  </div>
+
+  <nav class="tabbar">
+    <div class="tab active" data-v="0"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg><span class="tab-l">Home</span></div>
+    <div class="tab" data-v="1"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span class="tab-l">Train</span></div>
+    <div class="tab" data-v="2"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span class="tab-l">Stack</span></div>
+    <div class="tab locked" data-v="3" id="protoTab"><span class="tab-lock-dot" id="lockDot"></span><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span class="tab-l">Protocol</span></div>
+    <div class="tab" data-v="4"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="tab-l">Learn</span></div>
   </nav>
 </div>
 
 <script>
 const track = document.getElementById('track');
 const tabs = document.querySelectorAll('.tab');
-const indicator = document.getElementById('indicator');
-const hTitle = document.getElementById('hTitle');
-const hSub = document.getElementById('hSub');
+const ctx = document.getElementById('ctx');
 const viewsEl = document.querySelector('.views');
 const NUM = 5;
 let current = 0;
+let sessionDone = false;
 
-const titles = [
-  { t: 'BrainMax', s: 'Day 23 · Level 12' },
-  { t: 'Train', s: '9 exercises · adaptive' },
-  { t: 'Stack', s: '5 compounds · +18%' },
-  { t: 'Protocol', s: '2 of 6 complete' },
-  { t: 'Learn', s: '7 articles · evidence-based' },
-];
+const ctxText = ['Day 23 · Level 12','Train','Stack','Protocol','Learn'];
 
 function goTo(i) {
-  current = Math.max(0, Math.min(NUM - 1, i));
-  track.style.transform = `translateX(-${current * 20}%)`;
-  tabs.forEach((t, idx) => t.classList.toggle('active', idx === current));
-  positionIndicator();
-  hTitle.textContent = titles[current].t;
-  hSub.textContent = titles[current].s;
-  if (navigator.vibrate) navigator.vibrate(8);
+  if (i === 3 && !sessionDone) { flashLock(); return; }
+  current = Math.max(0, Math.min(NUM-1, i));
+  track.style.transform = `translateX(-${current*20}%)`;
+  tabs.forEach((t,idx)=>t.classList.toggle('active', idx===current));
+  ctx.textContent = ctxText[current];
+  if (navigator.vibrate) navigator.vibrate(6);
 }
 
-function positionIndicator() {
-  const tab = tabs[current];
-  const rect = tab.getBoundingClientRect();
-  const barRect = tab.parentElement.getBoundingClientRect();
-  const left = rect.left - barRect.left + rect.width / 2 - 12;
-  indicator.style.left = left + 'px';
-}
+tabs.forEach(t=>t.addEventListener('click',()=>goTo(parseInt(t.dataset.v))));
 
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => goTo(parseInt(tab.dataset.view)));
-});
-
-let startX = 0, startY = 0, dragging = false, locked = null;
-
-viewsEl.addEventListener('touchstart', e => {
-  startX = e.touches[0].clientX;
-  startY = e.touches[0].clientY;
-  dragging = true;
-  locked = null;
-  track.style.transition = 'none';
-}, { passive: true });
-
-viewsEl.addEventListener('touchmove', e => {
-  if (!dragging) return;
-  const dx = e.touches[0].clientX - startX;
-  const dy = e.touches[0].clientY - startY;
-  if (locked === null) {
-    locked = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+let sx=0,sy=0,drag=false,lock=null;
+viewsEl.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=true;lock=null;track.style.transition='none';},{passive:true});
+viewsEl.addEventListener('touchmove',e=>{
+  if(!drag)return;
+  const dx=e.touches[0].clientX-sx, dy=e.touches[0].clientY-sy;
+  if(lock===null)lock=Math.abs(dx)>Math.abs(dy)?'x':'y';
+  if(lock==='x'){
+    const base=-current*20, pct=(dx/viewsEl.offsetWidth)*20;
+    let next=base+pct;
+    if(current===2 && dx<0 && !sessionDone) next=base+pct*0.25;
+    if(current===0&&dx>0)next=base+pct*0.35;
+    if(current===NUM-1&&dx<0)next=base+pct*0.35;
+    track.style.transform=`translateX(${next}%)`;
   }
-  if (locked === 'x') {
-    const base = -current * 20;
-    const pct = (dx / viewsEl.offsetWidth) * 20;
-    let next = base + pct;
-    if (current === 0 && dx > 0) next = base + pct * 0.35;
-    if (current === NUM - 1 && dx < 0) next = base + pct * 0.35;
-    track.style.transform = `translateX(${next}%)`;
-  }
-}, { passive: true });
-
-viewsEl.addEventListener('touchend', e => {
-  if (!dragging) return;
-  dragging = false;
-  track.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)';
-  if (locked === 'x') {
-    const dx = e.changedTouches[0].clientX - startX;
-    const threshold = viewsEl.offsetWidth * 0.2;
-    if (dx < -threshold && current < NUM - 1) goTo(current + 1);
-    else if (dx > threshold && current > 0) goTo(current - 1);
+},{passive:true});
+viewsEl.addEventListener('touchend',e=>{
+  if(!drag)return; drag=false;
+  track.style.transition='transform 0.4s cubic-bezier(0.22,1,0.36,1)';
+  if(lock==='x'){
+    const dx=e.changedTouches[0].clientX-sx, th=viewsEl.offsetWidth*0.2;
+    if(dx<-th && current<NUM-1){
+      if(current===2 && !sessionDone){ goTo(4); }
+      else goTo(current+1);
+    }
+    else if(dx>th && current>0){
+      if(current===4 && !sessionDone){ goTo(2); }
+      else goTo(current-1);
+    }
     else goTo(current);
   }
-}, { passive: true });
+},{passive:true});
 
-function toggleProto(row) {
-  const box = row.querySelector('.proto-box');
-  const nm = row.querySelector('.proto-nm');
-  box.classList.toggle('checked');
-  nm.classList.toggle('done');
-  if (navigator.vibrate) navigator.vibrate(12);
-  const total = document.querySelectorAll('.proto-box').length;
-  const done = document.querySelectorAll('.proto-box.checked').length;
-  document.querySelector('.pp-count').textContent = `${done} / ${total}`;
-  document.querySelector('.pp-fill').style.width = (done / total * 100) + '%';
-  titles[3].s = `${done} of ${total} complete`;
-  if (current === 3) hSub.textContent = titles[3].s;
+function completeSession(){
+  sessionDone = true;
+  document.getElementById('lockState').style.display='none';
+  document.getElementById('protoWrap').classList.add('unlocked');
+  document.getElementById('protoTab').classList.remove('locked');
+  document.getElementById('lockDot').style.display='none';
+  if(navigator.vibrate)navigator.vibrate([10,40,20]);
+}
+document.getElementById('startBtn').addEventListener('click',()=>{
+  document.getElementById('startBtn').textContent='Session complete ✓';
+  document.getElementById('lockFill').style.width='100%';
+  document.getElementById('lockCount').textContent='1 / 1 session';
+  setTimeout(completeSession, 500);
+  setTimeout(()=>document.getElementById('startBtn').textContent='Start Another Session', 1800);
+});
+document.getElementById('recBtn').addEventListener('click',()=>{
+  document.getElementById('lockFill').style.width='100%';
+  document.getElementById('lockCount').textContent='1 / 1 session';
+  completeSession();
+  goTo(0);
+});
+document.getElementById('lockHint').addEventListener('click',()=>goTo(1));
+
+function flashLock(){
+  const el=document.getElementById('lockState');
+  el.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300});
+  if(navigator.vibrate)navigator.vibrate([20,30,20]);
 }
 
-window.addEventListener('resize', positionIndicator);
-window.addEventListener('load', positionIndicator);
-positionIndicator();
+function toggleP(row){
+  const c=row.querySelector('.proto-check'), n=row.querySelector('.proto-n');
+  c.classList.toggle('on'); n.classList.toggle('done');
+  if(navigator.vibrate)navigator.vibrate(10);
+}
+
+let stack=[
+  {id:'cr',nm:'Creatine',ds:'5g · Morning · ATP resynthesis',b:8},
+  {id:'sx',nm:'Semax',ds:'600mcg · Intranasal · BDNF ↑1.4x',b:12},
+  {id:'om',nm:'Omega-3 DHA',ds:'2000mg · With meal · Membranes',b:6},
+  {id:'lm',nm:"Lion's Mane",ds:'1000mg · Morning · NGF synthesis',b:5},
+  {id:'lt',nm:'L-Theanine',ds:'200mg · Pre-session · Alpha waves',b:4},
+];
+const available=[
+  {id:'bc',nm:'Bacopa Monnieri',ds:'300mg · Adaptogen · 8-12wk memory',b:5},
+  {id:'ag',nm:'Alpha-GPC',ds:'300mg · Choline precursor',b:4},
+  {id:'ps',nm:'Phosphatidylserine',ds:'100mg · Membrane component',b:3},
+  {id:'cu',nm:'Curcumin + EGCG',ds:'500mg · Anti-inflammatory · BDNF',b:4},
+  {id:'pr',nm:'Probiotic',ds:'Multi-strain · Gut-brain axis',b:3},
+  {id:'md',nm:'Modafinil',ds:'100mg · Wakefulness · Rx',b:6},
+];
+function renderStack(){
+  const list=document.getElementById('stackList'); list.innerHTML='';
+  let total=0;
+  stack.forEach(s=>{
+    total+=s.b;
+    const el=document.createElement('div');
+    el.className='stack-item';
+    el.innerHTML=`<div style="flex:1;min-width:0"><div class="stack-nm">${s.nm}</div><div class="stack-ds">${s.ds}</div></div><span class="stack-b">+${s.b}%</span><span class="stack-del" data-id="${s.id}">×</span>`;
+    list.appendChild(el);
+  });
+  document.getElementById('synergyVal').textContent='+'+total+'%';
+  document.getElementById('compCount').textContent=stack.length;
+  list.querySelectorAll('.stack-del').forEach(d=>d.addEventListener('click',ev=>{
+    ev.stopPropagation();
+    stack=stack.filter(x=>x.id!==d.dataset.id);
+    renderStack(); if(navigator.vibrate)navigator.vibrate(12);
+  }));
+}
+renderStack();
+
+const modalBack=document.getElementById('modalBack');
+function renderOpts(){
+  const box=document.getElementById('compoundOpts'); box.innerHTML='';
+  const inStack=new Set(stack.map(s=>s.id));
+  available.filter(a=>!inStack.has(a.id)).forEach(a=>{
+    const el=document.createElement('div');
+    el.className='compound-opt';
+    el.innerHTML=`<div><div class="co-n">${a.nm}</div><div class="co-d">${a.ds}</div></div><span class="co-add">+</span>`;
+    el.addEventListener('click',()=>{
+      stack.push(a); renderStack(); closeModal();
+      if(navigator.vibrate)navigator.vibrate(12);
+    });
+    box.appendChild(el);
+  });
+  if(!box.children.length) box.innerHTML='<div style="color:var(--text-3);font-size:0.85rem;padding:20px 0;text-align:center">All compounds added.</div>';
+}
+document.getElementById('addBtn').addEventListener('click',()=>{renderOpts();modalBack.classList.add('open');});
+function closeModal(){modalBack.classList.remove('open');}
+document.getElementById('modalClose').addEventListener('click',closeModal);
+modalBack.addEventListener('click',e=>{if(e.target===modalBack)closeModal();});
+
+const articles=[
+  {t:'How Dual N-Back Actually Transfers to IQ',tier:1,zone:'Prefrontal',read:'4 min',body:`
+    <p>Most brain games make you better at the game and nothing else. Dual N-Back is the rare exception with <strong>replicated far-transfer evidence</strong> to fluid intelligence.</p>
+    <h2>What the task does</h2>
+    <p>You track two streams at once: a moving square's position and a spoken letter. You respond when either matches what appeared N steps back. As you improve, N grows: 2-back, 3-back, 4-back.</p>
+    <div class="callout">A 2016 Journal of Neuroscience study found Dual N-Back training produced measurable changes in the striatum and frontoparietal networks, the exact circuits underlying working memory.</div>
+    <h2>Why it works when others don't</h2>
+    <p>It relentlessly loads working memory at the edge of your capacity. That constant strain, always adapting upward, is what drives neuroplasticity. Games with fixed difficulty plateau fast.</p>
+    <p><strong>Bottom line:</strong> train it 15 minutes a day, let difficulty climb, and the gains generalize beyond the app.</p>
+  `},
+  {t:'Semax: The BDNF Amplification Mechanism',tier:2,zone:'Hippocampus',read:'6 min',body:`
+    <p>Semax is a synthetic heptapeptide, an analog of ACTH(4-10), developed in Russia. It's one of the more interesting compounds for pairing with cognitive training.</p>
+    <h2>The BDNF connection</h2>
+    <p>A single intranasal dose produced a <strong>1.4x increase in BDNF protein</strong> and up to a 3x increase in BDNF mRNA in the rat hippocampus, alongside increased trkB activation.</p>
+    <div class="callout">BDNF (brain-derived neurotrophic factor) is the growth signal for neurons. More BDNF during training means better consolidation of what you learned.</div>
+    <h2>How to think about it</h2>
+    <p>This app doesn't tell you to take anything. But if you already use Semax, logging it lets you see the theoretical synergy window: dose before a session, train while BDNF is elevated.</p>
+    <p><strong>Note:</strong> human RCTs are limited. Most evidence is animal or Russian clinical. Treat it as Tier 2.</p>
+  `},
+  {t:'Why Mental Rotation Effects Last 90 Days',tier:1,zone:'Parietal',read:'3 min',body:`
+    <p>Spatial reasoning is trainable, and unusually, the gains stick around.</p>
+    <h2>The finding</h2>
+    <p>A 2025 Nature study tracked mental rotation training and found improvements in accuracy and speed <strong>persisting up to 90 days</strong> after the last session, with lasting changes in task-evoked EEG responses.</p>
+    <div class="callout">The superior parietal lobule activates in proportion to how far you rotate an object mentally. Train it, and that circuit strengthens.</div>
+    <h2>In the app</h2>
+    <p>You start with simple 3D shapes and climb toward Rubik's-cube complexity. Each level forces a harder rotation, keeping the parietal lobe working at its edge.</p>
+  `},
+  {t:'Creatine for the Brain: ATP Under Stress',tier:1,zone:'Global',read:'5 min',body:`
+    <p>Creatine isn't just for muscles. Your brain is an energy hog, and creatine buffers its ATP supply.</p>
+    <h2>When it matters most</h2>
+    <p>The cognitive benefits show up strongest under <strong>metabolic stress</strong>: sleep deprivation, hypoxia, intense mental effort. A single high dose (0.35g/kg) improved cognition during sleep deprivation in a 2024 trial.</p>
+    <div class="callout">Standard protocol: 5g daily. For brain effects, some research suggests higher doses may be better, since brain uptake is slower than muscle.</div>
+    <h2>Why pair it with training</h2>
+    <p>Working-memory tasks are ATP-expensive. Topped-up creatine stores mean your neurons don't run out of fuel mid-session.</p>
+  `},
+  {t:'Progressive Overload for Neural Growth',tier:1,zone:'Theory',read:'4 min',body:`
+    <p>The single most important principle in this app, borrowed straight from the gym.</p>
+    <h2>The rule</h2>
+    <p>Your brain only adapts when the task sits <strong>just past your current ability</strong>. Too easy: no growth. Too hard: frustration and dropout. The sweet spot is the zone of proximal development.</p>
+    <div class="callout">This is why fixed-difficulty brain games fail. Once you master the level, you're just performing, not growing.</div>
+    <h2>How BrainMax applies it</h2>
+    <p>Every exercise auto-calibrates. Nail a level, it bumps up. Struggle, it eases back. You're always training at your edge, which is where neuroplasticity actually happens.</p>
+  `},
+  {t:"Lion's Mane: The NGF Synthesis Pathway",tier:2,zone:'Neuro',read:'5 min',body:`
+    <p>A mushroom (Hericium erinaceus) with genuinely interesting neuroactive compounds.</p>
+    <h2>The mechanism</h2>
+    <p>It contains <strong>hericenones and erinacines</strong> that stimulate nerve growth factor (NGF) synthesis. NGF supports neuron survival and growth, complementing BDNF.</p>
+    <div class="callout">A 2025 systematic review confirmed neuroprotective potential. Cognitive benefits in healthy adults are promising but still mixed. Tier 2.</div>
+    <h2>Practical note</h2>
+    <p>Effects build slowly over weeks, not acutely. If you're taking it, log it and give it a month before judging.</p>
+  `},
+  {t:"Why Brain Games Fail (and This Doesn't)",tier:1,zone:'Meta',read:'7 min',body:`
+    <p>The uncomfortable truth: most of the brain-training industry is selling you placebo.</p>
+    <h2>The evidence problem</h2>
+    <p>Lumosity paid a <strong>$2 million FTC settlement</strong> in 2016 for deceptive claims. A landmark 2016 meta-analysis (Simons et al.) found little convincing evidence that commercial brain games transfer to real-world cognition.</p>
+    <div class="callout">"Near transfer" is real: you get better at the game. "Far transfer" (getting smarter overall) is where almost every app falls apart.</div>
+    <h2>What actually transfers</h2>
+    <p>A short list survives scrutiny: <strong>Dual N-Back, mental rotation, progressive math, and physical exercise</strong> (the strongest BDNF booster of all). Everything else is entertainment.</p>
+    <h2>Our bet</h2>
+    <p>BrainMax only includes exercises with real transfer evidence, applies progressive overload, and is honest about what each compound can and can't do. No hype, just the stuff that works.</p>
+  `},
+];
+function renderLearn(){
+  const list=document.getElementById('learnList'); list.innerHTML='';
+  articles.forEach((a,i)=>{
+    const el=document.createElement('div');
+    el.className='learn-item';
+    el.innerHTML=`<div class="learn-t">${a.t}</div><div class="learn-m"><span class="learn-tier lt-${a.tier}">Tier ${a.tier}</span><span class="learn-meta">${a.zone} · ${a.read}</span></div>`;
+    el.addEventListener('click',()=>openArticle(i));
+    list.appendChild(el);
+  });
+}
+renderLearn();
+
+const reader=document.getElementById('reader');
+function openArticle(i){
+  const a=articles[i];
+  document.getElementById('readerBody').innerHTML=`
+    <div class="reader-tier lt-${a.tier}">Tier ${a.tier} evidence</div>
+    <h1 class="reader-h1">${a.t}</h1>
+    <div class="reader-meta">${a.zone} · ${a.read} read</div>
+    ${a.body}`;
+  reader.classList.add('open');
+  document.getElementById('readerBody').scrollTop=0;
+}
+document.getElementById('readerBack').addEventListener('click',()=>reader.classList.remove('open'));
 </script>
 </body>
 </html>
