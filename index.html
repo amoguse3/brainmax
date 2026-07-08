@@ -3,427 +3,249 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0a0810">
+<meta name="theme-color" content="#080810">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>BrainMax</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
 :root {
-  --bg: oklch(5% 0.012 285);
-  --surface: oklch(9% 0.016 285);
-  --surface-2: oklch(12% 0.018 285);
-  --border: oklch(16% 0.015 285);
-  --text: oklch(96% 0.006 285);
-  --text-2: oklch(65% 0.01 285);
-  --text-3: oklch(44% 0.008 285);
-  --accent: oklch(74% 0.17 285);
-  --accent-soft: oklch(30% 0.09 285);
-  --green: oklch(74% 0.15 155);
-  --warm: oklch(78% 0.14 60);
-  --pink: oklch(72% 0.15 330);
-  --safe-b: env(safe-area-inset-bottom, 0px);
-  --safe-t: env(safe-area-inset-top, 0px);
+  --bg: oklch(4.5% 0.01 285); --surface: oklch(8.5% 0.014 285); --surface-2: oklch(12% 0.016 285);
+  --border: oklch(15% 0.013 285); --text: oklch(97% 0.005 285); --text-2: oklch(62% 0.01 285); --text-3: oklch(42% 0.008 285);
+  --accent: oklch(75% 0.17 285); --accent-soft: oklch(28% 0.09 285); --green: oklch(75% 0.16 155); --red: oklch(65% 0.2 25); --warm: oklch(80% 0.14 65);
+  --safe-b: env(safe-area-inset-bottom, 0px); --safe-t: env(safe-area-inset-top, 0px);
 }
-
-html, body {
-  height: 100%;
-  overflow: hidden;
-  font-family: 'Inter', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 16px;
-  overscroll-behavior: none;
-  -webkit-user-select: none; user-select: none;
-}
-
-.phone {
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  max-width: 480px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-}
-
-.header {
-  padding: calc(var(--safe-t) + 20px) 24px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-.h-context { font-size: 0.72rem; font-weight: 600; color: var(--text-3); letter-spacing: 0.04em; text-transform: uppercase; }
+html, body { height: 100%; overflow: hidden; font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 16px; overscroll-behavior: none; -webkit-user-select: none; user-select: none; }
+.phone { height: 100dvh; display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; }
+.header { padding: calc(var(--safe-t) + 22px) 26px 6px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.h-context { font-size: 0.7rem; font-weight: 600; color: var(--text-3); letter-spacing: 0.05em; text-transform: uppercase; }
 .h-streak { font-size: 0.8rem; font-weight: 600; color: var(--warm); }
-
 .views { flex: 1; display: flex; overflow: hidden; }
 .track { display: flex; width: 500%; height: 100%; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); will-change: transform; }
-.view { width: 20%; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 0 24px; -webkit-overflow-scrolling: touch; }
+.view { width: 20%; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 0 26px; -webkit-overflow-scrolling: touch; }
 .view::-webkit-scrollbar { display: none; }
-
-.home-inner { min-height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 16px 0 40px; }
-
-.brain-hero { display: flex; flex-direction: column; align-items: center; position: relative; margin-bottom: 8px; }
-.brain-hero::before {
-  content: ''; position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
-  width: 280px; height: 280px;
-  background: radial-gradient(circle, oklch(45% 0.16 285 / 0.25), transparent 65%);
-  filter: blur(30px); pointer-events: none;
-}
-.brain-box { width: 240px; height: 210px; position: relative; z-index: 1; }
+.home-inner { min-height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 16px 0 48px; }
+.brain-hero { display: flex; flex-direction: column; align-items: center; position: relative; }
+.brain-hero::before { content: ''; position: absolute; top: -8%; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, oklch(45% 0.16 285 / 0.22), transparent 65%); filter: blur(35px); pointer-events: none; }
+.brain-box { width: 230px; height: 200px; position: relative; z-index: 1; }
 .brain-box svg { width: 100%; height: 100%; }
-
-.cq-block { text-align: center; margin-top: 4px; z-index: 1; }
-.cq-number { font-family: 'JetBrains Mono', monospace; font-size: 4rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
-.cq-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-3); margin-top: 6px; }
-.cq-delta { font-size: 0.82rem; font-weight: 500; color: var(--green); margin-top: 10px; }
-
-.home-cta {
-  width: 100%; background: var(--accent); color: oklch(6% 0.01 285);
-  border: none; padding: 18px; border-radius: 16px;
-  font-size: 1rem; font-weight: 700; letter-spacing: -0.01em;
-  cursor: pointer; margin-top: 36px;
-  transition: transform 0.15s;
-}
+.cq-block { text-align: center; margin-top: 2px; z-index: 1; }
+.cq-number { font-family: 'JetBrains Mono', monospace; font-size: 4.5rem; font-weight: 700; letter-spacing: -0.05em; line-height: 1; }
+.cq-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-3); margin-top: 8px; }
+.cq-delta { font-size: 0.82rem; font-weight: 500; color: var(--green); margin-top: 12px; }
+.home-cta { width: 100%; background: var(--accent); color: oklch(6% 0.01 285); border: none; padding: 19px; border-radius: 16px; font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; margin-top: 44px; transition: transform 0.15s; }
 .home-cta:active { transform: scale(0.97); }
-
-.home-stats { display: flex; justify-content: center; gap: 28px; margin-top: 28px; }
+.home-stats { display: flex; justify-content: center; gap: 32px; margin-top: 32px; }
 .hs { text-align: center; }
-.hs-v { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 600; }
-.hs-l { font-size: 0.62rem; color: var(--text-3); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
-
-.screen-head { padding: 24px 0 20px; }
-.screen-title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
-.screen-sub { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
-
-.recommended {
-  background: linear-gradient(135deg, var(--accent-soft), oklch(20% 0.06 330));
-  border-radius: 18px; padding: 20px; margin-bottom: 20px;
-  cursor: pointer; transition: transform 0.15s;
-}
-.recommended:active { transform: scale(0.99); }
-.rec-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; }
-.rec-name { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; }
-.rec-zone { font-size: 0.8rem; color: var(--text-2); margin-top: 4px; }
-.rec-go { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
-
-.section-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin: 4px 0 12px; }
-
-.ex-list { display: flex; flex-direction: column; gap: 2px; padding-bottom: 20px; }
-.ex-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 4px; cursor: pointer;
-  border-bottom: 1px solid var(--border);
-  transition: opacity 0.15s;
-}
-.ex-item:active { opacity: 0.6; }
+.hs-v { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; }
+.hs-l { font-size: 0.6rem; color: var(--text-3); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+.screen-head { padding: 26px 0 22px; }
+.screen-title { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.03em; }
+.screen-sub { font-size: 0.85rem; color: var(--text-3); margin-top: 5px; }
+.recommended { background: linear-gradient(135deg, var(--accent-soft), oklch(18% 0.06 320)); border-radius: 20px; padding: 22px; margin-bottom: 24px; cursor: pointer; transition: transform 0.15s; }
+.recommended:active { transform: scale(0.98); }
+.rec-tag { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+.rec-name { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+.rec-zone { font-size: 0.8rem; color: var(--text-2); margin-top: 5px; }
+.rec-go { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+.section-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-3); margin: 4px 0 6px; }
+.ex-list { display: flex; flex-direction: column; padding-bottom: 24px; }
+.ex-item { display: flex; align-items: center; gap: 16px; padding: 16px 4px; cursor: pointer; border-bottom: 1px solid var(--border); transition: opacity 0.15s; }
+.ex-item:active { opacity: 0.55; }
 .ex-item:last-child { border-bottom: none; }
-.ex-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.d-a { background: var(--accent); } .d-g { background: var(--green); }
-.d-w { background: var(--warm); } .d-p { background: var(--pink); }
+.ex-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.d-a{background:var(--accent)} .d-g{background:var(--green)} .d-w{background:var(--warm)} .d-p{background:oklch(72% 0.15 330)}
 .ex-txt { flex: 1; min-width: 0; }
-.ex-n { font-size: 0.95rem; font-weight: 600; }
-.ex-z { font-size: 0.72rem; color: var(--text-3); margin-top: 1px; }
-.ex-lvl { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-2); font-weight: 500; }
-
-.synergy { text-align: center; padding: 28px 0 24px; }
-.synergy-v { font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: 700; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
-.synergy-l { font-size: 0.72rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; }
-
+.ex-n { font-size: 0.96rem; font-weight: 600; }
+.ex-z { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+.ex-play { color: var(--text-3); }
+.ex-play svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+.synergy { text-align: center; padding: 30px 0 26px; }
+.synergy-v { font-family: 'JetBrains Mono', monospace; font-size: 3.2rem; font-weight: 700; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
+.synergy-l { font-size: 0.7rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px; }
 .stack-list { display: flex; flex-direction: column; gap: 8px; }
-.stack-item {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; padding: 14px 16px;
-  display: flex; align-items: center; gap: 14px;
-}
+.stack-item { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 16px; display: flex; align-items: center; gap: 14px; }
 .stack-nm { font-size: 0.92rem; font-weight: 600; }
-.stack-ds { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+.stack-ds { font-size: 0.71rem; color: var(--text-3); margin-top: 2px; }
 .stack-b { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600; color: var(--green); }
-.stack-del { color: var(--text-3); font-size: 1.2rem; padding: 4px 8px; cursor: pointer; }
-.stack-del:active { color: var(--pink); }
-
-.btn-ghost {
-  width: 100%; background: transparent; border: 1px dashed var(--border);
-  color: var(--text-2); padding: 15px; border-radius: 14px;
-  font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 12px 0 20px;
-}
+.stack-del { color: var(--text-3); font-size: 1.3rem; padding: 4px 8px; cursor: pointer; }
+.stack-del:active { color: var(--red); }
+.btn-ghost { width: 100%; background: transparent; border: 1px dashed var(--border); color: var(--text-2); padding: 16px; border-radius: 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 14px 0 24px; }
 .btn-ghost:active { background: var(--surface); }
-
-.lock-state {
-  min-height: 60vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center; padding: 0 20px;
-}
-.lock-icon {
-  width: 64px; height: 64px; border-radius: 20px;
-  background: var(--surface); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
-}
+.lock-state { min-height: 62vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
+.lock-icon { width: 66px; height: 66px; border-radius: 22px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
 .lock-icon svg { width: 28px; height: 28px; stroke: var(--text-3); fill: none; stroke-width: 2; }
-.lock-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
-.lock-desc { font-size: 0.88rem; color: var(--text-3); line-height: 1.5; max-width: 30ch; margin-bottom: 24px; }
+.lock-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+.lock-desc { font-size: 0.88rem; color: var(--text-3); line-height: 1.5; max-width: 30ch; margin-bottom: 26px; }
 .lock-progress { width: 100%; max-width: 260px; }
 .lock-bar { height: 6px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
-.lock-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.5s cubic-bezier(0.22,1,0.36,1); }
-.lock-count { font-size: 0.75rem; color: var(--text-3); margin-top: 10px; font-family: 'JetBrains Mono', monospace; }
-.lock-hint { font-size: 0.8rem; color: var(--accent); margin-top: 18px; font-weight: 500; cursor: pointer; }
-
-.proto-wrap { display: none; padding-bottom: 20px; }
+.lock-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.6s cubic-bezier(0.22,1,0.36,1); }
+.lock-count { font-size: 0.74rem; color: var(--text-3); margin-top: 12px; font-family: 'JetBrains Mono', monospace; }
+.lock-hint { font-size: 0.82rem; color: var(--accent); margin-top: 20px; font-weight: 600; cursor: pointer; }
+.proto-wrap { display: none; padding-bottom: 24px; }
 .proto-wrap.unlocked { display: block; }
-.proto-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 15px 4px; border-bottom: 1px solid var(--border);
-  cursor: pointer;
-}
+.proto-item { display: flex; align-items: center; gap: 15px; padding: 16px 4px; border-bottom: 1px solid var(--border); cursor: pointer; }
 .proto-item:last-child { border-bottom: none; }
-.proto-check {
-  width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--border);
-  flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-}
+.proto-check { width: 25px; height: 25px; border-radius: 8px; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
 .proto-check.on { background: var(--green); border-color: var(--green); }
-.proto-check.on::after { content: '✓'; color: oklch(10% 0.02 155); font-size: 0.8rem; font-weight: 800; }
-.proto-txt { flex: 1; min-width: 0; }
+.proto-check.on::after { content: '✓'; color: oklch(10% 0.02 155); font-size: 0.82rem; font-weight: 800; }
 .proto-n { font-size: 0.92rem; font-weight: 600; }
 .proto-n.done { color: var(--text-3); text-decoration: line-through; }
-.proto-d { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
-
-.learn-list { display: flex; flex-direction: column; padding-bottom: 20px; }
-.learn-item {
-  padding: 18px 0; border-bottom: 1px solid var(--border); cursor: pointer;
-  transition: opacity 0.15s;
-}
-.learn-item:active { opacity: 0.6; }
+.proto-d { font-size: 0.71rem; color: var(--text-3); margin-top: 2px; }
+.learn-list { display: flex; flex-direction: column; padding-bottom: 24px; }
+.learn-item { padding: 19px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity 0.15s; }
+.learn-item:active { opacity: 0.55; }
 .learn-t { font-size: 1rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
-.learn-m { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
-.learn-tier { font-size: 0.65rem; font-weight: 700; }
-.lt-1 { color: var(--green); } .lt-2 { color: var(--warm); }
-.learn-meta { font-size: 0.72rem; color: var(--text-3); }
-
-.reader {
-  position: absolute; inset: 0; background: var(--bg);
-  z-index: 50; transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
-  display: flex; flex-direction: column;
-}
+.learn-m { display: flex; gap: 10px; align-items: center; margin-top: 9px; }
+.learn-tier { font-size: 0.64rem; font-weight: 700; }
+.lt-1{color:var(--green)} .lt-2{color:var(--warm)}
+.learn-meta { font-size: 0.71rem; color: var(--text-3); }
+.reader { position: absolute; inset: 0; background: var(--bg); z-index: 50; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); display: flex; flex-direction: column; }
 .reader.open { transform: translateX(0); }
-.reader-top {
-  padding: calc(var(--safe-t) + 16px) 24px 12px;
-  display: flex; align-items: center; gap: 14px; flex-shrink: 0;
-  border-bottom: 1px solid var(--border);
-}
+.reader-top { padding: calc(var(--safe-t) + 16px) 26px 12px; display: flex; align-items: center; flex-shrink: 0; border-bottom: 1px solid var(--border); }
 .reader-back { display: flex; align-items: center; gap: 6px; color: var(--accent); font-size: 0.9rem; font-weight: 600; cursor: pointer; }
 .reader-back svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; }
-.reader-body { flex: 1; overflow-y: auto; padding: 24px 24px calc(var(--safe-b) + 40px); }
+.reader-body { flex: 1; overflow-y: auto; padding: 26px 26px calc(var(--safe-b) + 40px); }
 .reader-body::-webkit-scrollbar { display: none; }
-.reader-tier { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-.reader-h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
-.reader-meta { font-size: 0.78rem; color: var(--text-3); margin-bottom: 24px; }
-.reader-body p { font-size: 1rem; line-height: 1.7; color: var(--text-2); margin-bottom: 18px; }
+.reader-tier { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+.reader-h1 { font-size: 1.65rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
+.reader-meta { font-size: 0.78rem; color: var(--text-3); margin-bottom: 26px; }
+.reader-body p { font-size: 1rem; line-height: 1.75; color: var(--text-2); margin-bottom: 18px; }
 .reader-body h2 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 12px; letter-spacing: -0.02em; }
 .reader-body strong { color: var(--text); font-weight: 600; }
-.reader-body .callout {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; padding: 16px 18px; margin: 20px 0;
-  font-size: 0.92rem; line-height: 1.6; color: var(--text-2);
-}
-
-.tabbar {
-  flex-shrink: 0; display: flex;
-  background: oklch(7% 0.014 285 / 0.9); backdrop-filter: blur(24px);
-  border-top: 1px solid var(--border);
-  padding: 10px 12px calc(var(--safe-b) + 10px);
-  position: relative;
-}
-.tab {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 4px 0; cursor: pointer; color: var(--text-3); transition: color 0.2s; position: relative;
-}
+.reader-body .callout { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin: 20px 0; font-size: 0.92rem; line-height: 1.6; color: var(--text-2); }
+.game { position: absolute; inset: 0; background: var(--bg); z-index: 70; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); display: flex; flex-direction: column; }
+.game.open { transform: translateY(0); }
+.game-top { padding: calc(var(--safe-t) + 18px) 26px 14px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.game-quit { color: var(--text-3); font-size: 1.6rem; cursor: pointer; line-height: 1; padding: 4px; }
+.game-title { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; }
+.game-level { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); font-weight: 600; }
+.game-progress { height: 3px; background: var(--surface-2); margin: 0 26px; border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.game-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0%; transition: width 0.3s; }
+.game-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 26px calc(var(--safe-b) + 30px); position: relative; }
+.game-hint { position: absolute; top: 16px; left: 0; right: 0; text-align: center; font-size: 0.78rem; color: var(--text-3); padding: 0 20px; }
+.nback-grid { width: 260px; height: 260px; display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(3,1fr); gap: 10px; margin-bottom: 40px; }
+.nback-cell { background: var(--surface); border-radius: 14px; transition: all 0.15s; }
+.nback-cell.lit { background: var(--accent); box-shadow: 0 0 30px oklch(60% 0.18 285 / 0.5); }
+.nback-controls { display: flex; gap: 12px; width: 100%; max-width: 320px; }
+.nback-btn { flex: 1; padding: 18px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.12s; }
+.nback-btn:active { transform: scale(0.95); background: var(--surface-2); }
+.nback-btn.hit { background: var(--green); border-color: var(--green); color: oklch(12% 0.02 155); }
+.nback-btn.miss { background: var(--red); border-color: var(--red); }
+.math-q { font-family: 'JetBrains Mono', monospace; font-size: 3.2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 44px; text-align: center; }
+.math-input { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 600; text-align: center; width: 180px; padding: 12px; background: var(--surface); border: 2px solid var(--border); border-radius: 14px; color: var(--text); margin-bottom: 30px; }
+.math-pad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; width: 100%; max-width: 300px; }
+.math-key { padding: 18px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: all 0.1s; }
+.math-key:active { transform: scale(0.94); background: var(--surface-2); }
+.math-key.ok { background: var(--accent); color: oklch(8% 0.01 285); border-color: var(--accent); }
+.math-feedback { position: absolute; top: 38%; font-size: 4rem; opacity: 0; pointer-events: none; }
+.math-feedback.show { animation: pop 0.6s ease-out; }
+@keyframes pop { 0%{opacity:0;transform:scale(0.5)} 30%{opacity:1;transform:scale(1.1)} 100%{opacity:0;transform:scale(1)} }
+.rot-target { margin-bottom: 20px; }
+.rot-target svg { width: 120px; height: 120px; }
+.rot-q { font-size: 0.88rem; color: var(--text-2); margin-bottom: 22px; text-align: center; }
+.rot-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 320px; }
+.rot-opt { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+.rot-opt:active { transform: scale(0.95); }
+.rot-opt.correct { border-color: var(--green); background: oklch(20% 0.06 155); }
+.rot-opt.wrong { border-color: var(--red); background: oklch(20% 0.06 25); }
+.rot-opt svg { width: 80px; height: 80px; }
+.results { text-align: center; display: none; flex-direction: column; align-items: center; }
+.results.show { display: flex; }
+.results-icon { font-size: 3.5rem; margin-bottom: 16px; }
+.results-title { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+.results-stats { display: flex; gap: 32px; margin: 28px 0 36px; }
+.rst { text-align: center; }
+.rst-v { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; }
+.rst-l { font-size: 0.66rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+.results-cta { width: 100%; max-width: 300px; background: var(--accent); color: oklch(8% 0.01 285); border: none; padding: 17px; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
+.results-cta:active { transform: scale(0.97); }
+.countdown { font-family: 'JetBrains Mono', monospace; font-size: 6rem; font-weight: 700; color: var(--accent); }
+.tabbar { flex-shrink: 0; display: flex; background: oklch(6.5% 0.012 285 / 0.92); backdrop-filter: blur(24px); border-top: 1px solid var(--border); padding: 11px 12px calc(var(--safe-b) + 11px); position: relative; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 0; cursor: pointer; color: var(--text-3); transition: color 0.2s; position: relative; }
 .tab.active { color: var(--accent); }
 .tab svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.tab-l { font-size: 0.6rem; font-weight: 600; }
-.tab.locked { opacity: 0.4; }
+.tab-l { font-size: 0.58rem; font-weight: 600; }
+.tab.locked { opacity: 0.38; }
 .tab-lock-dot { position: absolute; top: 2px; right: 50%; margin-right: -14px; width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); }
-
-.modal-back {
-  position: absolute; inset: 0; background: oklch(3% 0.01 285 / 0.7);
-  backdrop-filter: blur(4px); z-index: 60; opacity: 0; pointer-events: none;
-  transition: opacity 0.25s; display: flex; align-items: flex-end;
-}
+.modal-back { position: absolute; inset: 0; background: oklch(3% 0.01 285 / 0.7); backdrop-filter: blur(4px); z-index: 60; opacity: 0; pointer-events: none; transition: opacity 0.25s; display: flex; align-items: flex-end; }
 .modal-back.open { opacity: 1; pointer-events: auto; }
-.modal {
-  width: 100%; background: var(--surface); border-radius: 24px 24px 0 0;
-  padding: 24px 24px calc(var(--safe-b) + 24px);
-  transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
-}
+.modal { width: 100%; background: var(--surface); border-radius: 24px 24px 0 0; padding: 26px 26px calc(var(--safe-b) + 26px); transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); }
 .modal-back.open .modal { transform: translateY(0); }
-.modal-h { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; }
-.compound-opt {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 4px; border-bottom: 1px solid var(--border); cursor: pointer;
-}
-.compound-opt:active { opacity: 0.6; }
+.modal-h { font-size: 1.2rem; font-weight: 700; margin-bottom: 18px; }
+.compound-opt { display: flex; align-items: center; justify-content: space-between; padding: 15px 4px; border-bottom: 1px solid var(--border); cursor: pointer; }
+.compound-opt:active { opacity: 0.55; }
 .co-n { font-size: 0.92rem; font-weight: 600; }
-.co-d { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+.co-d { font-size: 0.71rem; color: var(--text-3); margin-top: 2px; }
 .co-add { color: var(--accent); font-size: 1.4rem; font-weight: 300; }
-.modal-close { text-align: center; color: var(--text-3); font-size: 0.9rem; margin-top: 16px; cursor: pointer; }
+.modal-close { text-align: center; color: var(--text-3); font-size: 0.9rem; margin-top: 18px; cursor: pointer; }
 </style>
 </head>
 <body>
 <div class="phone">
-  <header class="header">
-    <div class="h-context" id="ctx">Day 23 · Level 12</div>
-    <div class="h-streak">🔥 14</div>
-  </header>
-
-  <div class="views">
-    <div class="track" id="track">
-
-      <section class="view">
-        <div class="home-inner">
-          <div class="brain-hero">
-            <div class="brain-box">
-              <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <filter id="gf"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                  <filter id="gp"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                  <filter id="gt"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                  <filter id="go"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                  <radialGradient id="rgf" cx="50%" cy="40%"><stop offset="0%" stop-color="oklch(58% 0.18 285)" stop-opacity="0.65"/><stop offset="100%" stop-color="oklch(30% 0.1 285)" stop-opacity="0.2"/></radialGradient>
-                  <radialGradient id="rgp" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.15 155)" stop-opacity="0.55"/><stop offset="100%" stop-color="oklch(30% 0.08 155)" stop-opacity="0.15"/></radialGradient>
-                  <radialGradient id="rgt" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.14 60)" stop-opacity="0.55"/><stop offset="100%" stop-color="oklch(30% 0.07 60)" stop-opacity="0.15"/></radialGradient>
-                  <radialGradient id="rgo" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.15 330)" stop-opacity="0.55"/><stop offset="100%" stop-color="oklch(30% 0.08 330)" stop-opacity="0.15"/></radialGradient>
-                </defs>
-                <path filter="url(#gf)" fill="url(#rgf)" stroke="oklch(68% 0.18 285)" stroke-width="1.2" d="M45 135 C40 120 42 100 50 85 C55 72 62 60 75 50 C88 40 100 35 115 33 C125 31 135 32 145 35 C148 55 148 75 145 95 C142 105 138 115 132 125 C120 128 108 130 95 132 C75 135 58 136 45 135Z"/>
-                <path fill="none" stroke="oklch(52% 0.12 285)" stroke-width="0.6" opacity="0.6" d="M70 55 C80 60 90 58 100 62 M65 75 C78 78 92 74 105 80 M60 95 C75 98 90 94 108 100 M55 115 C72 117 90 113 110 118"/>
-                <path filter="url(#gp)" fill="url(#rgp)" stroke="oklch(68% 0.15 155)" stroke-width="1.2" d="M145 35 C158 38 170 44 180 52 C192 62 200 75 205 90 C208 100 208 112 205 122 C195 118 185 115 175 113 C165 112 155 112 145 115 C142 105 140 95 142 85 C144 70 146 55 145 35Z"/>
-                <path fill="none" stroke="oklch(52% 0.1 155)" stroke-width="0.6" opacity="0.6" d="M155 50 C165 55 175 52 185 60 M152 72 C163 75 174 72 186 78 M150 92 C162 95 174 92 188 98"/>
-                <path filter="url(#gt)" fill="url(#rgt)" stroke="oklch(68% 0.14 60)" stroke-width="1.2" d="M45 135 C58 136 75 135 95 132 C108 130 120 128 132 125 C128 140 122 155 118 168 C112 182 105 192 95 198 C82 205 68 205 55 200 C45 195 38 188 35 178 C32 168 33 155 38 145 C40 140 42 137 45 135Z"/>
-                <path fill="none" stroke="oklch(52% 0.1 60)" stroke-width="0.6" opacity="0.6" d="M55 145 C70 148 88 145 105 150 M52 162 C68 165 85 162 100 168 M50 180 C65 182 80 180 92 185"/>
-                <path filter="url(#go)" fill="url(#rgo)" stroke="oklch(68% 0.15 330)" stroke-width="1.2" d="M205 122 C208 135 208 148 205 160 C200 175 192 188 180 198 C168 208 155 212 142 210 C130 208 120 202 112 195 C118 185 122 172 128 160 C132 148 135 138 140 128 C145 115 155 112 165 113 C175 115 185 118 195 120 C200 121 203 122 205 122Z"/>
-                <path fill="none" stroke="oklch(52% 0.1 330)" stroke-width="0.6" opacity="0.6" d="M175 130 C185 138 190 148 192 160 M160 135 C170 145 175 158 178 172 M145 145 C155 155 160 168 162 182"/>
-                <path fill="none" stroke="oklch(35% 0.02 285)" stroke-width="1.5" opacity="0.8" d="M145 35 C144 55 143 75 142 95 C141 105 140 115 142 125"/>
-                <path fill="oklch(12% 0.015 285)" stroke="oklch(25% 0.02 285)" stroke-width="1" d="M120 200 C125 208 130 215 132 222 C134 228 133 232 130 235 C127 238 122 238 118 235 C115 232 114 228 116 222 C118 215 122 208 120 200Z"/>
-                <path fill="oklch(14% 0.02 285)" stroke="oklch(28% 0.03 285)" stroke-width="0.8" d="M100 205 C108 210 118 215 120 200 C125 208 135 210 145 208 C148 215 148 225 142 232 C135 240 125 242 115 240 C105 238 98 232 95 225 C92 218 95 210 100 205Z"/>
-                <circle cx="90" cy="80" r="3" fill="oklch(74% 0.17 285)" opacity="0.6"><animate attributeName="r" values="2;5;2" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
-                <circle cx="175" cy="75" r="3" fill="oklch(74% 0.15 155)" opacity="0.5"><animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/></circle>
-                <circle cx="80" cy="165" r="2.5" fill="oklch(78% 0.14 60)" opacity="0.5"><animate attributeName="r" values="1.5;4;1.5" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
-                <circle cx="170" cy="165" r="2.5" fill="oklch(72% 0.15 330)" opacity="0.5"><animate attributeName="r" values="1.5;3.5;1.5" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.8s" repeatCount="indefinite"/></circle>
-              </svg>
-            </div>
-            <div class="cq-block">
-              <div class="cq-number">142</div>
-              <div class="cq-label">CQ Score</div>
-              <div class="cq-delta">+7 this week</div>
-            </div>
-          </div>
-
-          <button class="home-cta" id="startBtn">Start Today's Session</button>
-
-          <div class="home-stats">
-            <div class="hs"><div class="hs-v" style="color:var(--green)">19</div><div class="hs-l">Brain Age</div></div>
-            <div class="hs"><div class="hs-v" style="color:var(--warm)">+18%</div><div class="hs-l">Stack</div></div>
-            <div class="hs"><div class="hs-v" style="color:var(--accent)">12.4h</div><div class="hs-l">Weekly</div></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="view">
-        <div class="screen-head">
-          <div class="screen-title">Train</div>
-          <div class="screen-sub">Adaptive difficulty. One zone at a time.</div>
-        </div>
-
-        <div class="recommended" id="recBtn">
-          <div class="rec-tag">Recommended next</div>
-          <div class="rec-name">Dual N-Back</div>
-          <div class="rec-zone">Prefrontal cortex · your weakest streak today</div>
-          <div class="rec-go">Start now →</div>
-        </div>
-
-        <div class="section-label">All exercises</div>
-        <div class="ex-list">
-          <div class="ex-item"><span class="ex-dot d-g"></span><div class="ex-txt"><div class="ex-n">Mental Rotation 3D</div><div class="ex-z">Parietal · Spatial reasoning</div></div><span class="ex-lvl">L6</span></div>
-          <div class="ex-item"><span class="ex-dot d-w"></span><div class="ex-txt"><div class="ex-n">Progressive Math</div><div class="ex-z">Intraparietal · Calculation</div></div><span class="ex-lvl">L5</span></div>
-          <div class="ex-item"><span class="ex-dot d-p"></span><div class="ex-txt"><div class="ex-n">Pattern Matrices</div><div class="ex-z">Occipital · Fluid intelligence</div></div><span class="ex-lvl">L3</span></div>
-          <div class="ex-item"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Memory Palace</div><div class="ex-z">Hippocampus · Long-term memory</div></div><span class="ex-lvl">L4</span></div>
-          <div class="ex-item"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Stroop Inhibition</div><div class="ex-z">ACC · Attention control</div></div><span class="ex-lvl">L7</span></div>
-          <div class="ex-item"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Tower Planning</div><div class="ex-z">DLPFC · Strategic planning</div></div><span class="ex-lvl">L3</span></div>
-          <div class="ex-item"><span class="ex-dot d-g"></span><div class="ex-txt"><div class="ex-n">Dual-Task Challenge</div><div class="ex-z">Cross-modal · Full brain</div></div><span class="ex-lvl">L5</span></div>
-          <div class="ex-item"><span class="ex-dot d-w"></span><div class="ex-txt"><div class="ex-n">Speed Comprehension</div><div class="ex-z">Temporal · Processing speed</div></div><span class="ex-lvl">L4</span></div>
-        </div>
-      </section>
-
-      <section class="view">
-        <div class="screen-head">
-          <div class="screen-title">Stack</div>
-          <div class="screen-sub">What you take, and how it amplifies training.</div>
-        </div>
-        <div class="synergy">
-          <div class="synergy-v" id="synergyVal">+18%</div>
-          <div class="synergy-l">Total synergy · <span id="compCount">5</span> active</div>
-        </div>
-        <div class="stack-list" id="stackList"></div>
-        <button class="btn-ghost" id="addBtn">+ Add compound</button>
-      </section>
-
-      <section class="view">
-        <div class="screen-head">
-          <div class="screen-title">Protocol</div>
-          <div class="screen-sub">Today's optimized sequence.</div>
-        </div>
-
-        <div class="lock-state" id="lockState">
-          <div class="lock-icon">
-            <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
-          </div>
-          <div class="lock-title">Complete a session to unlock</div>
-          <div class="lock-desc">Your daily protocol generates after you finish at least one training session. Earn it first.</div>
-          <div class="lock-progress">
-            <div class="lock-bar"><div class="lock-fill" id="lockFill" style="width:0%"></div></div>
-            <div class="lock-count" id="lockCount">0 / 1 session</div>
-          </div>
-          <div class="lock-hint" id="lockHint">→ Go to Train</div>
-        </div>
-
-        <div class="proto-wrap" id="protoWrap">
-          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check on"></div><div class="proto-txt"><div class="proto-n done">Dual N-Back</div><div class="proto-d">15 min · Prefrontal activation</div></div></div>
-          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Mental Rotation</div><div class="proto-d">10 min · Parietal training</div></div></div>
-          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Progressive Math</div><div class="proto-d">10 min · Chain calculations</div></div></div>
-          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Memory Palace</div><div class="proto-d">8 min · Hippocampus encoding</div></div></div>
-          <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div class="proto-txt"><div class="proto-n">Cardio (BDNF)</div><div class="proto-d">30 min · Any aerobic · +35% BDNF</div></div></div>
-        </div>
-      </section>
-
-      <section class="view">
-        <div class="screen-head">
-          <div class="screen-title">Learn</div>
-          <div class="screen-sub">The science, tiered by evidence quality.</div>
-        </div>
-        <div class="learn-list" id="learnList"></div>
-      </section>
-
-    </div>
-  </div>
-
-  <div class="reader" id="reader">
-    <div class="reader-top">
-      <div class="reader-back" id="readerBack">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back
+  <header class="header"><div class="h-context" id="ctx">Day 23 · Level 12</div><div class="h-streak">🔥 14</div></header>
+  <div class="views"><div class="track" id="track">
+    <section class="view"><div class="home-inner">
+      <div class="brain-hero"><div class="brain-box">
+        <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg"><defs>
+          <radialGradient id="rgf" cx="50%" cy="40%"><stop offset="0%" stop-color="oklch(58% 0.18 285)" stop-opacity="0.65"/><stop offset="100%" stop-color="oklch(30% 0.1 285)" stop-opacity="0.2"/></radialGradient>
+          <radialGradient id="rgp" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.15 155)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.08 155)" stop-opacity="0.15"/></radialGradient>
+          <radialGradient id="rgt" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.14 60)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.07 60)" stop-opacity="0.15"/></radialGradient>
+          <radialGradient id="rgo" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(58% 0.15 330)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.08 330)" stop-opacity="0.15"/></radialGradient>
+        </defs>
+        <path fill="url(#rgf)" stroke="oklch(68% 0.18 285)" stroke-width="1.2" d="M45 135 C40 120 42 100 50 85 C55 72 62 60 75 50 C88 40 100 35 115 33 C125 31 135 32 145 35 C148 55 148 75 145 95 C142 105 138 115 132 125 C120 128 108 130 95 132 C75 135 58 136 45 135Z"/>
+        <path fill="none" stroke="oklch(52% 0.12 285)" stroke-width="0.6" opacity="0.6" d="M70 55 C80 60 90 58 100 62 M65 75 C78 78 92 74 105 80 M60 95 C75 98 90 94 108 100"/>
+        <path fill="url(#rgp)" stroke="oklch(68% 0.15 155)" stroke-width="1.2" d="M145 35 C158 38 170 44 180 52 C192 62 200 75 205 90 C208 100 208 112 205 122 C195 118 185 115 175 113 C165 112 155 112 145 115 C142 105 140 95 142 85 C144 70 146 55 145 35Z"/>
+        <path fill="url(#rgt)" stroke="oklch(68% 0.14 60)" stroke-width="1.2" d="M45 135 C58 136 75 135 95 132 C108 130 120 128 132 125 C128 140 122 155 118 168 C112 182 105 192 95 198 C82 205 68 205 55 200 C45 195 38 188 35 178 C32 168 33 155 38 145 C40 140 42 137 45 135Z"/>
+        <path fill="url(#rgo)" stroke="oklch(68% 0.15 330)" stroke-width="1.2" d="M205 122 C208 135 208 148 205 160 C200 175 192 188 180 198 C168 208 155 212 142 210 C130 208 120 202 112 195 C118 185 122 172 128 160 C132 148 135 138 140 128 C145 115 155 112 165 113 C175 115 185 118 195 120 C200 121 203 122 205 122Z"/>
+        <path fill="none" stroke="oklch(35% 0.02 285)" stroke-width="1.5" opacity="0.8" d="M145 35 C144 55 143 75 142 95 C141 105 140 115 142 125"/>
+        <path fill="oklch(13% 0.02 285)" stroke="oklch(28% 0.03 285)" stroke-width="0.8" d="M100 205 C108 210 118 215 120 200 C125 208 135 210 145 208 C148 215 148 225 142 232 C135 240 125 242 115 240 C105 238 98 232 95 225 C92 218 95 210 100 205Z"/>
+        <circle cx="90" cy="80" r="3" fill="oklch(75% 0.17 285)" opacity="0.6"><animate attributeName="r" values="2;5;2" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
+        <circle cx="175" cy="75" r="3" fill="oklch(75% 0.16 155)" opacity="0.5"><animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/></circle>
+        <circle cx="170" cy="165" r="2.5" fill="oklch(72% 0.15 330)" opacity="0.5"><animate attributeName="r" values="1.5;3.5;1.5" dur="2.8s" repeatCount="indefinite"/></circle>
+        </svg></div>
+        <div class="cq-block"><div class="cq-number" id="cqNum">142</div><div class="cq-label">CQ Score</div><div class="cq-delta" id="cqDelta">+7 this week</div></div>
       </div>
-    </div>
-    <div class="reader-body" id="readerBody"></div>
-  </div>
-
-  <div class="modal-back" id="modalBack">
-    <div class="modal">
-      <div class="modal-h">Add compound</div>
-      <div id="compoundOpts"></div>
-      <div class="modal-close" id="modalClose">Cancel</div>
-    </div>
-  </div>
-
+      <button class="home-cta" id="startBtn">Start Today's Session</button>
+      <div class="home-stats"><div class="hs"><div class="hs-v" style="color:var(--green)">19</div><div class="hs-l">Brain Age</div></div><div class="hs"><div class="hs-v" style="color:var(--warm)" id="stackStat">+42%</div><div class="hs-l">Stack</div></div><div class="hs"><div class="hs-v" style="color:var(--accent)">12.4h</div><div class="hs-l">Weekly</div></div></div>
+    </div></section>
+    <section class="view">
+      <div class="screen-head"><div class="screen-title">Train</div><div class="screen-sub">Tap any exercise to play. Difficulty adapts.</div></div>
+      <div class="recommended" onclick="startGame('nback')"><div class="rec-tag">Recommended next</div><div class="rec-name">Dual N-Back</div><div class="rec-zone">Prefrontal cortex · your weakest today</div><div class="rec-go">Play now →</div></div>
+      <div class="section-label">All exercises</div>
+      <div class="ex-list">
+        <div class="ex-item" onclick="startGame('rotation')"><span class="ex-dot d-g"></span><div class="ex-txt"><div class="ex-n">Mental Rotation</div><div class="ex-z">Parietal · Spatial reasoning</div></div><span class="ex-play"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></span></div>
+        <div class="ex-item" onclick="startGame('math')"><span class="ex-dot d-w"></span><div class="ex-txt"><div class="ex-n">Progressive Math</div><div class="ex-z">Intraparietal · Calculation</div></div><span class="ex-play"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></span></div>
+        <div class="ex-item" onclick="startGame('nback')"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Dual N-Back</div><div class="ex-z">Prefrontal · Working memory</div></div><span class="ex-play"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></span></div>
+        <div class="ex-item" onclick="startGame('memory')"><span class="ex-dot d-a"></span><div class="ex-txt"><div class="ex-n">Memory Sequence</div><div class="ex-z">Hippocampus · Recall</div></div><span class="ex-play"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></span></div>
+        <div class="ex-item" onclick="startGame('math')"><span class="ex-dot d-w"></span><div class="ex-txt"><div class="ex-n">Speed Calc</div><div class="ex-z">Temporal · Processing speed</div></div><span class="ex-play"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></span></div>
+      </div>
+    </section>
+    <section class="view">
+      <div class="screen-head"><div class="screen-title">Stack</div><div class="screen-sub">What you take, and how it amplifies training.</div></div>
+      <div class="synergy"><div class="synergy-v" id="synergyVal">+42%</div><div class="synergy-l">Total synergy · <span id="compCount">5</span> active</div></div>
+      <div class="stack-list" id="stackList"></div>
+      <button class="btn-ghost" id="addBtn">+ Add compound</button>
+    </section>
+    <section class="view">
+      <div class="screen-head"><div class="screen-title">Protocol</div><div class="screen-sub">Today's optimized sequence.</div></div>
+      <div class="lock-state" id="lockState"><div class="lock-icon"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div><div class="lock-title">Complete a session to unlock</div><div class="lock-desc">Your protocol generates after you finish one training session. Earn it first.</div><div class="lock-progress"><div class="lock-bar"><div class="lock-fill" id="lockFill" style="width:0%"></div></div><div class="lock-count" id="lockCount">0 / 1 session</div></div><div class="lock-hint" onclick="goTo(1)">→ Go to Train</div></div>
+      <div class="proto-wrap" id="protoWrap">
+        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check on"></div><div><div class="proto-n done">Dual N-Back</div><div class="proto-d">15 min · Prefrontal</div></div></div>
+        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Mental Rotation</div><div class="proto-d">10 min · Parietal</div></div></div>
+        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Progressive Math</div><div class="proto-d">10 min · Calculation</div></div></div>
+        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Memory Sequence</div><div class="proto-d">8 min · Hippocampus</div></div></div>
+        <div class="proto-item" onclick="toggleP(this)"><div class="proto-check"></div><div><div class="proto-n">Cardio (BDNF)</div><div class="proto-d">30 min · +35% BDNF</div></div></div>
+      </div>
+    </section>
+    <section class="view">
+      <div class="screen-head"><div class="screen-title">Learn</div><div class="screen-sub">The science, tiered by evidence.</div></div>
+      <div class="learn-list" id="learnList"></div>
+    </section>
+  </div></div>
+  <div class="reader" id="reader"><div class="reader-top"><div class="reader-back" id="readerBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back</div></div><div class="reader-body" id="readerBody"></div></div>
+  <div class="game" id="game"><div class="game-top"><div class="game-quit" id="gameQuit">✕</div><div class="game-title" id="gameTitle">Dual N-Back</div><div class="game-level" id="gameLevel">Round 1/10</div></div><div class="game-progress"><div class="game-progress-fill" id="gameProg"></div></div><div class="game-body" id="gameBody"></div></div>
+  <div class="modal-back" id="modalBack"><div class="modal"><div class="modal-h">Add compound</div><div id="compoundOpts"></div><div class="modal-close" id="modalClose">Cancel</div></div></div>
   <nav class="tabbar">
     <div class="tab active" data-v="0"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg><span class="tab-l">Home</span></div>
     <div class="tab" data-v="1"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span class="tab-l">Train</span></div>
@@ -432,237 +254,50 @@ html, body {
     <div class="tab" data-v="4"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="tab-l">Learn</span></div>
   </nav>
 </div>
-
 <script>
-const track = document.getElementById('track');
-const tabs = document.querySelectorAll('.tab');
-const ctx = document.getElementById('ctx');
-const viewsEl = document.querySelector('.views');
-const NUM = 5;
-let current = 0;
-let sessionDone = false;
-
-const ctxText = ['Day 23 · Level 12','Train','Stack','Protocol','Learn'];
-
-function goTo(i) {
-  if (i === 3 && !sessionDone) { flashLock(); return; }
-  current = Math.max(0, Math.min(NUM-1, i));
-  track.style.transform = `translateX(-${current*20}%)`;
-  tabs.forEach((t,idx)=>t.classList.toggle('active', idx===current));
-  ctx.textContent = ctxText[current];
-  if (navigator.vibrate) navigator.vibrate(6);
-}
-
+const track=document.getElementById('track'),tabs=document.querySelectorAll('.tab'),ctx=document.getElementById('ctx'),viewsEl=document.querySelector('.views');
+const NUM=5;let current=0,sessionDone=false;
+const ctxText=['Day 23 · Level 12','Train','Stack','Protocol','Learn'];
+function vib(p){if(navigator.vibrate)navigator.vibrate(p);}
+function goTo(i){if(i===3&&!sessionDone){flashLock();return;}current=Math.max(0,Math.min(NUM-1,i));track.style.transform=`translateX(-${current*20}%)`;tabs.forEach((t,idx)=>t.classList.toggle('active',idx===current));ctx.textContent=ctxText[current];vib(6);}
 tabs.forEach(t=>t.addEventListener('click',()=>goTo(parseInt(t.dataset.v))));
-
-let sx=0,sy=0,drag=false,lock=null;
-viewsEl.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=true;lock=null;track.style.transition='none';},{passive:true});
-viewsEl.addEventListener('touchmove',e=>{
-  if(!drag)return;
-  const dx=e.touches[0].clientX-sx, dy=e.touches[0].clientY-sy;
-  if(lock===null)lock=Math.abs(dx)>Math.abs(dy)?'x':'y';
-  if(lock==='x'){
-    const base=-current*20, pct=(dx/viewsEl.offsetWidth)*20;
-    let next=base+pct;
-    if(current===2 && dx<0 && !sessionDone) next=base+pct*0.25;
-    if(current===0&&dx>0)next=base+pct*0.35;
-    if(current===NUM-1&&dx<0)next=base+pct*0.35;
-    track.style.transform=`translateX(${next}%)`;
-  }
-},{passive:true});
-viewsEl.addEventListener('touchend',e=>{
-  if(!drag)return; drag=false;
-  track.style.transition='transform 0.4s cubic-bezier(0.22,1,0.36,1)';
-  if(lock==='x'){
-    const dx=e.changedTouches[0].clientX-sx, th=viewsEl.offsetWidth*0.2;
-    if(dx<-th && current<NUM-1){
-      if(current===2 && !sessionDone){ goTo(4); }
-      else goTo(current+1);
-    }
-    else if(dx>th && current>0){
-      if(current===4 && !sessionDone){ goTo(2); }
-      else goTo(current-1);
-    }
-    else goTo(current);
-  }
-},{passive:true});
-
-function completeSession(){
-  sessionDone = true;
-  document.getElementById('lockState').style.display='none';
-  document.getElementById('protoWrap').classList.add('unlocked');
-  document.getElementById('protoTab').classList.remove('locked');
-  document.getElementById('lockDot').style.display='none';
-  if(navigator.vibrate)navigator.vibrate([10,40,20]);
-}
-document.getElementById('startBtn').addEventListener('click',()=>{
-  document.getElementById('startBtn').textContent='Session complete ✓';
-  document.getElementById('lockFill').style.width='100%';
-  document.getElementById('lockCount').textContent='1 / 1 session';
-  setTimeout(completeSession, 500);
-  setTimeout(()=>document.getElementById('startBtn').textContent='Start Another Session', 1800);
-});
-document.getElementById('recBtn').addEventListener('click',()=>{
-  document.getElementById('lockFill').style.width='100%';
-  document.getElementById('lockCount').textContent='1 / 1 session';
-  completeSession();
-  goTo(0);
-});
-document.getElementById('lockHint').addEventListener('click',()=>goTo(1));
-
-function flashLock(){
-  const el=document.getElementById('lockState');
-  el.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300});
-  if(navigator.vibrate)navigator.vibrate([20,30,20]);
-}
-
-function toggleP(row){
-  const c=row.querySelector('.proto-check'), n=row.querySelector('.proto-n');
-  c.classList.toggle('on'); n.classList.toggle('done');
-  if(navigator.vibrate)navigator.vibrate(10);
-}
-
-let stack=[
-  {id:'cr',nm:'Creatine',ds:'5g · Morning · ATP resynthesis',b:8},
-  {id:'sx',nm:'Semax',ds:'600mcg · Intranasal · BDNF ↑1.4x',b:12},
-  {id:'om',nm:'Omega-3 DHA',ds:'2000mg · With meal · Membranes',b:6},
-  {id:'lm',nm:"Lion's Mane",ds:'1000mg · Morning · NGF synthesis',b:5},
-  {id:'lt',nm:'L-Theanine',ds:'200mg · Pre-session · Alpha waves',b:4},
-];
-const available=[
-  {id:'bc',nm:'Bacopa Monnieri',ds:'300mg · Adaptogen · 8-12wk memory',b:5},
-  {id:'ag',nm:'Alpha-GPC',ds:'300mg · Choline precursor',b:4},
-  {id:'ps',nm:'Phosphatidylserine',ds:'100mg · Membrane component',b:3},
-  {id:'cu',nm:'Curcumin + EGCG',ds:'500mg · Anti-inflammatory · BDNF',b:4},
-  {id:'pr',nm:'Probiotic',ds:'Multi-strain · Gut-brain axis',b:3},
-  {id:'md',nm:'Modafinil',ds:'100mg · Wakefulness · Rx',b:6},
-];
-function renderStack(){
-  const list=document.getElementById('stackList'); list.innerHTML='';
-  let total=0;
-  stack.forEach(s=>{
-    total+=s.b;
-    const el=document.createElement('div');
-    el.className='stack-item';
-    el.innerHTML=`<div style="flex:1;min-width:0"><div class="stack-nm">${s.nm}</div><div class="stack-ds">${s.ds}</div></div><span class="stack-b">+${s.b}%</span><span class="stack-del" data-id="${s.id}">×</span>`;
-    list.appendChild(el);
-  });
-  document.getElementById('synergyVal').textContent='+'+total+'%';
-  document.getElementById('compCount').textContent=stack.length;
-  list.querySelectorAll('.stack-del').forEach(d=>d.addEventListener('click',ev=>{
-    ev.stopPropagation();
-    stack=stack.filter(x=>x.id!==d.dataset.id);
-    renderStack(); if(navigator.vibrate)navigator.vibrate(12);
-  }));
-}
+let sx=0,sy=0,drag=false,lk=null;
+viewsEl.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=true;lk=null;track.style.transition='none';},{passive:true});
+viewsEl.addEventListener('touchmove',e=>{if(!drag)return;const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;if(lk===null)lk=Math.abs(dx)>Math.abs(dy)?'x':'y';if(lk==='x'){const base=-current*20,pct=(dx/viewsEl.offsetWidth)*20;let n=base+pct;if(current===2&&dx<0&&!sessionDone)n=base+pct*0.25;if(current===0&&dx>0)n=base+pct*0.35;if(current===NUM-1&&dx<0)n=base+pct*0.35;track.style.transform=`translateX(${n}%)`;}},{passive:true});
+viewsEl.addEventListener('touchend',e=>{if(!drag)return;drag=false;track.style.transition='transform 0.4s cubic-bezier(0.22,1,0.36,1)';if(lk==='x'){const dx=e.changedTouches[0].clientX-sx,th=viewsEl.offsetWidth*0.2;if(dx<-th&&current<NUM-1){if(current===2&&!sessionDone)goTo(4);else goTo(current+1);}else if(dx>th&&current>0){if(current===4&&!sessionDone)goTo(2);else goTo(current-1);}else goTo(current);}},{passive:true});
+function flashLock(){const el=document.getElementById('lockState');el.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300});vib([20,30,20]);}
+function toggleP(row){const c=row.querySelector('.proto-check'),n=row.querySelector('.proto-n');c.classList.toggle('on');n.classList.toggle('done');vib(10);}
+function completeSession(){if(sessionDone)return;sessionDone=true;document.getElementById('lockState').style.display='none';document.getElementById('protoWrap').classList.add('unlocked');document.getElementById('protoTab').classList.remove('locked');document.getElementById('lockDot').style.display='none';document.getElementById('lockFill').style.width='100%';document.getElementById('lockCount').textContent='1 / 1 session';vib([10,40,20]);}
+document.getElementById('startBtn').addEventListener('click',()=>startGame('nback'));
+const gameEl=document.getElementById('game'),gBody=document.getElementById('gameBody'),gTitle=document.getElementById('gameTitle'),gLevel=document.getElementById('gameLevel'),gProg=document.getElementById('gameProg');
+let gameState={};
+document.getElementById('gameQuit').addEventListener('click',endGame);
+function endGame(){gameEl.classList.remove('open');if(gameState.timer)clearInterval(gameState.timer);if(gameState.timeout)clearTimeout(gameState.timeout);gameState={};}
+function openGame(title){gTitle.textContent=title;gameEl.classList.add('open');gProg.style.width='0%';}
+function setProg(done,total){gProg.style.width=(done/total*100)+'%';}
+function startGame(type){if(type==='nback')return countdownThen('Dual N-Back',startNBack);if(type==='math')return countdownThen('Progressive Math',startMath);if(type==='rotation')return countdownThen('Mental Rotation',startRotation);if(type==='memory')return countdownThen('Memory Sequence',startMemory);}
+function countdownThen(title,fn){openGame(title);gLevel.textContent='Get ready';let n=3;gBody.innerHTML=`<div class="countdown">${n}</div>`;const cd=setInterval(()=>{n--;if(n<=0){clearInterval(cd);fn();}else{gBody.innerHTML=`<div class="countdown">${n}</div>`;vib(20);}},800);gameState.timer=cd;}
+function startNBack(){const N=2,rounds=12;let seq=[],idx=-1,hits=0,misses=0,answered=false;gLevel.textContent=`${N}-Back · Round 1/${rounds}`;gBody.innerHTML=`<div class="game-hint">Tap MATCH when position = ${N} steps back</div><div class="nback-grid" id="ng">${Array(9).fill('<div class="nback-cell"></div>').join('')}</div><div class="nback-controls"><button class="nback-btn" id="nbMatch">MATCH</button></div>`;const cells=[...document.querySelectorAll('#ng .nback-cell')];const btn=document.getElementById('nbMatch');btn.addEventListener('click',()=>{if(answered||idx<N)return;answered=true;const isMatch=seq[idx]===seq[idx-N];if(isMatch){hits++;btn.classList.add('hit');vib(15);}else{misses++;btn.classList.add('miss');vib([30,20,30]);}setTimeout(()=>btn.classList.remove('hit','miss'),300);});function step(){idx++;if(idx>=rounds){return nbackDone();}if(idx>N&&!answered&&seq[idx-1]===seq[idx-1-N])misses++;answered=false;gLevel.textContent=`${N}-Back · Round ${idx+1}/${rounds}`;setProg(idx,rounds);cells.forEach(c=>c.classList.remove('lit'));const pos=Math.random()<0.32&&idx>=N?seq[idx-N]:Math.floor(Math.random()*9);seq[idx]=pos;cells[pos].classList.add('lit');vib(8);gameState.timeout=setTimeout(()=>{cells[pos].classList.remove('lit');},1400);}function nbackDone(){const total=hits+misses||1,acc=Math.round(hits/total*100);showResults('🧠',hits>=misses?'Solid round':'Keep training',[['Hits',hits],['Accuracy',acc+'%'],['+CQ',Math.max(1,Math.round(hits/2))]]);}gameState.timer=setInterval(step,2200);step();}
+function startMath(){const total=10;let q=0,correct=0,val='',a=0;function newQ(){q++;if(q>total)return mathDone();setProg(q-1,total);gLevel.textContent=`Round ${q}/${total}`;const chain=Math.min(2+Math.floor(q/3),4);let expr='',acc=0;for(let i=0;i<chain;i++){const op=i===0?'+':['+','-','×'][Math.floor(Math.random()*3)];const num=Math.floor(Math.random()*(10+q*2))+2;if(i===0){acc=num;expr=''+num;}else if(op==='+'){acc+=num;expr+=' + '+num;}else if(op==='-'){acc-=num;expr+=' − '+num;}else{acc*=num;expr+=' × '+num;}}a=acc;val='';gBody.innerHTML=`<div class="math-feedback" id="mfb"></div><div class="math-q">${expr}</div><div class="math-input" id="mIn">_</div><div class="math-pad">${[1,2,3,4,5,6,7,8,9].map(d=>`<button class="math-key" data-d="${d}">${d}</button>`).join('')}<button class="math-key" data-d="-">±</button><button class="math-key" data-d="0">0</button><button class="math-key ok" data-d="ok">✓</button></div>`;document.querySelectorAll('.math-key').forEach(k=>k.addEventListener('click',()=>{const d=k.dataset.d;vib(8);if(d==='ok'){check();}else if(d==='-'){val=val.startsWith('-')?val.slice(1):'-'+val;upd();}else{val+=d;upd();}}));upd();}function upd(){document.getElementById('mIn').textContent=val||'_';}function check(){const fb=document.getElementById('mfb');if(parseInt(val)===a){correct++;fb.textContent='✓';fb.style.color='var(--green)';vib(20);}else{fb.textContent='✗';fb.style.color='var(--red)';vib([30,20,30]);}fb.classList.add('show');setTimeout(()=>{fb.classList.remove('show');newQ();},700);}function mathDone(){const acc=Math.round(correct/total*100);showResults('⚡',correct>=6?'Sharp':'Room to grow',[['Correct',correct+'/'+total],['Accuracy',acc+'%'],['+CQ',Math.max(1,correct)]]);}newQ();}
+function rotShape(rotation,mirror){const t=`rotate(${rotation} 50 50)${mirror?' scale(-1,1) translate(-100,0)':''}`;return `<svg viewBox="0 0 100 100"><g transform="${t}"><path d="M30 20 L60 20 L60 40 L45 40 L45 55 L60 55 L60 75 L30 75 Z" fill="none" stroke="oklch(75% 0.17 285)" stroke-width="4" stroke-linejoin="round"/></g></svg>`;}
+function startRotation(){const total=10;let q=0,correct=0;function newQ(){q++;if(q>total)return rotDone();setProg(q-1,total);gLevel.textContent=`Round ${q}/${total}`;const baseRot=[0,90,180,270][Math.floor(Math.random()*4)];const opts=[];const correctIdx=Math.floor(Math.random()*4);for(let i=0;i<4;i++){if(i===correctIdx)opts.push({svg:rotShape((baseRot+90*(i+1))%360,false),correct:true});else opts.push({svg:rotShape([0,90,180,270][Math.floor(Math.random()*4)],true),correct:false});}gBody.innerHTML=`<div class="game-hint">Which is the SAME shape, just rotated?</div><div class="rot-target">${rotShape(baseRot,false)}</div><div class="rot-q">Find the match (not mirrored)</div><div class="rot-options" id="ropts">${opts.map((o,i)=>`<div class="rot-opt" data-i="${i}" data-c="${o.correct}">${o.svg}</div>`).join('')}</div>`;document.querySelectorAll('.rot-opt').forEach(el=>el.addEventListener('click',()=>{const ok=el.dataset.c==='true';if(ok){correct++;el.classList.add('correct');vib(20);}else{el.classList.add('wrong');document.querySelector('.rot-opt[data-c="true"]').classList.add('correct');vib([30,20,30]);}document.querySelectorAll('.rot-opt').forEach(x=>x.style.pointerEvents='none');setTimeout(newQ,700);}));}function rotDone(){const acc=Math.round(correct/total*100);showResults('🔮',correct>=6?'Great spatial sense':'Keep rotating',[['Correct',correct+'/'+total],['Accuracy',acc+'%'],['+CQ',Math.max(1,correct)]]);}newQ();}
+function startMemory(){let level=3,correct=0;const maxRounds=8;let round=0;function showSeq(){round++;if(round>maxRounds)return memDone();setProg(round-1,maxRounds);gLevel.textContent=`Length ${level} · Round ${round}/${maxRounds}`;const seq=Array.from({length:level},()=>Math.floor(Math.random()*9));gBody.innerHTML=`<div class="game-hint">Memorize the sequence</div><div class="nback-grid" id="mg">${Array(9).fill('<div class="nback-cell"></div>').join('')}</div><div style="color:var(--text-3);font-size:0.85rem" id="mgStatus">Watch...</div>`;const cells=[...document.querySelectorAll('#mg .nback-cell')];let i=0;const show=setInterval(()=>{cells.forEach(c=>c.classList.remove('lit'));if(i<seq.length){cells[seq[i]].classList.add('lit');vib(8);i++;}else{clearInterval(show);cells.forEach(c=>c.classList.remove('lit'));setTimeout(()=>getInput(seq,cells),400);}},650);}function getInput(seq,cells){let input=[];document.querySelector('.game-hint').textContent='Now tap them in order';document.getElementById('mgStatus').textContent='Your turn';cells.forEach((c,idx)=>{c.style.cursor='pointer';c.onclick=()=>{c.classList.add('lit');vib(10);input.push(idx);setTimeout(()=>c.classList.remove('lit'),200);if(input.length===seq.length){const ok=input.every((v,k)=>v===seq[k]);if(ok){correct++;level=Math.min(level+1,7);vib(20);}else{level=Math.max(3,level-1);vib([30,20,30]);}cells.forEach(x=>x.onclick=null);setTimeout(showSeq,500);}};});}function memDone(){showResults('🎯',correct>=5?'Strong recall':'Keep practicing',[['Passed',correct+'/'+maxRounds],['Max length',level],['+CQ',Math.max(1,correct)]]);}showSeq();}
+function showResults(icon,title,stats){if(gameState.timer)clearInterval(gameState.timer);setProg(1,1);gLevel.textContent='Complete';gBody.innerHTML=`<div class="results show"><div class="results-icon">${icon}</div><div class="results-title">${title}</div><div class="results-stats">${stats.map(s=>`<div class="rst"><div class="rst-v">${s[1]}</div><div class="rst-l">${s[0]}</div></div>`).join('')}</div><button class="results-cta" id="resCta">Finish session</button></div>`;document.getElementById('resCta').addEventListener('click',()=>{const cqEl=document.getElementById('cqNum');let cq=parseInt(cqEl.textContent);const gain=parseInt(stats[2][1])||2;cqEl.textContent=cq+gain;document.getElementById('cqDelta').textContent='+'+(7+gain)+' this week';completeSession();endGame();document.getElementById('startBtn').textContent='Session complete ✓';setTimeout(()=>document.getElementById('startBtn').textContent='Train again',1600);goTo(3);});vib([15,50,25]);}
+let stack=[{id:'cr',nm:'Creatine',ds:'5g · Morning · ATP resynthesis',b:8},{id:'sx',nm:'Semax',ds:'600mcg · Intranasal · BDNF ↑1.4x',b:12},{id:'om',nm:'Omega-3 DHA',ds:'2000mg · With meal · Membranes',b:6},{id:'lm',nm:"Lion's Mane",ds:'1000mg · Morning · NGF synthesis',b:5},{id:'lt',nm:'L-Theanine',ds:'200mg · Pre-session · Alpha waves',b:4}];
+const available=[{id:'bc',nm:'Bacopa Monnieri',ds:'300mg · 8-12wk memory',b:5},{id:'ag',nm:'Alpha-GPC',ds:'300mg · Choline precursor',b:4},{id:'ps',nm:'Phosphatidylserine',ds:'100mg · Membrane support',b:3},{id:'cu',nm:'Curcumin + EGCG',ds:'500mg · Anti-inflammatory',b:4},{id:'pr',nm:'Probiotic',ds:'Multi-strain · Gut-brain axis',b:3},{id:'md',nm:'Modafinil',ds:'100mg · Wakefulness · Rx',b:6}];
+function renderStack(){const list=document.getElementById('stackList');list.innerHTML='';let total=0;stack.forEach(s=>{total+=s.b;const el=document.createElement('div');el.className='stack-item';el.innerHTML=`<div style="flex:1;min-width:0"><div class="stack-nm">${s.nm}</div><div class="stack-ds">${s.ds}</div></div><span class="stack-b">+${s.b}%</span><span class="stack-del" data-id="${s.id}">×</span>`;list.appendChild(el);});document.getElementById('synergyVal').textContent='+'+total+'%';document.getElementById('compCount').textContent=stack.length;document.getElementById('stackStat').textContent='+'+total+'%';list.querySelectorAll('.stack-del').forEach(d=>d.addEventListener('click',ev=>{ev.stopPropagation();stack=stack.filter(x=>x.id!==d.dataset.id);renderStack();vib(12);}));}
 renderStack();
-
 const modalBack=document.getElementById('modalBack');
-function renderOpts(){
-  const box=document.getElementById('compoundOpts'); box.innerHTML='';
-  const inStack=new Set(stack.map(s=>s.id));
-  available.filter(a=>!inStack.has(a.id)).forEach(a=>{
-    const el=document.createElement('div');
-    el.className='compound-opt';
-    el.innerHTML=`<div><div class="co-n">${a.nm}</div><div class="co-d">${a.ds}</div></div><span class="co-add">+</span>`;
-    el.addEventListener('click',()=>{
-      stack.push(a); renderStack(); closeModal();
-      if(navigator.vibrate)navigator.vibrate(12);
-    });
-    box.appendChild(el);
-  });
-  if(!box.children.length) box.innerHTML='<div style="color:var(--text-3);font-size:0.85rem;padding:20px 0;text-align:center">All compounds added.</div>';
-}
+function renderOpts(){const box=document.getElementById('compoundOpts');box.innerHTML='';const inStack=new Set(stack.map(s=>s.id));available.filter(a=>!inStack.has(a.id)).forEach(a=>{const el=document.createElement('div');el.className='compound-opt';el.innerHTML=`<div><div class="co-n">${a.nm}</div><div class="co-d">${a.ds}</div></div><span class="co-add">+</span>`;el.addEventListener('click',()=>{stack.push(a);renderStack();closeModal();vib(12);});box.appendChild(el);});if(!box.children.length)box.innerHTML='<div style="color:var(--text-3);font-size:0.85rem;padding:20px 0;text-align:center">All compounds added.</div>';}
 document.getElementById('addBtn').addEventListener('click',()=>{renderOpts();modalBack.classList.add('open');});
 function closeModal(){modalBack.classList.remove('open');}
 document.getElementById('modalClose').addEventListener('click',closeModal);
 modalBack.addEventListener('click',e=>{if(e.target===modalBack)closeModal();});
-
-const articles=[
-  {t:'How Dual N-Back Actually Transfers to IQ',tier:1,zone:'Prefrontal',read:'4 min',body:`
-    <p>Most brain games make you better at the game and nothing else. Dual N-Back is the rare exception with <strong>replicated far-transfer evidence</strong> to fluid intelligence.</p>
-    <h2>What the task does</h2>
-    <p>You track two streams at once: a moving square's position and a spoken letter. You respond when either matches what appeared N steps back. As you improve, N grows: 2-back, 3-back, 4-back.</p>
-    <div class="callout">A 2016 Journal of Neuroscience study found Dual N-Back training produced measurable changes in the striatum and frontoparietal networks, the exact circuits underlying working memory.</div>
-    <h2>Why it works when others don't</h2>
-    <p>It relentlessly loads working memory at the edge of your capacity. That constant strain, always adapting upward, is what drives neuroplasticity. Games with fixed difficulty plateau fast.</p>
-    <p><strong>Bottom line:</strong> train it 15 minutes a day, let difficulty climb, and the gains generalize beyond the app.</p>
-  `},
-  {t:'Semax: The BDNF Amplification Mechanism',tier:2,zone:'Hippocampus',read:'6 min',body:`
-    <p>Semax is a synthetic heptapeptide, an analog of ACTH(4-10), developed in Russia. It's one of the more interesting compounds for pairing with cognitive training.</p>
-    <h2>The BDNF connection</h2>
-    <p>A single intranasal dose produced a <strong>1.4x increase in BDNF protein</strong> and up to a 3x increase in BDNF mRNA in the rat hippocampus, alongside increased trkB activation.</p>
-    <div class="callout">BDNF (brain-derived neurotrophic factor) is the growth signal for neurons. More BDNF during training means better consolidation of what you learned.</div>
-    <h2>How to think about it</h2>
-    <p>This app doesn't tell you to take anything. But if you already use Semax, logging it lets you see the theoretical synergy window: dose before a session, train while BDNF is elevated.</p>
-    <p><strong>Note:</strong> human RCTs are limited. Most evidence is animal or Russian clinical. Treat it as Tier 2.</p>
-  `},
-  {t:'Why Mental Rotation Effects Last 90 Days',tier:1,zone:'Parietal',read:'3 min',body:`
-    <p>Spatial reasoning is trainable, and unusually, the gains stick around.</p>
-    <h2>The finding</h2>
-    <p>A 2025 Nature study tracked mental rotation training and found improvements in accuracy and speed <strong>persisting up to 90 days</strong> after the last session, with lasting changes in task-evoked EEG responses.</p>
-    <div class="callout">The superior parietal lobule activates in proportion to how far you rotate an object mentally. Train it, and that circuit strengthens.</div>
-    <h2>In the app</h2>
-    <p>You start with simple 3D shapes and climb toward Rubik's-cube complexity. Each level forces a harder rotation, keeping the parietal lobe working at its edge.</p>
-  `},
-  {t:'Creatine for the Brain: ATP Under Stress',tier:1,zone:'Global',read:'5 min',body:`
-    <p>Creatine isn't just for muscles. Your brain is an energy hog, and creatine buffers its ATP supply.</p>
-    <h2>When it matters most</h2>
-    <p>The cognitive benefits show up strongest under <strong>metabolic stress</strong>: sleep deprivation, hypoxia, intense mental effort. A single high dose (0.35g/kg) improved cognition during sleep deprivation in a 2024 trial.</p>
-    <div class="callout">Standard protocol: 5g daily. For brain effects, some research suggests higher doses may be better, since brain uptake is slower than muscle.</div>
-    <h2>Why pair it with training</h2>
-    <p>Working-memory tasks are ATP-expensive. Topped-up creatine stores mean your neurons don't run out of fuel mid-session.</p>
-  `},
-  {t:'Progressive Overload for Neural Growth',tier:1,zone:'Theory',read:'4 min',body:`
-    <p>The single most important principle in this app, borrowed straight from the gym.</p>
-    <h2>The rule</h2>
-    <p>Your brain only adapts when the task sits <strong>just past your current ability</strong>. Too easy: no growth. Too hard: frustration and dropout. The sweet spot is the zone of proximal development.</p>
-    <div class="callout">This is why fixed-difficulty brain games fail. Once you master the level, you're just performing, not growing.</div>
-    <h2>How BrainMax applies it</h2>
-    <p>Every exercise auto-calibrates. Nail a level, it bumps up. Struggle, it eases back. You're always training at your edge, which is where neuroplasticity actually happens.</p>
-  `},
-  {t:"Lion's Mane: The NGF Synthesis Pathway",tier:2,zone:'Neuro',read:'5 min',body:`
-    <p>A mushroom (Hericium erinaceus) with genuinely interesting neuroactive compounds.</p>
-    <h2>The mechanism</h2>
-    <p>It contains <strong>hericenones and erinacines</strong> that stimulate nerve growth factor (NGF) synthesis. NGF supports neuron survival and growth, complementing BDNF.</p>
-    <div class="callout">A 2025 systematic review confirmed neuroprotective potential. Cognitive benefits in healthy adults are promising but still mixed. Tier 2.</div>
-    <h2>Practical note</h2>
-    <p>Effects build slowly over weeks, not acutely. If you're taking it, log it and give it a month before judging.</p>
-  `},
-  {t:"Why Brain Games Fail (and This Doesn't)",tier:1,zone:'Meta',read:'7 min',body:`
-    <p>The uncomfortable truth: most of the brain-training industry is selling you placebo.</p>
-    <h2>The evidence problem</h2>
-    <p>Lumosity paid a <strong>$2 million FTC settlement</strong> in 2016 for deceptive claims. A landmark 2016 meta-analysis (Simons et al.) found little convincing evidence that commercial brain games transfer to real-world cognition.</p>
-    <div class="callout">"Near transfer" is real: you get better at the game. "Far transfer" (getting smarter overall) is where almost every app falls apart.</div>
-    <h2>What actually transfers</h2>
-    <p>A short list survives scrutiny: <strong>Dual N-Back, mental rotation, progressive math, and physical exercise</strong> (the strongest BDNF booster of all). Everything else is entertainment.</p>
-    <h2>Our bet</h2>
-    <p>BrainMax only includes exercises with real transfer evidence, applies progressive overload, and is honest about what each compound can and can't do. No hype, just the stuff that works.</p>
-  `},
-];
-function renderLearn(){
-  const list=document.getElementById('learnList'); list.innerHTML='';
-  articles.forEach((a,i)=>{
-    const el=document.createElement('div');
-    el.className='learn-item';
-    el.innerHTML=`<div class="learn-t">${a.t}</div><div class="learn-m"><span class="learn-tier lt-${a.tier}">Tier ${a.tier}</span><span class="learn-meta">${a.zone} · ${a.read}</span></div>`;
-    el.addEventListener('click',()=>openArticle(i));
-    list.appendChild(el);
-  });
-}
+const articles=[{t:'How Dual N-Back Actually Transfers to IQ',tier:1,zone:'Prefrontal',read:'4 min',body:`<p>Most brain games make you better at the game and nothing else. Dual N-Back is the rare exception with <strong>replicated far-transfer evidence</strong> to fluid intelligence.</p><h2>What the task does</h2><p>You track a moving square's position. You respond when the current position matches what appeared N steps back. As you improve, N grows.</p><div class="callout">A 2016 Journal of Neuroscience study found Dual N-Back training produced measurable changes in the striatum and frontoparietal networks.</div><h2>Why it works</h2><p>It loads working memory at the edge of your capacity. That constant strain, always adapting upward, drives neuroplasticity.</p>`},{t:'Semax: The BDNF Amplification Mechanism',tier:2,zone:'Hippocampus',read:'6 min',body:`<p>Semax is a synthetic heptapeptide, an analog of ACTH(4-10), developed in Russia.</p><h2>The BDNF connection</h2><p>A single intranasal dose produced a <strong>1.4x increase in BDNF protein</strong> and up to a 3x increase in BDNF mRNA in the rat hippocampus.</p><div class="callout">BDNF is the growth signal for neurons. More BDNF during training means better consolidation.</div><p><strong>Note:</strong> human RCTs are limited. Treat it as Tier 2.</p>`},{t:'Why Mental Rotation Effects Last 90 Days',tier:1,zone:'Parietal',read:'3 min',body:`<p>Spatial reasoning is trainable, and the gains stick around.</p><h2>The finding</h2><p>A 2025 Nature study found mental rotation improvements <strong>persisting up to 90 days</strong> after the last session.</p><div class="callout">The superior parietal lobule activates in proportion to how far you rotate an object mentally.</div>`},{t:'Creatine for the Brain: ATP Under Stress',tier:1,zone:'Global',read:'5 min',body:`<p>Creatine isn't just for muscles. Your brain is an energy hog.</p><h2>When it matters</h2><p>Cognitive benefits show up strongest under <strong>metabolic stress</strong>: sleep deprivation, intense mental effort.</p><div class="callout">Standard: 5g daily. Brain uptake is slower than muscle, so higher doses may help.</div>`},{t:'Progressive Overload for Neural Growth',tier:1,zone:'Theory',read:'4 min',body:`<p>The most important principle in this app, borrowed from the gym.</p><h2>The rule</h2><p>Your brain adapts only when the task sits <strong>just past your current ability</strong>.</p><div class="callout">This is why fixed-difficulty brain games fail. Once mastered, you're performing, not growing.</div>`},{t:"Lion's Mane: The NGF Synthesis Pathway",tier:2,zone:'Neuro',read:'5 min',body:`<p>A mushroom (Hericium erinaceus) with interesting neuroactive compounds.</p><h2>Mechanism</h2><p>Contains <strong>hericenones and erinacines</strong> that stimulate nerve growth factor synthesis.</p><div class="callout">2025 review confirmed neuroprotection. Cognitive benefits in healthy adults still mixed. Tier 2.</div>`},{t:"Why Brain Games Fail (and This Doesn't)",tier:1,zone:'Meta',read:'7 min',body:`<p>The uncomfortable truth: most of the brain-training industry sells placebo.</p><h2>The evidence problem</h2><p>Lumosity paid a <strong>$2 million FTC settlement</strong> in 2016. A 2016 meta-analysis found little evidence of real-world transfer.</p><div class="callout">"Near transfer" is real: you get better at the game. "Far transfer" is where almost every app falls apart.</div><h2>Our bet</h2><p>BrainMax only includes exercises with real transfer evidence. No hype.</p>`}];
+function renderLearn(){const list=document.getElementById('learnList');list.innerHTML='';articles.forEach((a,i)=>{const el=document.createElement('div');el.className='learn-item';el.innerHTML=`<div class="learn-t">${a.t}</div><div class="learn-m"><span class="learn-tier lt-${a.tier}">Tier ${a.tier}</span><span class="learn-meta">${a.zone} · ${a.read}</span></div>`;el.addEventListener('click',()=>openArticle(i));list.appendChild(el);});}
 renderLearn();
-
 const reader=document.getElementById('reader');
-function openArticle(i){
-  const a=articles[i];
-  document.getElementById('readerBody').innerHTML=`
-    <div class="reader-tier lt-${a.tier}">Tier ${a.tier} evidence</div>
-    <h1 class="reader-h1">${a.t}</h1>
-    <div class="reader-meta">${a.zone} · ${a.read} read</div>
-    ${a.body}`;
-  reader.classList.add('open');
-  document.getElementById('readerBody').scrollTop=0;
-}
+function openArticle(i){const a=articles[i];document.getElementById('readerBody').innerHTML=`<div class="reader-tier lt-${a.tier}">Tier ${a.tier} evidence</div><h1 class="reader-h1">${a.t}</h1><div class="reader-meta">${a.zone} · ${a.read} read</div>${a.body}`;reader.classList.add('open');document.getElementById('readerBody').scrollTop=0;}
 document.getElementById('readerBack').addEventListener('click',()=>reader.classList.remove('open'));
 </script>
 </body>
