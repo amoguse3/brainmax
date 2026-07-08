@@ -1,1 +1,618 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0d0a14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>BrainMax</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg: oklch(6% 0.015 270);
+  --surface: oklch(10% 0.02 270);
+  --surface-2: oklch(13% 0.022 270);
+  --surface-3: oklch(16% 0.018 270);
+  --border: oklch(18% 0.018 270);
+  --border-subtle: oklch(14% 0.014 270);
+  --text: oklch(94% 0.007 270);
+  --text-2: oklch(70% 0.01 270);
+  --text-3: oklch(50% 0.008 270);
+  --accent: oklch(72% 0.19 285);
+  --accent-dim: oklch(40% 0.1 285);
+  --green: oklch(72% 0.16 155);
+  --green-dim: oklch(30% 0.06 155);
+  --warm: oklch(76% 0.15 55);
+  --warm-dim: oklch(30% 0.06 55);
+  --pink: oklch(70% 0.16 330);
+  --pink-dim: oklch(30% 0.06 330);
+  --blue: oklch(70% 0.14 240);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  overscroll-behavior: none;
+  user-select: none;
+}
+
+.phone {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.header {
+  padding: calc(var(--safe-top) + 14px) 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: var(--bg);
+  z-index: 20;
+}
+
+.header-left { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent), var(--pink));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 1rem; color: oklch(98% 0.005 270);
+  letter-spacing: -0.05em;
+}
+.header-title { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.03em; }
+.header-sub { font-size: 0.6rem; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.streak-pill {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--warm-dim); color: var(--warm);
+  padding: 6px 11px; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 700;
+}
+
+.swipe-hint {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; padding: 4px;
+  font-size: 0.6rem; color: var(--text-3);
+  flex-shrink: 0;
+}
+.swipe-hint svg { width: 12px; height: 12px; stroke: var(--text-3); fill: none; stroke-width: 2; }
+
+.views {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.views-track {
+  display: flex;
+  width: 500%;
+  height: 100%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.view {
+  width: 20%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 16px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.view::-webkit-scrollbar { display: none; }
+
+.view-title {
+  font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em;
+  margin: 8px 0 4px;
+}
+.view-desc { font-size: 0.78rem; color: var(--text-3); margin-bottom: 16px; }
+
+.hero-brain {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-brain::before {
+  content: '';
+  position: absolute;
+  top: -40%; left: 50%;
+  transform: translateX(-50%);
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, oklch(40% 0.15 285 / 0.3), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.brain-svg-box { width: 200px; height: 180px; position: relative; z-index: 1; }
+.brain-svg-box svg { width: 100%; height: 100%; }
+
+.brain-cq-label {
+  position: absolute;
+  bottom: 6px; left: 50%; transform: translateX(-50%);
+  text-align: center;
+  background: oklch(8% 0.02 270 / 0.85);
+  padding: 4px 14px; border-radius: 10px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.brain-cq-label .n { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; }
+.brain-cq-label .l { font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); }
+
+.zones-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  width: 100%; margin-top: 12px;
+}
+.zone-cell {
+  text-align: center; padding: 8px 4px;
+  background: var(--surface-2); border-radius: 10px;
+}
+.zone-cell .zn { font-size: 0.58rem; color: var(--text-3); font-weight: 500; margin-bottom: 2px; }
+.zone-cell .zv { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; }
+.zv-a { color: var(--accent); } .zv-g { color: var(--green); }
+.zv-w { color: var(--warm); } .zv-p { color: var(--pink); }
+
+.stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+.stat-box { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 14px 16px; }
+.stat-box .sl { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 5px; }
+.stat-box .sv { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.sv-a { color: var(--accent); } .sv-g { color: var(--green); } .sv-w { color: var(--warm); } .sv-p { color: var(--pink); }
+.stat-box .sd { font-size: 0.62rem; color: var(--green); margin-top: 5px; font-weight: 500; }
+
+.btn-primary {
+  width: 100%;
+  background: var(--accent); color: oklch(8% 0.01 270);
+  border: none; padding: 16px; border-radius: 14px;
+  font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em;
+  cursor: pointer; margin-bottom: 12px;
+  transition: transform 0.15s;
+}
+.btn-primary:active { transform: scale(0.97); }
+
+.ex-list { display: flex; flex-direction: column; gap: 10px; }
+.ex-card {
+  background: var(--surface); border: 1px solid var(--border-subtle);
+  border-radius: 14px; padding: 15px 16px;
+  display: flex; align-items: center; gap: 13px;
+  cursor: pointer; transition: all 0.15s;
+}
+.ex-card:active { background: var(--surface-2); transform: scale(0.99); }
+.ex-ic {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; flex-shrink: 0;
+}
+.ex-ic--a { background: oklch(20% 0.06 285); }
+.ex-ic--g { background: oklch(20% 0.05 155); }
+.ex-ic--w { background: oklch(20% 0.05 55); }
+.ex-ic--p { background: oklch(20% 0.05 330); }
+.ex-ic--b { background: oklch(20% 0.05 240); }
+.ex-body { flex: 1; min-width: 0; }
+.ex-nm { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.01em; }
+.ex-zn { font-size: 0.68rem; color: var(--text-3); margin-top: 2px; }
+.ex-pbar { height: 4px; background: var(--surface-3); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.ex-pfill { height: 100%; border-radius: 3px; }
+.pf-a { background: var(--accent); } .pf-g { background: var(--green); }
+.pf-w { background: var(--warm); } .pf-p { background: var(--pink); } .pf-b { background: var(--blue); }
+.ex-lv { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; color: var(--text-3); background: var(--surface-3); padding: 3px 8px; border-radius: 6px; flex-shrink: 0; }
+
+.synergy-banner {
+  background: linear-gradient(135deg, oklch(20% 0.08 285), oklch(16% 0.06 330));
+  border-radius: 16px; padding: 18px; margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.synergy-banner .sb-l { font-size: 0.7rem; color: var(--text-2); font-weight: 500; }
+.synergy-banner .sb-v { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 800; color: var(--text); letter-spacing: -0.03em; }
+.synergy-banner .sb-d { font-size: 0.65rem; color: var(--green); font-weight: 600; }
+
+.stack-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.stack-row {
+  background: var(--surface); border: 1px solid var(--border-subtle);
+  border-radius: 12px; padding: 13px 15px;
+  display: flex; align-items: center; gap: 12px;
+}
+.stack-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 800; flex-shrink: 0;
+}
+.sb--cr { background: oklch(18% 0.04 240); color: var(--blue); }
+.sb--sx { background: oklch(18% 0.04 155); color: var(--green); }
+.sb--om { background: oklch(18% 0.04 55); color: var(--warm); }
+.sb--lm { background: oklch(18% 0.04 330); color: var(--pink); }
+.sb--lt { background: oklch(18% 0.04 285); color: var(--accent); }
+.stack-info { flex: 1; min-width: 0; }
+.stack-nm { font-size: 0.85rem; font-weight: 700; }
+.stack-ds { font-size: 0.65rem; color: var(--text-3); margin-top: 1px; }
+.stack-bst { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--green); background: var(--green-dim); padding: 4px 8px; border-radius: 8px; flex-shrink: 0; }
+
+.btn-add {
+  width: 100%; background: var(--surface-2); border: 1px dashed var(--border);
+  color: var(--text-2); padding: 14px; border-radius: 12px;
+  font-size: 0.82rem; font-weight: 600; cursor: pointer;
+}
+.btn-add:active { background: var(--surface-3); }
+
+.proto-list { display: flex; flex-direction: column; gap: 8px; }
+.proto-row {
+  background: var(--surface); border: 1px solid var(--border-subtle);
+  border-radius: 12px; padding: 14px 15px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: all 0.15s;
+}
+.proto-row:active { transform: scale(0.99); }
+.proto-box {
+  width: 24px; height: 24px; border-radius: 8px;
+  border: 2px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.proto-box.checked { background: var(--green-dim); border-color: var(--green); }
+.proto-box.checked::after { content: '✓'; color: var(--green); font-size: 0.75rem; font-weight: 800; }
+.proto-body { flex: 1; min-width: 0; }
+.proto-nm { font-size: 0.85rem; font-weight: 600; }
+.proto-nm.done { color: var(--text-3); text-decoration: line-through; }
+.proto-ds { font-size: 0.65rem; color: var(--text-3); margin-top: 2px; }
+.proto-tm { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-3); flex-shrink: 0; }
+
+.proto-progress {
+  background: var(--surface); border: 1px solid var(--border-subtle);
+  border-radius: 14px; padding: 16px; margin-bottom: 14px;
+}
+.pp-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.pp-label { font-size: 0.75rem; color: var(--text-2); font-weight: 500; }
+.pp-count { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--green); }
+.pp-bar { height: 8px; background: var(--surface-3); border-radius: 5px; overflow: hidden; }
+.pp-fill { height: 100%; background: var(--green); border-radius: 5px; width: 33%; transition: width 0.4s; }
+
+.kb-list { display: flex; flex-direction: column; gap: 10px; }
+.kb-card {
+  background: var(--surface); border: 1px solid var(--border-subtle);
+  border-radius: 14px; padding: 15px 16px; cursor: pointer;
+  transition: all 0.15s;
+}
+.kb-card:active { background: var(--surface-2); }
+.kb-title { font-size: 0.88rem; font-weight: 700; line-height: 1.35; margin-bottom: 8px; }
+.kb-meta { display: flex; gap: 8px; align-items: center; }
+.kb-tier { font-size: 0.62rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+.kt-1 { color: var(--green); background: var(--green-dim); }
+.kt-2 { color: var(--warm); background: var(--warm-dim); }
+.kb-zone { font-size: 0.65rem; color: var(--text-3); }
+.kb-read { font-size: 0.65rem; color: var(--text-3); margin-left: auto; }
+
+.tabbar {
+  flex-shrink: 0;
+  display: flex;
+  background: oklch(8% 0.018 270 / 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-subtle);
+  padding: 8px 8px calc(var(--safe-bottom) + 8px);
+  position: relative;
+  z-index: 20;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 0;
+  cursor: pointer;
+  color: var(--text-3);
+  transition: color 0.2s;
+  position: relative;
+}
+.tab.active { color: var(--accent); }
+.tab svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s; }
+.tab.active svg { transform: translateY(-1px); }
+.tab-label { font-size: 0.6rem; font-weight: 600; letter-spacing: -0.01em; }
+.tab-indicator {
+  position: absolute; top: 0; height: 2px; width: 24px;
+  background: var(--accent); border-radius: 2px;
+  transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-mark">B</div>
+      <div>
+        <div class="header-title" id="hTitle">BrainMax</div>
+        <div class="header-sub" id="hSub">Day 23 · Level 12</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="streak-pill">🔥 14</div>
+    </div>
+  </header>
+
+  <div class="swipe-hint">
+    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    swipe or tap to navigate
+    <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+  </div>
+
+  <div class="views">
+    <div class="views-track" id="track">
+
+      <section class="view">
+        <div class="hero-brain">
+          <div class="brain-svg-box">
+            <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="gf"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <filter id="gp"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <filter id="gt"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <filter id="go"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <radialGradient id="rgf" cx="50%" cy="40%"><stop offset="0%" stop-color="oklch(55% 0.18 285)" stop-opacity="0.6"/><stop offset="100%" stop-color="oklch(30% 0.1 285)" stop-opacity="0.2"/></radialGradient>
+                <radialGradient id="rgp" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(55% 0.15 155)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.08 155)" stop-opacity="0.15"/></radialGradient>
+                <radialGradient id="rgt" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(55% 0.14 55)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.07 55)" stop-opacity="0.15"/></radialGradient>
+                <radialGradient id="rgo" cx="50%" cy="50%"><stop offset="0%" stop-color="oklch(55% 0.15 330)" stop-opacity="0.5"/><stop offset="100%" stop-color="oklch(30% 0.08 330)" stop-opacity="0.15"/></radialGradient>
+              </defs>
+              <path filter="url(#gf)" fill="url(#rgf)" stroke="oklch(65% 0.18 285)" stroke-width="1.2" d="M45 135 C40 120 42 100 50 85 C55 72 62 60 75 50 C88 40 100 35 115 33 C125 31 135 32 145 35 C148 55 148 75 145 95 C142 105 138 115 132 125 C120 128 108 130 95 132 C75 135 58 136 45 135Z"/>
+              <path fill="none" stroke="oklch(50% 0.12 285)" stroke-width="0.6" opacity="0.6" d="M70 55 C80 60 90 58 100 62 M65 75 C78 78 92 74 105 80 M60 95 C75 98 90 94 108 100 M55 115 C72 117 90 113 110 118"/>
+              <path filter="url(#gp)" fill="url(#rgp)" stroke="oklch(65% 0.15 155)" stroke-width="1.2" d="M145 35 C158 38 170 44 180 52 C192 62 200 75 205 90 C208 100 208 112 205 122 C195 118 185 115 175 113 C165 112 155 112 145 115 C142 105 140 95 142 85 C144 70 146 55 145 35Z"/>
+              <path fill="none" stroke="oklch(50% 0.1 155)" stroke-width="0.6" opacity="0.6" d="M155 50 C165 55 175 52 185 60 M152 72 C163 75 174 72 186 78 M150 92 C162 95 174 92 188 98"/>
+              <path filter="url(#gt)" fill="url(#rgt)" stroke="oklch(65% 0.14 55)" stroke-width="1.2" d="M45 135 C58 136 75 135 95 132 C108 130 120 128 132 125 C128 140 122 155 118 168 C112 182 105 192 95 198 C82 205 68 205 55 200 C45 195 38 188 35 178 C32 168 33 155 38 145 C40 140 42 137 45 135Z"/>
+              <path fill="none" stroke="oklch(50% 0.1 55)" stroke-width="0.6" opacity="0.6" d="M55 145 C70 148 88 145 105 150 M52 162 C68 165 85 162 100 168 M50 180 C65 182 80 180 92 185"/>
+              <path filter="url(#go)" fill="url(#rgo)" stroke="oklch(65% 0.15 330)" stroke-width="1.2" d="M205 122 C208 135 208 148 205 160 C200 175 192 188 180 198 C168 208 155 212 142 210 C130 208 120 202 112 195 C118 185 122 172 128 160 C132 148 135 138 140 128 C145 115 155 112 165 113 C175 115 185 118 195 120 C200 121 203 122 205 122Z"/>
+              <path fill="none" stroke="oklch(50% 0.1 330)" stroke-width="0.6" opacity="0.6" d="M175 130 C185 138 190 148 192 160 M160 135 C170 145 175 158 178 172 M145 145 C155 155 160 168 162 182"/>
+              <path fill="none" stroke="oklch(35% 0.02 270)" stroke-width="1.5" opacity="0.8" d="M145 35 C144 55 143 75 142 95 C141 105 140 115 142 125"/>
+              <path fill="none" stroke="oklch(35% 0.02 270)" stroke-width="1.3" opacity="0.7" d="M132 125 C135 132 138 138 142 145"/>
+              <path fill="oklch(12% 0.015 270)" stroke="oklch(25% 0.02 270)" stroke-width="1" d="M120 200 C125 208 130 215 132 222 C134 228 133 232 130 235 C127 238 122 238 118 235 C115 232 114 228 116 222 C118 215 122 208 120 200Z"/>
+              <path fill="oklch(14% 0.02 270)" stroke="oklch(28% 0.03 270)" stroke-width="0.8" d="M100 205 C108 210 118 215 120 200 C125 208 135 210 145 208 C148 215 148 225 142 232 C135 240 125 242 115 240 C105 238 98 232 95 225 C92 218 95 210 100 205Z"/>
+              <path fill="none" stroke="oklch(22% 0.02 270)" stroke-width="0.5" d="M102 215 C112 218 125 218 138 215 M105 225 C115 228 128 228 138 225"/>
+              <circle cx="90" cy="80" r="3" fill="oklch(72% 0.19 285)" opacity="0.6"><animate attributeName="r" values="2;5;2" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
+              <circle cx="175" cy="75" r="3" fill="oklch(72% 0.16 155)" opacity="0.5"><animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/></circle>
+              <circle cx="80" cy="165" r="2.5" fill="oklch(76% 0.15 55)" opacity="0.5"><animate attributeName="r" values="1.5;4;1.5" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.15;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
+              <circle cx="170" cy="165" r="2.5" fill="oklch(70% 0.16 330)" opacity="0.5"><animate attributeName="r" values="1.5;3.5;1.5" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.8s" repeatCount="indefinite"/></circle>
+            </svg>
+            <div class="brain-cq-label">
+              <div class="n">142</div>
+              <div class="l">CQ Score</div>
+            </div>
+          </div>
+          <div class="zones-grid">
+            <div class="zone-cell"><div class="zn">Frontal</div><div class="zv zv-a">91</div></div>
+            <div class="zone-cell"><div class="zn">Parietal</div><div class="zv zv-g">87</div></div>
+            <div class="zone-cell"><div class="zn">Temporal</div><div class="zv zv-w">72</div></div>
+            <div class="zone-cell"><div class="zn">Occipital</div><div class="zv zv-p">68</div></div>
+          </div>
+        </div>
+
+        <button class="btn-primary">▶ Start Today's Session</button>
+
+        <div class="stat-row">
+          <div class="stat-box"><div class="sl">Brain Age</div><div class="sv sv-g">19</div><div class="sd">-3 yrs from start</div></div>
+          <div class="stat-box"><div class="sl">Cog Reps</div><div class="sv sv-w">3,847</div><div class="sd">+340 today</div></div>
+          <div class="stat-box"><div class="sl">Stack Boost</div><div class="sv sv-p">+18%</div><div class="sd">5 active</div></div>
+          <div class="stat-box"><div class="sl">Weekly Vol</div><div class="sv sv-a">12.4h</div><div class="sd">+2.1h vs last</div></div>
+        </div>
+      </section>
+
+      <section class="view">
+        <h2 class="view-title">Train</h2>
+        <p class="view-desc">9 exercises, each targeting a specific neural zone. Difficulty adapts to you.</p>
+        <div class="ex-list">
+          <div class="ex-card"><div class="ex-ic ex-ic--a">🧠</div><div class="ex-body"><div class="ex-nm">Dual N-Back</div><div class="ex-zn">Prefrontal · Working Memory</div><div class="ex-pbar"><div class="ex-pfill pf-a" style="width:72%"></div></div></div><div class="ex-lv">L4</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--g">🔮</div><div class="ex-body"><div class="ex-nm">Mental Rotation 3D</div><div class="ex-zn">Parietal · Spatial Reasoning</div><div class="ex-pbar"><div class="ex-pfill pf-g" style="width:87%"></div></div></div><div class="ex-lv">L6</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--w">⚡</div><div class="ex-body"><div class="ex-nm">Progressive Math</div><div class="ex-zn">Intraparietal · Calculation</div><div class="ex-pbar"><div class="ex-pfill pf-w" style="width:64%"></div></div></div><div class="ex-lv">L5</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--p">👁</div><div class="ex-body"><div class="ex-nm">Pattern Matrices</div><div class="ex-zn">Occipital · Fluid Intelligence</div><div class="ex-pbar"><div class="ex-pfill pf-p" style="width:45%"></div></div></div><div class="ex-lv">L3</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--b">🏛</div><div class="ex-body"><div class="ex-nm">Memory Palace</div><div class="ex-zn">Hippocampus · Long-term Memory</div><div class="ex-pbar"><div class="ex-pfill pf-b" style="width:58%"></div></div></div><div class="ex-lv">L4</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--a">🎯</div><div class="ex-body"><div class="ex-nm">Stroop Inhibition</div><div class="ex-zn">ACC · Attention Control</div><div class="ex-pbar"><div class="ex-pfill pf-a" style="width:91%"></div></div></div><div class="ex-lv">L7</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--a">📐</div><div class="ex-body"><div class="ex-nm">Tower Planning</div><div class="ex-zn">DLPFC · Strategic Planning</div><div class="ex-pbar"><div class="ex-pfill pf-a" style="width:40%"></div></div></div><div class="ex-lv">L3</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--g">⚔️</div><div class="ex-body"><div class="ex-nm">Dual-Task Challenge</div><div class="ex-zn">Cross-modal · Full Brain</div><div class="ex-pbar"><div class="ex-pfill pf-g" style="width:55%"></div></div></div><div class="ex-lv">L5</div></div>
+          <div class="ex-card"><div class="ex-ic ex-ic--w">📖</div><div class="ex-body"><div class="ex-nm">Speed Comprehension</div><div class="ex-zn">Temporal · Processing Speed</div><div class="ex-pbar"><div class="ex-pfill pf-w" style="width:62%"></div></div></div><div class="ex-lv">L4</div></div>
+        </div>
+      </section>
+
+      <section class="view">
+        <h2 class="view-title">Stack</h2>
+        <p class="view-desc">Log what you take. See how each compound amplifies your training windows.</p>
+        <div class="synergy-banner">
+          <div>
+            <div class="sb-l">Total Synergy</div>
+            <div class="sb-v">+18%</div>
+          </div>
+          <div style="text-align:right">
+            <div class="sb-d">5 compounds active</div>
+            <div class="sb-l" style="margin-top:2px">BDNF amplification mode</div>
+          </div>
+        </div>
+        <div class="stack-list">
+          <div class="stack-row"><div class="stack-badge sb--cr">Cr</div><div class="stack-info"><div class="stack-nm">Creatine</div><div class="stack-ds">5g · Morning · ATP resynthesis</div></div><div class="stack-bst">+8%</div></div>
+          <div class="stack-row"><div class="stack-badge sb--sx">Sx</div><div class="stack-info"><div class="stack-nm">Semax</div><div class="stack-ds">600mcg · Intranasal · BDNF ↑1.4x</div></div><div class="stack-bst">+12%</div></div>
+          <div class="stack-row"><div class="stack-badge sb--om">Ω3</div><div class="stack-info"><div class="stack-nm">Omega-3 DHA</div><div class="stack-ds">2000mg · With meal · Membranes</div></div><div class="stack-bst">+6%</div></div>
+          <div class="stack-row"><div class="stack-badge sb--lm">🦁</div><div class="stack-info"><div class="stack-nm">Lion's Mane</div><div class="stack-ds">1000mg · Morning · NGF synthesis</div></div><div class="stack-bst">+5%</div></div>
+          <div class="stack-row"><div class="stack-badge sb--lt">Lt</div><div class="stack-info"><div class="stack-nm">L-Theanine</div><div class="stack-ds">200mg · Pre-session · Alpha waves</div></div><div class="stack-bst">+4%</div></div>
+        </div>
+        <button class="btn-add">+ Add compound to stack</button>
+      </section>
+
+      <section class="view">
+        <h2 class="view-title">Protocol</h2>
+        <p class="view-desc">Your optimized sequence for today. Generated from zones you've neglected.</p>
+        <div class="proto-progress">
+          <div class="pp-top"><div class="pp-label">Today's completion</div><div class="pp-count">2 / 6</div></div>
+          <div class="pp-bar"><div class="pp-fill"></div></div>
+        </div>
+        <div class="proto-list">
+          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box checked"></div><div class="proto-body"><div class="proto-nm done">Dual N-Back</div><div class="proto-ds">15 min · Prefrontal activation</div></div><div class="proto-tm">✓ 8:30</div></div>
+          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box checked"></div><div class="proto-body"><div class="proto-nm done">Mental Rotation</div><div class="proto-ds">10 min · Parietal training</div></div><div class="proto-tm">✓ 8:50</div></div>
+          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Progressive Math</div><div class="proto-ds">10 min · Chain calculations</div></div><div class="proto-tm">~5 min</div></div>
+          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Memory Palace</div><div class="proto-ds">8 min · Hippocampus encoding</div></div><div class="proto-tm">~8 min</div></div>
+          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Pattern Matrices</div><div class="proto-ds">10 min · gF training</div></div><div class="proto-tm">~10 min</div></div>
+          <div class="proto-row" onclick="toggleProto(this)"><div class="proto-box"></div><div class="proto-body"><div class="proto-nm">Cardio (BDNF)</div><div class="proto-ds">30 min · Any aerobic · +35% BDNF</div></div><div class="proto-tm">evening</div></div>
+        </div>
+      </section>
+
+      <section class="view">
+        <h2 class="view-title">Learn</h2>
+        <p class="view-desc">The science behind every exercise and compound. Tiered by evidence quality.</p>
+        <div class="kb-list">
+          <div class="kb-card"><div class="kb-title">How Dual N-Back Actually Transfers to IQ</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Prefrontal</span><span class="kb-read">4 min</span></div></div>
+          <div class="kb-card"><div class="kb-title">Semax: The BDNF Amplification Mechanism</div><div class="kb-meta"><span class="kb-tier kt-2">Tier 2</span><span class="kb-zone">Hippocampus</span><span class="kb-read">6 min</span></div></div>
+          <div class="kb-card"><div class="kb-title">Why Mental Rotation Effects Last 90 Days</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Parietal</span><span class="kb-read">3 min</span></div></div>
+          <div class="kb-card"><div class="kb-title">Creatine for the Brain: ATP Under Stress</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Global</span><span class="kb-read">5 min</span></div></div>
+          <div class="kb-card"><div class="kb-title">Progressive Overload for Neural Growth</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Theory</span><span class="kb-read">4 min</span></div></div>
+          <div class="kb-card"><div class="kb-title">Lion's Mane: The NGF Synthesis Pathway</div><div class="kb-meta"><span class="kb-tier kt-2">Tier 2</span><span class="kb-zone">Neuro</span><span class="kb-read">5 min</span></div></div>
+          <div class="kb-card"><div class="kb-title">Why Brain Games Fail (and This Doesn't)</div><div class="kb-meta"><span class="kb-tier kt-1">Tier 1</span><span class="kb-zone">Meta</span><span class="kb-read">7 min</span></div></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <nav class="tabbar" id="tabbar">
+    <div class="tab-indicator" id="indicator"></div>
+    <div class="tab active" data-view="0">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span class="tab-label">Home</span>
+    </div>
+    <div class="tab" data-view="1">
+      <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+      <span class="tab-label">Train</span>
+    </div>
+    <div class="tab" data-view="2">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      <span class="tab-label">Stack</span>
+    </div>
+    <div class="tab" data-view="3">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      <span class="tab-label">Protocol</span>
+    </div>
+    <div class="tab" data-view="4">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span class="tab-label">Learn</span>
+    </div>
+  </nav>
+</div>
+
+<script>
+const track = document.getElementById('track');
+const tabs = document.querySelectorAll('.tab');
+const indicator = document.getElementById('indicator');
+const hTitle = document.getElementById('hTitle');
+const hSub = document.getElementById('hSub');
+const viewsEl = document.querySelector('.views');
+const NUM = 5;
+let current = 0;
+
+const titles = [
+  { t: 'BrainMax', s: 'Day 23 · Level 12' },
+  { t: 'Train', s: '9 exercises · adaptive' },
+  { t: 'Stack', s: '5 compounds · +18%' },
+  { t: 'Protocol', s: '2 of 6 complete' },
+  { t: 'Learn', s: '7 articles · evidence-based' },
+];
+
+function goTo(i) {
+  current = Math.max(0, Math.min(NUM - 1, i));
+  track.style.transform = `translateX(-${current * 20}%)`;
+  tabs.forEach((t, idx) => t.classList.toggle('active', idx === current));
+  positionIndicator();
+  hTitle.textContent = titles[current].t;
+  hSub.textContent = titles[current].s;
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+function positionIndicator() {
+  const tab = tabs[current];
+  const rect = tab.getBoundingClientRect();
+  const barRect = tab.parentElement.getBoundingClientRect();
+  const left = rect.left - barRect.left + rect.width / 2 - 12;
+  indicator.style.left = left + 'px';
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => goTo(parseInt(tab.dataset.view)));
+});
+
+let startX = 0, startY = 0, dragging = false, locked = null;
+
+viewsEl.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+  dragging = true;
+  locked = null;
+  track.style.transition = 'none';
+}, { passive: true });
+
+viewsEl.addEventListener('touchmove', e => {
+  if (!dragging) return;
+  const dx = e.touches[0].clientX - startX;
+  const dy = e.touches[0].clientY - startY;
+  if (locked === null) {
+    locked = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+  }
+  if (locked === 'x') {
+    const base = -current * 20;
+    const pct = (dx / viewsEl.offsetWidth) * 20;
+    let next = base + pct;
+    if (current === 0 && dx > 0) next = base + pct * 0.35;
+    if (current === NUM - 1 && dx < 0) next = base + pct * 0.35;
+    track.style.transform = `translateX(${next}%)`;
+  }
+}, { passive: true });
+
+viewsEl.addEventListener('touchend', e => {
+  if (!dragging) return;
+  dragging = false;
+  track.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)';
+  if (locked === 'x') {
+    const dx = e.changedTouches[0].clientX - startX;
+    const threshold = viewsEl.offsetWidth * 0.2;
+    if (dx < -threshold && current < NUM - 1) goTo(current + 1);
+    else if (dx > threshold && current > 0) goTo(current - 1);
+    else goTo(current);
+  }
+}, { passive: true });
+
+function toggleProto(row) {
+  const box = row.querySelector('.proto-box');
+  const nm = row.querySelector('.proto-nm');
+  box.classList.toggle('checked');
+  nm.classList.toggle('done');
+  if (navigator.vibrate) navigator.vibrate(12);
+  const total = document.querySelectorAll('.proto-box').length;
+  const done = document.querySelectorAll('.proto-box.checked').length;
+  document.querySelector('.pp-count').textContent = `${done} / ${total}`;
+  document.querySelector('.pp-fill').style.width = (done / total * 100) + '%';
+  titles[3].s = `${done} of ${total} complete`;
+  if (current === 3) hSub.textContent = titles[3].s;
+}
+
+window.addEventListener('resize', positionIndicator);
+window.addEventListener('load', positionIndicator);
+positionIndicator();
+</script>
+</body>
+</html>
