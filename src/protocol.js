@@ -1,0 +1,4 @@
+import { setSessionDone } from './state.js';
+export function toggleP(row){ const c=row.querySelector('.proto-check'), n=row.querySelector('.proto-n'); c.classList.toggle('on'); n.classList.toggle('done'); }
+export function completeSession(vib){ setSessionDone(true); document.getElementById('lockState').style.display='none'; document.getElementById('protoWrap').classList.add('unlocked'); document.getElementById('protoTab').classList.remove('locked'); document.getElementById('lockDot').style.display='none'; document.getElementById('lockFill').style.width='100%'; document.getElementById('lockCount').textContent='1 / 1 session'; vib([10,40,20]); }
+export function flashLock(vib){ const el=document.getElementById('lockState'); el.animate([{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},{transform:'translateX(0)'}],{duration:340,easing:'cubic-bezier(0.34,1.4,0.5,1)'}); vib([20,30,20]); }

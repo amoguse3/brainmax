@@ -1,0 +1,19 @@
+body .phone { height: 100dvh; display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; position: relative; overflow: hidden; z-index: 1; }
+.header { padding: calc(var(--safe-t) + 22px) 24px 6px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.h-context { font-size: 0.72rem; font-weight: 600; color: var(--text-3); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.5s; }
+.h-age { font-family: 'Fraunces', serif; font-size: 0.9rem; font-weight: 600; background: linear-gradient(120deg,var(--gold1),var(--gold3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.views { flex: 1; overflow: hidden; position: relative; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.7s var(--smooth); will-change: transform; }
+.view { flex: 0 0 100%; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 0 24px; -webkit-overflow-scrolling: touch; }
+.view.enter > * { animation: riseIn 0.7s var(--ease) both; }
+.screen-head { padding: 20px 0 8px; }
+.screen-title { font-family: 'Fraunces', serif; font-size: 2.1rem; font-weight: 600; letter-spacing: -0.02em; background: linear-gradient(120deg,var(--gold1),var(--gold2) 60%,var(--gold3)); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 14px oklch(76% 0.16 60 / 0.25)); }
+.screen-sub { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
+.tabbar { flex-shrink: 0; display: flex; background: oklch(9% 0.03 300 / 0.6); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-top: 1px solid var(--glass-brd); padding: 11px 8px calc(var(--safe-b) + 11px); position: relative; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 0; cursor: pointer; color: var(--text-3); transition: color 0.3s; position: relative; }
+.tab.active { color: var(--gold2); }
+.tab.active svg { filter: drop-shadow(0 0 8px oklch(76% 0.16 60 / 0.7)); transform: translateY(-2px) scale(1.1); }
+.tab svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s var(--spring); }
+.tab-l { font-size: 0.56rem; font-weight: 600; }
+.tab.locked { opacity: 0.38; }
+.tab-lock-dot { position: absolute; top: 2px; right: 50%; margin-right: -14px; width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); }

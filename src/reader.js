@@ -1,0 +1,3 @@
+const reader=document.getElementById('reader');
+export function openArticle(article){ document.getElementById('readerBody').innerHTML=`<div class="reader-tier">${article.zone}</div><h1 class="reader-h1">${article.t}</h1><div class="reader-meta">Library entry</div>${article.body}`; reader.classList.add('open'); document.getElementById('readerBody').scrollTop=0; }
+export function closeReader(){ reader.classList.remove('open'); }
