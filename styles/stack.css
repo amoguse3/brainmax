@@ -1,19 +1,14 @@
-/* Stack sheet turns GREEN: title, brain readout, nodes, buttons all shift into the green family */
 #stackBrain { width: 190px; height: 172px; display: block; }
-.stack-sheet .sheet-title { color: var(--grn); }
-.sb-syn { font-size: 2rem; font-weight: 800; color: var(--grn); text-shadow: 0 0 20px oklch(80% 0.15 152 / 0.55); line-height: 1; margin-top: -8px; }
+.sb-syn { font-size: 2rem; font-weight: 800; color: var(--lav); text-shadow: 0 0 20px oklch(83% 0.10 300 / 0.55); line-height: 1; margin-top: -8px; }
 .sb-lbl { font-size: 0.52rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-3); }
-.stack-sheet .eff-v.nv-green{ color: var(--grn); text-shadow:0 0 14px oklch(80% 0.15 152 / 0.5); }
-.stack-sheet .eff-v.nv-warm{ color: var(--grn-2); }
-.stack-sheet .eff-v.nv-accent{ color: var(--grn); }
 .snode { position: absolute; transform: translate(-50%,-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
-.snode-badge { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; border: 1px solid oklch(70% 0.12 152 / 0.4); backdrop-filter: blur(10px); background: oklch(30% 0.08 152 / 0.5); color: var(--grn); box-shadow: 0 0 16px oklch(70% 0.15 152 / 0.45); transition: transform 0.2s var(--spring); }
+.snode-badge { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; border: 1px solid var(--glass-brd); backdrop-filter: blur(10px); box-shadow: 0 0 16px currentColor; transition: transform 0.2s var(--spring); }
 .snode:active .snode-badge { transform: scale(0.9); }
 .snode-nm { font-size: 0.56rem; color: var(--text-2); font-weight: 600; white-space: nowrap; }
-.snode-b { font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 700; color: var(--grn); }
-/* black + beige stack button */
-.stack-add { width: 100%; padding: 16px; border-radius: 16px; border: 1px solid oklch(80% 0.05 82 / 0.35); background: linear-gradient(160deg, oklch(19% 0.02 80), oklch(13% 0.015 80)); color: var(--beige-1); font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; margin-top: 12px; box-shadow: inset 0 1px 0 oklch(85% 0.05 82 / 0.14); transition: transform 0.14s var(--spring); }
-.stack-add:active { transform: scale(0.98); }
+.snode-b { font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 700; color: var(--lav); }
+.sbadge-cr{background:oklch(30% 0.08 300 / 0.5);color:oklch(80% 0.10 300)} .sbadge-sx{background:oklch(30% 0.08 290 / 0.5);color:oklch(80% 0.10 290)} .sbadge-om{background:oklch(30% 0.08 312 / 0.5);color:oklch(82% 0.09 312)} .sbadge-lm{background:oklch(30% 0.09 320 / 0.5);color:oklch(80% 0.10 320)} .sbadge-lt{background:oklch(30% 0.10 300 / 0.5);color:oklch(78% 0.12 300)}
+.stack-add { width: 100%; background: var(--glass); backdrop-filter: blur(14px); border: 1px dashed var(--glass-brd); color: var(--text-2); padding: 15px; border-radius: 16px; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 12px; }
+.stack-add:active { background: var(--glass-2); }
 .stack-eff { display: flex; justify-content: space-around; }
 .eff-item { text-align: center; }
 .eff-v { font-size: 1.2rem; font-weight: 700; }

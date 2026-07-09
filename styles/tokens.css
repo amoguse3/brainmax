@@ -13,26 +13,17 @@
   --lav-ink: oklch(18% 0.04 300);
   --purple: oklch(72% 0.13 300);
   --purple-lo: oklch(58% 0.13 300);
+  --blue: oklch(74% 0.09 292);
   --pink: oklch(80% 0.09 315);
   --green: oklch(81% 0.09 300);
   --warm: oklch(82% 0.09 312);
   --cyan: oklch(80% 0.09 285);
   --red: oklch(64% 0.16 20);
-  /* gold family (stats CTA) */
-  --gold-1: oklch(86% 0.13 88);
-  --gold-2: oklch(76% 0.14 78);
-  --gold-3: oklch(60% 0.12 68);
-  --gold-ink: oklch(16% 0.03 70);
-  /* beige family (stack CTA) */
-  --beige-1: oklch(90% 0.045 85);
-  --beige-2: oklch(82% 0.05 82);
-  --beige-ink: oklch(17% 0.02 80);
-  /* green family (stack accent) */
-  --grn: oklch(84% 0.15 155);
-  --grn-2: oklch(70% 0.16 152);
-  --grn-3: oklch(56% 0.15 150);
-  --grn-ink: oklch(16% 0.04 155);
+  --gold1: oklch(86% 0.09 300);
+  --gold2: oklch(75% 0.12 300);
+  --gold3: oklch(61% 0.13 300);
   --glow: oklch(74% 0.13 300);
+  --glow2: oklch(80% 0.10 300);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   --spring: cubic-bezier(0.34, 1.3, 0.4, 1);
