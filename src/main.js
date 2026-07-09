@@ -3,7 +3,7 @@ import { applyTheme } from './theme.js';
 import { brainAge, weakestZone, zoneMeta } from './util.js';
 import { bindNav, goTo } from './nav.js';
 import { animConstellation } from './lines.js';
-import { mountBrain } from './brain.js?v=15';
+import { mountBrain } from './brain.js?v=16';
 import { renderStack, renderOpts, stackNodePos } from './stack.js';
 import { stack } from './data/compounds.js';
 import { bindReader } from './reader.js';
