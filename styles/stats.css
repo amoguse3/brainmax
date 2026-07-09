@@ -1,6 +1,6 @@
-#brainCanvas { width: 230px; height: 208px; display: block; }
-.bc-cq { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--lav); text-shadow: 0 0 22px oklch(74% 0.13 300 / 0.4); }
-.bc-lbl { font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-3); margin-top: 3px; }
+#brainCanvas { width: 210px; height: 190px; display: block; }
+.bc-cq { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--lav); text-shadow: 0 0 22px oklch(74% 0.13 300 / 0.4); margin-top: -10px; }
+.bc-lbl { font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-3); }
 .node { position: absolute; text-align: center; transform: translate(-50%,-50%); }
 .node-v { font-size: 1.55rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
 .node-l { font-size: 0.56rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-top: 4px; white-space: nowrap; }
