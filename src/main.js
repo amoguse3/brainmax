@@ -2,14 +2,17 @@ import { S, vib } from './state.js';
 import { applyTheme } from './theme.js';
 import { brainAge, weakestZone, zoneMeta } from './util.js';
 import { bindNav, goTo } from './nav.js';
-import { animLines } from './lines.js';
-import { makeBrainPts, mountStatBrain } from './brain.js';
-import { mountStackBrain, renderStack, renderOpts } from './stack.js';
+import { animConstellation } from './lines.js';
+import { mountBrain } from './brain.js';
+import { renderStack, renderOpts, stackNodePos } from './stack.js';
+import { stack } from './data/compounds.js';
 import { bindReader } from './reader.js';
 import { bindMap, centerMap } from './learn-map.js';
 import { exercises } from './data/exercises.js';
 import { bindGameShell } from './games/engine.js';
 import { startRotation } from './games/rotation.js';
+
+const LAV = { base:'oklch(74% 0.12 300 / A)', glow:'oklch(76% 0.13 300 / 0.6)', pulse:'oklch(88% 0.10 300 / A)' };
 
 function renderStats(){
   document.getElementById('cqNum').textContent=S.cq;
@@ -19,21 +22,10 @@ function renderStats(){
   const age=S.sessions?brainAge():'--';
   document.getElementById('statAge').textContent=age;
   document.getElementById('ageBadge').textContent='Brain age '+age;
-  const wk=weakestZone();
-  document.getElementById('fireSub').textContent=zoneMeta[wk].n+' needs you (weakest zone)';
+  document.getElementById('fireSub').textContent=zoneMeta[weakestZone()].n+' needs you (weakest zone)';
 }
 
-function initStatLines(){
-  const cv=document.getElementById('statLines'); const p=cv.parentElement;
-  cv.width=p.offsetWidth; cv.height=p.offsetHeight;
-  return {cv,nodes:[[0.20,0.14],[0.80,0.16],[0.18,0.82],[0.82,0.84],[0.90,0.50]]};
-}
-
-function initStackLines(){
-  const cv=document.getElementById('stackLines'); const p=cv.parentElement;
-  cv.width=p.offsetWidth; cv.height=p.offsetHeight;
-  return {cv,nodes:[[0.14,0.18],[0.86,0.22],[0.18,0.74],[0.82,0.72],[0.50,0.86]]};
-}
+function sizeCanvas(id){ const cv=document.getElementById(id); if(!cv) return null; const p=cv.parentElement; cv.width=p.offsetWidth; cv.height=p.offsetHeight; return cv; }
 
 function initParticles(){
   const cv=document.getElementById('fireCanvas'); if(!cv) return; const cx=cv.getContext('2d');
@@ -42,9 +34,9 @@ function initParticles(){
   let parts=[];
   (function loop(){
     cx.clearRect(0,0,cv.width,cv.height);
-    if(cv.width>10&&Math.random()<0.5) parts.push({x:Math.random()*cv.width,y:cv.height+4,vy:-(0.4+Math.random()*0.8),vx:(Math.random()-0.5)*0.3,life:1,size:1+Math.random()*2});
+    if(cv.width>10&&Math.random()<0.45) parts.push({x:Math.random()*cv.width,y:cv.height+4,vy:-(0.4+Math.random()*0.8),vx:(Math.random()-0.5)*0.3,life:1,size:1+Math.random()*2});
     parts=parts.filter(p=>p.life>0);
-    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${78+p.life*8}% 0.10 300 / ${p.life*0.7})`; cx.shadowBlur=6; cx.shadowColor='oklch(80% 0.10 300)'; cx.fill(); });
+    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${80+p.life*6}% 0.10 300 / ${p.life*0.7})`; cx.shadowBlur=6; cx.shadowColor='oklch(82% 0.10 300)'; cx.fill(); });
     cx.shadowBlur=0; requestAnimationFrame(loop);
   })();
 }
@@ -62,12 +54,31 @@ function renderCarousel(){
   tcTrack.addEventListener('touchend',e=>{ if(!cdrag) return; cdrag=false; const dx=e.changedTouches[0].clientX-csx; if(dx<-40&&tcIdx<exercises.length-1){ tcIdx++; updateCarousel(); vib(8); } else if(dx>40&&tcIdx>0){ tcIdx--; updateCarousel(); vib(8); } },{passive:true});
 }
 
+// smooth stats -> stack color morph on scroll
+function bindFlow(){
+  const mind=document.getElementById('mindView');
+  const stackSec=document.getElementById('mindStack');
+  const tint=document.getElementById('flowTint');
+  const cue=document.getElementById('scrollCue');
+  let ticking=false;
+  function update(){
+    ticking=false;
+    const top=stackSec.offsetTop || 1;
+    const p=Math.min(1, Math.max(0, mind.scrollTop/top));
+    tint.style.opacity=(p*0.9).toFixed(3);
+    if(cue) cue.style.opacity=(1-Math.min(1,p*2)).toFixed(3);
+  }
+  mind.addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } },{passive:true});
+  update();
+}
+
 document.getElementById('frontierBtn').addEventListener('click',()=>startRotation());
 document.getElementById('addBtn').addEventListener('click',()=>{ renderOpts(); document.getElementById('modalBack').classList.add('open'); });
 document.getElementById('modalClose').addEventListener('click',()=>document.getElementById('modalBack').classList.remove('open'));
 document.getElementById('modalBack').addEventListener('click',e=>{ if(e.target.id==='modalBack') document.getElementById('modalBack').classList.remove('open'); });
 document.querySelectorAll('.proto-item').forEach(row=>row.addEventListener('click',()=>{ const c=row.querySelector('.proto-check'),n=row.querySelector('.proto-n'); c.classList.toggle('on'); n.classList.toggle('done'); vib(10); }));
 document.getElementById('goTrainHint').addEventListener('click',()=>goTo(1));
+document.getElementById('scrollCue')?.addEventListener('click',()=>{ document.getElementById('mindStack').scrollIntoView({behavior:'smooth'}); });
 
 renderStats();
 applyTheme(0);
@@ -75,11 +86,18 @@ bindNav();
 bindReader();
 bindMap();
 bindGameShell();
-mountStatBrain();
-mountStackBrain(makeBrainPts);
 renderStack();
 renderCarousel();
 initParticles();
-setTimeout(()=>animLines(initStatLines(),{base:'oklch(72% 0.12 300 / 0.5)',glow:'oklch(74% 0.13 300 / 0.7)',pulse:'oklch(86% 0.10 300 / 0.9)'}),250);
-setTimeout(()=>animLines(initStackLines(),{base:'oklch(72% 0.12 300 / 0.45)',glow:'oklch(74% 0.13 300 / 0.6)',pulse:'oklch(86% 0.10 300 / 0.9)'}),300);
-window.addEventListener('resize',()=>centerMap());
+bindFlow();
+
+function boot(){
+  mountBrain('brainCanvas',{points:660,scale:150});
+  mountBrain('stackBrain',{points:560,scale:132});
+  const statState={ cv:sizeCanvas('statLines'), hubY:0.5, nodes:[[0.20,0.12],[0.80,0.14],[0.18,0.86],[0.82,0.88],[0.92,0.50]] };
+  const stackState={ cv:sizeCanvas('stackLines'), hubY:0.5, getNodes:()=>stack.map((_,i)=>stackNodePos(i,stack.length)) };
+  animConstellation(statState, LAV);
+  animConstellation(stackState, LAV);
+  window.addEventListener('resize',()=>{ sizeCanvas('statLines'); sizeCanvas('stackLines'); centerMap(); });
+}
+setTimeout(boot,120);
