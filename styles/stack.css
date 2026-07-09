@@ -1,14 +1,15 @@
-/* stack lives inside the Mind view now; nodes overlay the constellation */
-.stack-nodes .snode { position: absolute; transform: translate(-50%,-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
-.stack-nodes .snode-badge { width: 44px; height: 44px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; border: 1px solid oklch(80% 0.12 150 / 0.35); background: oklch(30% 0.09 150 / 0.5); color: oklch(85% 0.14 150); box-shadow: 0 0 18px oklch(70% 0.15 150 / 0.4); transition: transform 0.2s var(--spring); }
-.stack-nodes .snode:active .snode-badge { transform: scale(0.9); }
+#stackBrain { width: 190px; height: 172px; display: block; }
+.sb-syn { font-size: 2rem; font-weight: 800; color: var(--lav); text-shadow: 0 0 20px oklch(83% 0.10 300 / 0.55); line-height: 1; margin-top: -8px; }
+.sb-lbl { font-size: 0.52rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-3); }
+.snode { position: absolute; transform: translate(-50%,-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
+.snode-badge { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; border: 1px solid var(--glass-brd); backdrop-filter: blur(10px); box-shadow: 0 0 16px currentColor; transition: transform 0.2s var(--spring); }
+.snode:active .snode-badge { transform: scale(0.9); }
 .snode-nm { font-size: 0.56rem; color: var(--text-2); font-weight: 600; white-space: nowrap; }
-.snode-b { font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 700; color: oklch(84% 0.14 150); }
-.stack-panel { max-height: 0; opacity: 0; overflow: hidden; transition: opacity 0.5s var(--ease), max-height 0.6s var(--ease); }
-.stack-panel.show { max-height: 240px; opacity: 1; }
-.stack-eff { display: flex; justify-content: space-around; margin-top: 14px; margin-bottom: 12px; }
+.snode-b { font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 700; color: var(--lav); }
+.sbadge-cr{background:oklch(30% 0.08 300 / 0.5);color:oklch(80% 0.10 300)} .sbadge-sx{background:oklch(30% 0.08 290 / 0.5);color:oklch(80% 0.10 290)} .sbadge-om{background:oklch(30% 0.08 312 / 0.5);color:oklch(82% 0.09 312)} .sbadge-lm{background:oklch(30% 0.09 320 / 0.5);color:oklch(80% 0.10 320)} .sbadge-lt{background:oklch(30% 0.10 300 / 0.5);color:oklch(78% 0.12 300)}
+.stack-add { width: 100%; background: var(--glass); backdrop-filter: blur(14px); border: 1px dashed var(--glass-brd); color: var(--text-2); padding: 15px; border-radius: 16px; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 10px; }
+.stack-add:active { background: var(--glass-2); }
+.stack-eff { display: flex; justify-content: space-around; }
 .eff-item { text-align: center; }
-.eff-v { font-size: 1.2rem; font-weight: 700; color: var(--lav); }
+.eff-v { font-size: 1.2rem; font-weight: 700; }
 .eff-l { font-size: 0.56rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
-.stack-add { width: 100%; background: oklch(30% 0.07 150 / 0.28); backdrop-filter: blur(14px); border: 1px dashed oklch(80% 0.12 150 / 0.35); color: oklch(84% 0.12 150); padding: 15px; border-radius: 16px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
-.stack-add:active { background: oklch(34% 0.09 150 / 0.4); }

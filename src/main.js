@@ -17,6 +17,8 @@ const LAV = {
   head:  'oklch(86% 0.12 300 / A)',
   core:  'oklch(97% 0.05 300 / A)'
 };
+const STAT_NODES = [[0.20,0.12],[0.80,0.14],[0.18,0.86],[0.82,0.88],[0.92,0.50]];
+let mindMode = 'stats';
 
 function renderStats(){
   document.getElementById('cqNum').textContent=S.cq;
@@ -30,6 +32,18 @@ function renderStats(){
 }
 
 function sizeCanvas(id){ const cv=document.getElementById(id); if(!cv) return null; const p=cv.parentElement; cv.width=p.offsetWidth; cv.height=p.offsetHeight; return cv; }
+
+function bindModeToggle(){
+  const mind=document.getElementById('mindView');
+  const btns=document.querySelectorAll('#modeToggle button');
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const m=b.dataset.mode; if(m===mindMode) return;
+    mindMode=m;
+    mind.dataset.mode=m;
+    btns.forEach(x=>x.classList.toggle('on',x.dataset.mode===m));
+    vib(10);
+  }));
+}
 
 function initParticles(){
   const cv=document.getElementById('fireCanvas'); if(!cv) return; const cx=cv.getContext('2d');
@@ -58,49 +72,29 @@ function renderCarousel(){
   tcTrack.addEventListener('touchend',e=>{ if(!cdrag) return; cdrag=false; const dx=e.changedTouches[0].clientX-csx; if(dx<-40&&tcIdx<exercises.length-1){ tcIdx++; updateCarousel(); vib(8); } else if(dx>40&&tcIdx>0){ tcIdx--; updateCarousel(); vib(8); } },{passive:true});
 }
 
-function bindFlow(){
-  const mind=document.getElementById('mindView');
-  const stackSec=document.getElementById('mindStack');
-  const tint=document.getElementById('flowTint');
-  const cue=document.getElementById('scrollCue');
-  let ticking=false;
-  function update(){
-    ticking=false;
-    const top=stackSec.offsetTop || 1;
-    const p=Math.min(1, Math.max(0, mind.scrollTop/top));
-    tint.style.opacity=(p*0.9).toFixed(3);
-    if(cue) cue.style.opacity=(1-Math.min(1,p*2)).toFixed(3);
-  }
-  mind.addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } },{passive:true});
-  update();
-}
-
 document.getElementById('frontierBtn').addEventListener('click',()=>startRotation());
 document.getElementById('addBtn').addEventListener('click',()=>{ renderOpts(); document.getElementById('modalBack').classList.add('open'); });
 document.getElementById('modalClose').addEventListener('click',()=>document.getElementById('modalBack').classList.remove('open'));
 document.getElementById('modalBack').addEventListener('click',e=>{ if(e.target.id==='modalBack') document.getElementById('modalBack').classList.remove('open'); });
 document.querySelectorAll('.proto-item').forEach(row=>row.addEventListener('click',()=>{ const c=row.querySelector('.proto-check'),n=row.querySelector('.proto-n'); c.classList.toggle('on'); n.classList.toggle('done'); vib(10); }));
 document.getElementById('goTrainHint').addEventListener('click',()=>goTo(1));
-document.getElementById('scrollCue')?.addEventListener('click',()=>{ document.getElementById('mindStack').scrollIntoView({behavior:'smooth'}); });
 
 renderStats();
 applyTheme(0);
 bindNav();
+bindModeToggle();
 bindReader();
 bindMap();
 bindGameShell();
 renderStack();
 renderCarousel();
 initParticles();
-bindFlow();
 
 function boot(){
   mountBrain('brainCanvas',{points:660,scale:150});
   mountBrain('stackBrain',{points:560,scale:132});
-  const statState={ cv:sizeCanvas('statLines'), hubY:0.5, nodes:[[0.20,0.12],[0.80,0.14],[0.18,0.86],[0.82,0.88],[0.92,0.50]] };
-  const stackState={ cv:sizeCanvas('stackLines'), hubY:0.5, getNodes:()=>stack.map((_,i)=>stackNodePos(i,stack.length)) };
-  animConstellation(statState, LAV);
-  animConstellation(stackState, LAV);
-  window.addEventListener('resize',()=>{ sizeCanvas('statLines'); sizeCanvas('stackLines'); centerMap(); });
+  const stage={ cv:sizeCanvas('statLines'), hubY:0.5, getNodes:()=> mindMode==='stats' ? STAT_NODES : stack.map((_,i)=>stackNodePos(i,stack.length)) };
+  animConstellation(stage, LAV);
+  window.addEventListener('resize',()=>{ sizeCanvas('statLines'); centerMap(); });
 }
 setTimeout(boot,120);

@@ -8,44 +8,61 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/tokens.css?v=4">
-  <link rel="stylesheet" href="./styles/base.css?v=4">
-  <link rel="stylesheet" href="./styles/layout.css?v=4">
-  <link rel="stylesheet" href="./styles/stats.css?v=4">
-  <link rel="stylesheet" href="./styles/train.css?v=4">
-  <link rel="stylesheet" href="./styles/stack.css?v=4">
-  <link rel="stylesheet" href="./styles/protocol.css?v=4">
-  <link rel="stylesheet" href="./styles/learn.css?v=4">
-  <link rel="stylesheet" href="./styles/reader.css?v=4">
-  <link rel="stylesheet" href="./styles/game.css?v=4">
+  <link rel="stylesheet" href="./styles/tokens.css?v=5">
+  <link rel="stylesheet" href="./styles/base.css?v=5">
+  <link rel="stylesheet" href="./styles/layout.css?v=5">
+  <link rel="stylesheet" href="./styles/stats.css?v=5">
+  <link rel="stylesheet" href="./styles/train.css?v=5">
+  <link rel="stylesheet" href="./styles/stack.css?v=5">
+  <link rel="stylesheet" href="./styles/protocol.css?v=5">
+  <link rel="stylesheet" href="./styles/learn.css?v=5">
+  <link rel="stylesheet" href="./styles/reader.css?v=5">
+  <link rel="stylesheet" href="./styles/game.css?v=5">
 </head>
 <body>
   <div class="aurora"><div class="aurora-blob ab1"></div><div class="aurora-blob ab2"></div><div class="aurora-blob ab3"></div></div>
   <div class="dim"></div>
-  <div class="flow-tint" id="flowTint"></div>
   <div class="phone">
     <header class="header"><div class="h-context" id="ctx">Intellect</div><div class="h-age" id="ageBadge">Brain age --</div></header>
     <div class="views"><div class="track" id="track">
 
-      <section class="view enter mind" data-view="mind" id="mindView">
-        <div class="mind-sec mind-stats" id="mindStats">
-          <div class="constellation">
-            <canvas id="statLines"></canvas>
-            <div class="brain-center"><canvas id="brainCanvas" width="440" height="400"></canvas><div class="bc-cq" id="cqNum">100</div><div class="bc-lbl">CQ Score</div></div>
+      <section class="view enter mind" data-view="mind" id="mindView" data-mode="stats">
+        <div class="mode-toggle" id="modeToggle">
+          <button class="on" data-mode="stats">Stats</button>
+          <button data-mode="stack">Stack</button>
+          <span class="mode-pill" id="modePill"></span>
+        </div>
+
+        <div class="const-stage" id="constStage">
+          <canvas id="statLines"></canvas>
+
+          <div class="brain-layer stats-layer">
+            <canvas id="brainCanvas" width="440" height="400"></canvas>
+            <div class="bc-cq" id="cqNum">100</div><div class="bc-lbl">CQ Score</div>
+          </div>
+          <div class="brain-layer stack-layer">
+            <canvas id="stackBrain" width="420" height="380"></canvas>
+            <div class="sb-syn" id="synergyVal">+42%</div><div class="sb-lbl">Synergy</div>
+          </div>
+
+          <div class="node-group stats-nodes">
             <div class="node" style="top:12%;left:20%"><div class="node-v nv-green" id="statAge">--</div><div class="node-l">Brain Age</div></div>
             <div class="node" style="top:14%;left:80%"><div class="node-v nv-warm" id="stackStat">+42%</div><div class="node-l">Stack Boost</div></div>
             <div class="node" style="top:86%;left:18%"><div class="node-v nv-accent" id="statSessions">0</div><div class="node-l">Sessions</div></div>
             <div class="node" style="top:88%;left:82%"><div class="node-v nv-pink" id="statRecords">0</div><div class="node-l">Records</div></div>
             <div class="node" style="top:50%;left:92%"><div class="node-v nv-cyan" id="statBest">0%</div><div class="node-l">Best Acc</div></div>
           </div>
-          <div class="glow-btn"><button class="gb-inner" id="frontierBtn">Start Training<span class="gb-sub" id="fireSub">Your frontier is waiting</span><canvas class="gb-particles" id="fireCanvas"></canvas></button></div>
-          <div class="scroll-cue" id="scrollCue"><span>Your stack</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+          <div class="node-group stack-nodes" id="stackNodes"></div>
         </div>
-        <div class="mind-sec mind-stack" id="mindStack">
-          <div class="screen-head"><div class="screen-title">Stack</div><div class="screen-sub">Tap a node to remove. The brain grows with it.</div></div>
-          <div class="stack-const"><canvas id="stackLines"></canvas><div class="stack-brain"><canvas id="stackBrain" width="420" height="380"></canvas><div class="sb-syn" id="synergyVal">+42%</div><div class="sb-lbl">Synergy</div></div></div>
-          <div class="stack-eff"><div class="eff-item"><div class="eff-v nv-green" id="effCount">5</div><div class="eff-l">Active</div></div><div class="eff-item"><div class="eff-v nv-warm" id="effTotal">+42%</div><div class="eff-l">Total Boost</div></div><div class="eff-item"><div class="eff-v nv-accent" id="effTop">Semax</div><div class="eff-l">Strongest</div></div></div>
-          <button class="stack-add" id="addBtn">+ Add compound</button>
+
+        <div class="mind-foot">
+          <div class="foot-layer stats-foot">
+            <div class="glow-btn"><button class="gb-inner" id="frontierBtn">Start Training<span class="gb-sub" id="fireSub">Your frontier is waiting</span><canvas class="gb-particles" id="fireCanvas"></canvas></button></div>
+          </div>
+          <div class="foot-layer stack-foot">
+            <div class="stack-eff"><div class="eff-item"><div class="eff-v nv-green" id="effCount">5</div><div class="eff-l">Active</div></div><div class="eff-item"><div class="eff-v nv-warm" id="effTotal">+42%</div><div class="eff-l">Total Boost</div></div><div class="eff-item"><div class="eff-v nv-accent" id="effTop">Semax</div><div class="eff-l">Strongest</div></div></div>
+            <button class="stack-add" id="addBtn">+ Add compound</button>
+          </div>
         </div>
       </section>
 
@@ -78,6 +95,6 @@
       <div class="tab" data-v="3"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="tab-l">Learn</span></div>
     </nav>
   </div>
-  <script type="module" src="./src/main.js?v=4"></script>
+  <script type="module" src="./src/main.js?v=5"></script>
 </body>
 </html>
