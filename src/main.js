@@ -3,7 +3,7 @@ import { applyTheme } from './theme.js';
 import { brainAge, weakestZone, zoneMeta } from './util.js';
 import { bindNav, goTo } from './nav.js';
 import { animConstellation } from './lines.js';
-import { mountBrain } from './brain.js';
+import { mountBrain, brainState } from './brain.js';
 import { renderStack, renderOpts, stackNodePos } from './stack.js';
 import { stack } from './data/compounds.js';
 import { bindReader } from './reader.js';
@@ -12,7 +12,8 @@ import { exercises } from './data/exercises.js';
 import { bindGameShell } from './games/engine.js';
 import { startRotation } from './games/rotation.js';
 
-const LAV = { base:'oklch(74% 0.12 300 / A)', glow:'oklch(76% 0.13 300 / 0.6)', pulse:'oklch(88% 0.10 300 / A)' };
+const GREEN = { base:'oklch(80% 0.15 150 / A)', glow:'oklch(80% 0.16 150 / 0.6)', pulse:'oklch(90% 0.13 150 / A)' };
+let stackMode=false;
 
 function renderStats(){
   document.getElementById('cqNum').textContent=S.cq;
@@ -34,9 +35,10 @@ function initParticles(){
   let parts=[];
   (function loop(){
     cx.clearRect(0,0,cv.width,cv.height);
-    if(cv.width>10&&Math.random()<0.45) parts.push({x:Math.random()*cv.width,y:cv.height+4,vy:-(0.4+Math.random()*0.8),vx:(Math.random()-0.5)*0.3,life:1,size:1+Math.random()*2});
+    const hue=stackMode?150:300;
+    if(cv.width>10&&Math.random()<0.42) parts.push({x:Math.random()*cv.width,y:cv.height+4,vy:-(0.4+Math.random()*0.8),vx:(Math.random()-0.5)*0.3,life:1,size:1+Math.random()*2});
     parts=parts.filter(p=>p.life>0);
-    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${80+p.life*6}% 0.10 300 / ${p.life*0.7})`; cx.shadowBlur=6; cx.shadowColor='oklch(82% 0.10 300)'; cx.fill(); });
+    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${80+p.life*6}% 0.11 ${hue} / ${p.life*0.7})`; cx.shadowBlur=6; cx.shadowColor=`oklch(82% 0.11 ${hue})`; cx.fill(); });
     cx.shadowBlur=0; requestAnimationFrame(loop);
   })();
 }
@@ -54,31 +56,35 @@ function renderCarousel(){
   tcTrack.addEventListener('touchend',e=>{ if(!cdrag) return; cdrag=false; const dx=e.changedTouches[0].clientX-csx; if(dx<-40&&tcIdx<exercises.length-1){ tcIdx++; updateCarousel(); vib(8); } else if(dx>40&&tcIdx>0){ tcIdx--; updateCarousel(); vib(8); } },{passive:true});
 }
 
-// smooth stats -> stack color morph on scroll
-function bindFlow(){
-  const mind=document.getElementById('mindView');
-  const stackSec=document.getElementById('mindStack');
-  const tint=document.getElementById('flowTint');
-  const cue=document.getElementById('scrollCue');
-  let ticking=false;
-  function update(){
-    ticking=false;
-    const top=stackSec.offsetTop || 1;
-    const p=Math.min(1, Math.max(0, mind.scrollTop/top));
-    tint.style.opacity=(p*0.9).toFixed(3);
-    if(cue) cue.style.opacity=(1-Math.min(1,p*2)).toFixed(3);
-  }
-  mind.addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } },{passive:true});
-  update();
+function setMode(on){
+  stackMode=on;
+  const mv=document.getElementById('mindView');
+  mv.classList.toggle('stack-mode',on);
+  document.getElementById('statNodes').classList.toggle('hide',on);
+  document.getElementById('stackNodes').classList.toggle('show',on);
+  document.getElementById('stackPanel').classList.toggle('show',on);
+  document.getElementById('flowTint').classList.toggle('on',on);
+  document.getElementById('modeLabel').textContent=on?'Back to stats':'View your stack';
+  document.getElementById('mindTitle').textContent=on?'Stack':'Mind';
+  document.getElementById('mindSub').textContent=on?'Tap a node to remove. The brain grows with it.':'Your cognitive index, live.';
+  document.getElementById('cqLbl').textContent=on?'Synergy':'CQ Score';
+  document.getElementById('cqNum').textContent=on?document.getElementById('synergyVal').textContent:S.cq;
+  brainState.targetHue=on?150:300;
+  brainState.targetChroma=on?0.14:0.11;
+  if(on){ const st=document.getElementById('lineState'); } // lines reset via active()
+  lineState.life=null;
+  vib(12);
 }
 
+const lineState={ cv:null, active:()=>stackMode, getNodes:()=>stack.map((_,i)=>stackNodePos(i,stack.length)) };
+
 document.getElementById('frontierBtn').addEventListener('click',()=>startRotation());
+document.getElementById('modeToggle').addEventListener('click',()=>setMode(!stackMode));
 document.getElementById('addBtn').addEventListener('click',()=>{ renderOpts(); document.getElementById('modalBack').classList.add('open'); });
 document.getElementById('modalClose').addEventListener('click',()=>document.getElementById('modalBack').classList.remove('open'));
 document.getElementById('modalBack').addEventListener('click',e=>{ if(e.target.id==='modalBack') document.getElementById('modalBack').classList.remove('open'); });
 document.querySelectorAll('.proto-item').forEach(row=>row.addEventListener('click',()=>{ const c=row.querySelector('.proto-check'),n=row.querySelector('.proto-n'); c.classList.toggle('on'); n.classList.toggle('done'); vib(10); }));
 document.getElementById('goTrainHint').addEventListener('click',()=>goTo(1));
-document.getElementById('scrollCue')?.addEventListener('click',()=>{ document.getElementById('mindStack').scrollIntoView({behavior:'smooth'}); });
 
 renderStats();
 applyTheme(0);
@@ -89,15 +95,11 @@ bindGameShell();
 renderStack();
 renderCarousel();
 initParticles();
-bindFlow();
 
 function boot(){
-  mountBrain('brainCanvas',{points:660,scale:150});
-  mountBrain('stackBrain',{points:560,scale:132});
-  const statState={ cv:sizeCanvas('statLines'), hubY:0.5, nodes:[[0.20,0.12],[0.80,0.14],[0.18,0.86],[0.82,0.88],[0.92,0.50]] };
-  const stackState={ cv:sizeCanvas('stackLines'), hubY:0.5, getNodes:()=>stack.map((_,i)=>stackNodePos(i,stack.length)) };
-  animConstellation(statState, LAV);
-  animConstellation(stackState, LAV);
-  window.addEventListener('resize',()=>{ sizeCanvas('statLines'); sizeCanvas('stackLines'); centerMap(); });
+  mountBrain('brainCanvas',{points:640,scale:172});
+  lineState.cv=sizeCanvas('lineCanvas');
+  animConstellation(lineState, GREEN);
+  window.addEventListener('resize',()=>{ sizeCanvas('lineCanvas'); centerMap(); });
 }
 setTimeout(boot,120);

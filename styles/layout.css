@@ -6,17 +6,15 @@
 .track { display: flex; width: 100%; height: 100%; transition: transform 0.7s var(--smooth); will-change: transform; }
 .view { flex: 0 0 100%; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 0 24px; -webkit-overflow-scrolling: touch; }
 .view.enter > * { animation: riseIn 0.7s var(--ease) both; }
-.screen-head { padding: 20px 0 8px; }
-.screen-title { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.03em; color: var(--lav); }
+.screen-head { padding: 18px 0 6px; }
+.screen-title { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.03em; color: var(--lav); transition: color 0.6s var(--ease); }
 .screen-sub { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
-/* --- merged Mind view: stats -> stack scroll morph --- */
-.mind { scroll-snap-type: y proximity; scroll-behavior: smooth; }
-.mind-sec { min-height: calc(100% - 6px); display: flex; flex-direction: column; justify-content: center; scroll-snap-align: start; padding-bottom: 6px; }
-.mind-stack { justify-content: flex-start; padding-top: 6px; }
-.scroll-cue { display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 6px auto 0; color: var(--text-3); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; animation: cueBob 2.4s var(--ease) infinite; }
-.scroll-cue svg { width: 18px; height: 18px; stroke: var(--lav-2); fill: none; stroke-width: 2.2; }
-@keyframes cueBob { 0%,100%{transform:translateY(0);opacity:0.6} 50%{transform:translateY(4px);opacity:1} }
-.flow-tint { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.25s var(--ease); background: radial-gradient(130% 90% at 50% 82%, oklch(58% 0.17 322 / 0.55), transparent 62%); mix-blend-mode: screen; }
+/* --- morph: color slides between lavender (stats) and green (stack) --- */
+.mind-morph .screen-title, .mind-morph .bc-cq, .mind-morph .bc-lbl, .mind-morph .node-v, .mind-morph .snode-b, .mind-morph .eff-v, .mind-morph .mode-toggle, .mind-morph .gb-sub { transition: color 0.6s var(--ease), text-shadow 0.6s var(--ease); }
+.mind-morph .glow-btn, .mind-morph .glow-btn::after, .mind-morph .snode-badge, .mind-morph .stack-add, .mind-morph .mode-toggle { transition: background 0.6s var(--ease), border-color 0.6s var(--ease), box-shadow 0.6s var(--ease), color 0.6s var(--ease); }
+#mindView.stack-mode { --lav: oklch(84% 0.15 150); --lav-2: oklch(72% 0.16 150); --lav-3: oklch(56% 0.16 150); --purple: oklch(74% 0.15 150); }
+.flow-tint { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.6s var(--ease); background: radial-gradient(130% 95% at 50% 60%, oklch(60% 0.16 150 / 0.5), transparent 64%); mix-blend-mode: screen; }
+.flow-tint.on { opacity: 1; }
 .tabbar { flex-shrink: 0; display: flex; background: oklch(10% 0.03 300 / 0.62); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-top: 1px solid var(--glass-brd); padding: 11px 8px calc(var(--safe-b) + 11px); position: relative; }
 .tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 0; cursor: pointer; color: var(--text-3); transition: color 0.3s; position: relative; }
 .tab.active { color: var(--lav); }
