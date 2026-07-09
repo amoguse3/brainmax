@@ -3,7 +3,7 @@ import { applyTheme } from './theme.js';
 import { brainAge, weakestZone, zoneMeta } from './util.js';
 import { bindNav, goTo } from './nav.js';
 import { animConstellation } from './lines.js';
-import { mountBrain } from './brain.js';
+import { mountBrain } from './brain.js?v=15';
 import { renderStack, renderOpts, stackNodePos } from './stack.js';
 import { stack } from './data/compounds.js';
 import { bindReader } from './reader.js';
@@ -87,8 +87,8 @@ renderCarousel();
 initParticles();
 
 function boot(){
-  mountBrain('brainCanvas',{points:660,scale:150});
-  mountBrain('stackBrain',{points:560,scale:132});
+  mountBrain('brainCanvas',{scale:1.02});
+  mountBrain('stackBrain',{scale:1.02});
   const stage={ cv:sizeCanvas('statLines'), hubY:0.5, getNodes:()=> mindMode==='stats' ? STAT_NODES : stack.map((_,i)=>stackNodePos(i,stack.length)) };
   animConstellation(stage, LAV);
   window.addEventListener('resize',()=>{ sizeCanvas('statLines'); centerMap(); });
