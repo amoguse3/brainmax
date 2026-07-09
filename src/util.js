@@ -1,6 +1,5 @@
-export function vib(p){ if (navigator.vibrate) navigator.vibrate(p); }
-export function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
-export function avg(arr){ return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
-export function qs(sel, root=document){ return root.querySelector(sel); }
-export function qsa(sel, root=document){ return [...root.querySelectorAll(sel)]; }
-export function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+import { S } from './state.js';
+export const zoneMeta = { frontal:{n:'Frontal',c:'var(--purple)',ex:'math'}, parietal:{n:'Parietal',c:'var(--green)',ex:'rotation'}, hippo:{n:'Hippocampus',c:'var(--pink)',ex:'memory'}, creative:{n:'Creativity',c:'var(--cyan)',ex:'creative'}, reason:{n:'Reasoning',c:'var(--warm)',ex:'critical'} };
+export function brainAge(){ const z=S.zones; const avg=(z.frontal+z.parietal+z.hippo+z.creative+z.reason)/5; return Math.max(16,Math.round(40-avg*0.28)); }
+export function weakestZone(){ let mk='frontal',mv=999; for(const k in S.zones){ if(S.zones[k]<mv){ mv=S.zones[k]; mk=k; } } return mk; }
+export function flashLock(){ const el=document.getElementById('lockState'); el.animate([{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},{transform:'translateX(0)'}],{duration:340,easing:'cubic-bezier(0.34,1.4,0.5,1)'}); }

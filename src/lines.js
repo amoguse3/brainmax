@@ -1,4 +1,21 @@
-export function animLines(state,color){if(!state)return;const cv=state.cv,cx=cv.getContext('2d');const bx=cv.width/2,by=cv.height/2;const t=Date.now()/1000;cx.clearRect(0,0,cv.width,cv.height);state.nodes.forEach(([nx,ny],idx)=>{const x=nx*cv.width,y=ny*cv.height;const bxc=(bx+x)/2+(y-by)*0.32,byc=(by+y)/2-(x-bx)*0.32;cx.strokeStyle=color.base;cx.lineWidth=2.5;cx.shadowBlur=12;cx.shadowColor=color.glow;cx.globalAlpha=0.5;cx.beginPath();cx.moveTo(bx,by);cx.quadraticCurveTo(bxc,byc,x,y);cx.stroke();cx.globalAlpha=1;const prog=((t*0.18+idx*0.2)%1);const px=(1-prog)*(1-prog)*bx+2*(1-prog)*prog*bxc+prog*prog*x;const py=(1-prog)*(1-prog)*by+2*(1-prog)*prog*byc+prog*prog*y;const grad=cx.createRadialGradient(px,py,0,px,py,10);grad.addColorStop(0,color.pulse);grad.addColorStop(1,'transparent');cx.fillStyle=grad;cx.shadowBlur=16;cx.shadowColor=color.glow;cx.beginPath();cx.arc(px,py,10,0,Math.PI*2);cx.fill();});cx.shadowBlur=0;requestAnimationFrame(()=>animLines(state,color));}
-export function initStatLines(){const cv=document.getElementById('statLines');const p=cv.parentElement;cv.width=p.offsetWidth;cv.height=p.offsetHeight;const nodes=[[0.20,0.14],[0.80,0.16],[0.18,0.82],[0.82,0.84],[0.90,0.50]];return {cv,nodes};}
-export function initStackLines(stackNodePos, stack){const cv=document.getElementById('stackLines');const p=cv.parentElement;cv.width=p.offsetWidth;cv.height=p.offsetHeight;const nodes=stack.map((s,i)=>stackNodePos(i,stack.length));return {cv,nodes};}
-export function animStackLines(st){if(st){const cv=st.cv,cx=cv.getContext('2d');const bx=cv.width/2,by=cv.height/2;const t=Date.now()/1000;cx.clearRect(0,0,cv.width,cv.height);st.nodes.forEach(([nx,ny],idx)=>{const x=nx*cv.width,y=ny*cv.height;const bxc=(bx+x)/2+(y-by)*0.3,byc=(by+y)/2-(x-bx)*0.3;cx.strokeStyle='oklch(80% 0.16 150 / 0.45)';cx.lineWidth=2.5;cx.shadowBlur=12;cx.shadowColor='oklch(82% 0.18 150 / 0.6)';cx.globalAlpha=0.55;cx.beginPath();cx.moveTo(bx,by);cx.quadraticCurveTo(bxc,byc,x,y);cx.stroke();cx.globalAlpha=1;const prog=((t*0.16+idx*0.22)%1);const px=(1-prog)*(1-prog)*bx+2*(1-prog)*prog*bxc+prog*prog*x;const py=(1-prog)*(1-prog)*by+2*(1-prog)*prog*byc+prog*prog*y;const grad=cx.createRadialGradient(px,py,0,px,py,9);grad.addColorStop(0,'oklch(88% 0.19 150 / 0.9)');grad.addColorStop(1,'transparent');cx.fillStyle=grad;cx.shadowBlur=16;cx.shadowColor='oklch(82% 0.18 150)';cx.beginPath();cx.arc(px,py,9,0,Math.PI*2);cx.fill();});cx.shadowBlur=0;}requestAnimationFrame(()=>animStackLines(st));}
+export function animLines(state,color){
+  if(!state) return;
+  const cv=state.cv, cx=cv.getContext('2d');
+  const bx=cv.width/2, by=cv.height/2;
+  const t=Date.now()/1000;
+  cx.clearRect(0,0,cv.width,cv.height);
+  state.nodes.forEach(([nx,ny],idx)=>{
+    const x=nx*cv.width,y=ny*cv.height;
+    const bxc=(bx+x)/2+(y-by)*0.32, byc=(by+y)/2-(x-bx)*0.32;
+    cx.strokeStyle=color.base; cx.lineWidth=2.5; cx.shadowBlur=12; cx.shadowColor=color.glow; cx.globalAlpha=0.5;
+    cx.beginPath(); cx.moveTo(bx,by); cx.quadraticCurveTo(bxc,byc,x,y); cx.stroke(); cx.globalAlpha=1;
+    const prog=((t*0.18+idx*0.2)%1);
+    const px=(1-prog)*(1-prog)*bx+2*(1-prog)*prog*bxc+prog*prog*x;
+    const py=(1-prog)*(1-prog)*by+2*(1-prog)*prog*byc+prog*prog*y;
+    const grad=cx.createRadialGradient(px,py,0,px,py,10);
+    grad.addColorStop(0,color.pulse); grad.addColorStop(1,'transparent');
+    cx.fillStyle=grad; cx.shadowBlur=16; cx.shadowColor=color.glow; cx.beginPath(); cx.arc(px,py,10,0,Math.PI*2); cx.fill();
+  });
+  cx.shadowBlur=0;
+  requestAnimationFrame(()=>animLines(state,color));
+}
