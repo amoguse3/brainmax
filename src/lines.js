@@ -1,7 +1,6 @@
 // Comet field: NO connecting lines and NO curves. A glowing point eases in a STRAIGHT
 // line from the brain hub to each number, dragging a fading trail, then dissolves and
-// respawns after a pause. ease-out (decelerate on arrival), never linear
-// (NN/g, Material 3, Motion.dev: linear reads robotic; entering motion should decelerate).
+// respawns after a pause. ease-out (decelerate on arrival), never linear.
 const easeOutQuint = x => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 5);
 function freshComet(i, n){
   return {
@@ -37,7 +36,7 @@ export function animConstellation(state, palette){
     const x = nd[0] * cv.width, y = nd[1] * cv.height;
     if(c.phase === 'travel'){
       const prog = easeOutQuint(c.t / c.travel);
-      const px = bx + (x - bx) * prog, py = by + (y - by) * prog; // STRAIGHT path
+      const px = bx + (x - bx) * prog, py = by + (y - by) * prog;
       c.trail.push({ x: px, y: py, life: 1 });
       if(c.trail.length > 24) c.trail.shift();
     }

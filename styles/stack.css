@@ -7,7 +7,7 @@
 .snode-nm { font-size: 0.56rem; color: var(--text-2); font-weight: 600; white-space: nowrap; }
 .snode-b { font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 700; color: var(--lav); }
 .sbadge-cr{background:oklch(30% 0.08 300 / 0.5);color:oklch(80% 0.10 300)} .sbadge-sx{background:oklch(30% 0.08 290 / 0.5);color:oklch(80% 0.10 290)} .sbadge-om{background:oklch(30% 0.08 312 / 0.5);color:oklch(82% 0.09 312)} .sbadge-lm{background:oklch(30% 0.09 320 / 0.5);color:oklch(80% 0.10 320)} .sbadge-lt{background:oklch(30% 0.10 300 / 0.5);color:oklch(78% 0.12 300)}
-.stack-add { width: 100%; background: var(--glass); backdrop-filter: blur(14px); border: 1px dashed var(--glass-brd); color: var(--text-2); padding: 15px; border-radius: 16px; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 12px; }
+.stack-add { width: 100%; background: var(--glass); backdrop-filter: blur(14px); border: 1px dashed var(--glass-brd); color: var(--text-2); padding: 15px; border-radius: 16px; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 10px; }
 .stack-add:active { background: var(--glass-2); }
 .stack-eff { display: flex; justify-content: space-around; }
 .eff-item { text-align: center; }

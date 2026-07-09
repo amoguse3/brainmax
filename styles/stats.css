@@ -12,6 +12,3 @@
 .gb-inner:active { transform: scale(0.97); }
 .gb-sub { display: block; font-size: 0.72rem; font-weight: 500; color: var(--text-3); margin-top: 3px; }
 .gb-particles { position: absolute; inset: 0; pointer-events: none; z-index: 2; border-radius: 20px; overflow: hidden; }
-.open-stack { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 15px; border-radius: 16px; background: var(--glass); border: 1px solid var(--glass-brd); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: var(--lav); font-family: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: transform 0.14s var(--spring), background 0.3s; }
-.open-stack svg { width: 18px; height: 18px; stroke: var(--lav); fill: none; stroke-width: 2; }
-.open-stack:active { transform: scale(0.97); background: var(--glass-2); }
