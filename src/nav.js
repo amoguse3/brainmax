@@ -1,13 +1,26 @@
 import { applyTheme } from './theme.js';
-import { vib } from './util.js';
-let current=0; let sessionDone=false;
-const track=document.getElementById('track');
-const tabs=[...document.querySelectorAll('.tab')];
-const viewsEl=document.querySelector('.views');
-const ctx=document.getElementById('ctx');
-const NUM=5;
-export function isSessionDone(){ return sessionDone; }
-export function completeSessionUI(){ if(sessionDone) return; sessionDone=true; document.getElementById('lockState').style.display='none'; document.getElementById('protoWrap').classList.add('unlocked'); document.getElementById('protoTab').classList.remove('locked'); document.getElementById('lockDot').style.display='none'; document.getElementById('lockFill').style.width='100%'; document.getElementById('lockCount').textContent='1 / 1 session'; vib([10,40,20]); }
-export function flashLock(){ const el=document.getElementById('lockState'); el.animate([{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},{transform:'translateX(0)'}],{duration:340,easing:'cubic-bezier(0.34,1.4,0.5,1)'}); vib([20,30,20]); }
-export function goTo(i){ if(i===3&&!sessionDone){flashLock();return;} current=Math.max(0,Math.min(NUM-1,i)); track.style.transform=`translateX(-${current*100}%)`; tabs.forEach((t,idx)=>t.classList.toggle('active',idx===current)); applyTheme(current, ctx); const v=viewsEl.querySelectorAll('.view')[current]; if(v.classList.contains('enter')){v.classList.remove('enter');v.offsetHeight;v.classList.add('enter');} if(i===4) window.dispatchEvent(new CustomEvent('map:center')); vib(6); }
-export function bindNav(){ tabs.forEach(t=>t.addEventListener('click',()=>goTo(parseInt(t.dataset.v,10)))); let sx=0,sy=0,drag=false,lk=null; viewsEl.addEventListener('touchstart',e=>{if(e.target.closest('.tc-track')||e.target.closest('.map-vp'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=true;lk=null;track.style.transition='none';},{passive:true}); viewsEl.addEventListener('touchmove',e=>{if(!drag)return;const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;if(lk===null)lk=Math.abs(dx)>Math.abs(dy)?'x':'y';if(lk==='x'){const base=-current*100,pct=(dx/viewsEl.offsetWidth)*100;let n=base+pct;if(current===2&&dx<0&&!sessionDone)n=base+pct*0.25;if(current===0&&dx>0)n=base+pct*0.35;if(current===NUM-1&&dx<0)n=base+pct*0.35;track.style.transform=`translateX(${n}%)`;}},{passive:true}); viewsEl.addEventListener('touchend',e=>{if(!drag)return;drag=false;track.style.transition='transform 0.7s var(--smooth)';if(lk==='x'){const dx=e.changedTouches[0].clientX-sx,th=viewsEl.offsetWidth*0.2;if(dx<-th&&current<NUM-1){if(current===2&&!sessionDone)goTo(4);else goTo(current+1);}else if(dx>th&&current>0){if(current===4&&!sessionDone)goTo(2);else goTo(current-1);}else goTo(current);}},{passive:true}); document.getElementById('goTrainLink').addEventListener('click',()=>goTo(1)); }
+import { sessionDone, vib } from './state.js';
+import { flashLock } from './util.js';
+let current = 0;
+const NUM = 5;
+const track = document.getElementById('track');
+const tabs = document.querySelectorAll('.tab');
+const viewsEl = document.querySelector('.views');
+export function getCurrent(){ return current; }
+export function goTo(i){
+  if(i===3 && !sessionDone){ flashLock(); vib([20,30,20]); return; }
+  current = Math.max(0, Math.min(NUM-1, i));
+  track.style.transform = `translateX(-${current*100}%)`;
+  tabs.forEach((t,idx)=>t.classList.toggle('active', idx===current));
+  applyTheme(current);
+  const v = viewsEl.querySelectorAll('.view')[current];
+  if(v.classList.contains('enter')){ v.classList.remove('enter'); v.offsetHeight; v.classList.add('enter'); }
+  vib(6);
+}
+export function bindNav(){
+  tabs.forEach(t=>t.addEventListener('click',()=>goTo(parseInt(t.dataset.v,10))));
+  let sx=0,sy=0,drag=false,lk=null;
+  viewsEl.addEventListener('touchstart',e=>{ if(e.target.closest('.tc-track')||e.target.closest('.map-vp')) return; sx=e.touches[0].clientX; sy=e.touches[0].clientY; drag=true; lk=null; track.style.transition='none'; },{passive:true});
+  viewsEl.addEventListener('touchmove',e=>{ if(!drag) return; const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy; if(lk===null) lk=Math.abs(dx)>Math.abs(dy)?'x':'y'; if(lk==='x'){ const base=-current*100,pct=(dx/viewsEl.offsetWidth)*100; let n=base+pct; if(current===2&&dx<0&&!sessionDone) n=base+pct*0.25; if(current===0&&dx>0) n=base+pct*0.35; if(current===NUM-1&&dx<0) n=base+pct*0.35; track.style.transform=`translateX(${n}%)`; } },{passive:true});
+  viewsEl.addEventListener('touchend',e=>{ if(!drag) return; drag=false; track.style.transition='transform 0.7s var(--smooth)'; if(lk==='x'){ const dx=e.changedTouches[0].clientX-sx,th=viewsEl.offsetWidth*0.2; if(dx<-th&&current<NUM-1){ if(current===2&&!sessionDone) goTo(4); else goTo(current+1); } else if(dx>th&&current>0){ if(current===4&&!sessionDone) goTo(2); else goTo(current-1); } else goTo(current); } },{passive:true});
+}

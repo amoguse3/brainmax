@@ -1,11 +1,15 @@
 # BrainMax
 
-Mobile-first cognitive training app.
+Modular mobile cognitive training app.
 
 ## Structure
 
-- `index.html`: app shell only
+- `index.html`: app shell
 - `styles/`: split styles by surface
-- `src/`: state, modules, data, UI, games
+- `src/`: state, UI modules, data, and games
 
-No build step. Open with GitHub Pages or raw.githack.
+## Notes
+
+- No build step, pure ES modules
+- Designed to run on GitHub Pages and raw.githack
+- Current refactor ports the core shell, stats, stack, learn map, and mental rotation flow first

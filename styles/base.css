@@ -1,14 +1,29 @@
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overflow: hidden; font-family: 'Sora', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 16px; overscroll-behavior: none; -webkit-user-select: none; user-select: none; }
+html, body { height: 100%; overflow: hidden; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-optical-sizing: auto; background: var(--bg); color: var(--text); font-size: 16px; overscroll-behavior: none; -webkit-user-select: none; user-select: none; }
 button, input { font: inherit; }
+/* one display face everywhere (Bricolage Grotesque); JetBrains Mono stays only on numeric readouts */
+body, button, input,
+.h-age, .screen-title, .bc-cq, .node-v, .tc-name, .sb-syn, .eff-v,
+.reader-h1, .reader-body h2, .lock-title, .game-title, .cr-prompt,
+.cr-count, .results-title, .rst-v, .countdown, .stroop-word, .modal-h,
+.gb-sub, .rot-btn, .stroop-btn {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-optical-sizing: auto;
+}
 .aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.aurora-blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.4; transition: background 1.6s var(--ease); mix-blend-mode: screen; }
+.aurora-blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.34; transition: background 1.6s var(--ease); mix-blend-mode: screen; }
 .ab1 { width: 440px; height: 440px; top: -12%; left: -22%; background: var(--a1); animation: drift1 22s ease-in-out infinite; }
 .ab2 { width: 380px; height: 380px; top: 30%; right: -28%; background: var(--a2); animation: drift2 26s ease-in-out infinite; }
 .ab3 { width: 360px; height: 360px; bottom: -10%; left: 12%; background: var(--a3); animation: drift3 24s ease-in-out infinite; }
 @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(60px,80px) scale(1.2)} 66%{transform:translate(-50px,50px) scale(0.85)} }
 @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-70px,100px) scale(1.3)} }
 @keyframes drift3 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(80px,-60px) scale(1.15)} 75%{transform:translate(-40px,-80px) scale(0.9)} }
-.dim { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 40%, oklch(6% 0.02 300 / 0.35), oklch(5% 0.02 300 / 0.72)); }
-.view.enter > * { animation: riseIn 0.7s var(--ease) both; }
+.dim { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 40%, oklch(9% 0.02 300 / 0.35), oklch(7% 0.02 300 / 0.72)); }
+.view::-webkit-scrollbar, .reader-body::-webkit-scrollbar, .modal::-webkit-scrollbar, .game-body::-webkit-scrollbar, .cr-list::-webkit-scrollbar { display: none; }
 @keyframes riseIn { from{opacity:0;transform:translateY(22px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes gRise { from{opacity:0;transform:translateY(12px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes runborder { to { --gr: 360deg; } }
+@keyframes auraBreathe { 0%,100%{opacity:0.32;transform:scale(0.94)} 50%{opacity:0.85;transform:scale(1.05)} }
+@keyframes sheen { 0%,55%{transform:translateX(-130%)} 82%,100%{transform:translateX(130%)} }
+@keyframes pop { 0%{opacity:0;transform:scale(0.4)} 30%{opacity:1;transform:scale(1.15)} 100%{opacity:0;transform:scale(1)} }
+@keyframes cdPop { 0%{opacity:0;transform:scale(1.6)} 40%{opacity:1;transform:scale(1)} 100%{opacity:1} }
