@@ -1,5 +1,5 @@
-#stackBrain { width: 190px; height: 172px; display: block; }
-.sb-syn { font-size: 2rem; font-weight: 800; color: var(--lav); text-shadow: 0 0 20px oklch(83% 0.10 300 / 0.55); line-height: 1; margin-top: -8px; }
+#stackBrain { width: 220px; height: 190px; display: block; }
+.sb-syn { font-size: 2rem; font-weight: 800; color: var(--lav); text-shadow: 0 0 20px oklch(83% 0.10 300 / 0.55); line-height: 1; margin-top: -6px; }
 .sb-lbl { font-size: 0.52rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-3); }
 .snode { position: absolute; transform: translate(-50%,-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
 .snode-badge { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; border: 1px solid var(--glass-brd); backdrop-filter: blur(10px); box-shadow: 0 0 16px currentColor; transition: transform 0.2s var(--spring); }
