@@ -44,7 +44,7 @@ function initParticles(){
     cx.clearRect(0,0,cv.width,cv.height);
     if(cv.width>10&&Math.random()<0.5) parts.push({x:Math.random()*cv.width,y:cv.height+4,vy:-(0.4+Math.random()*0.8),vx:(Math.random()-0.5)*0.3,life:1,size:1+Math.random()*2});
     parts=parts.filter(p=>p.life>0);
-    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${82+p.life*4}% 0.16 ${75-(1-p.life)*30} / ${p.life*0.75})`; cx.shadowBlur=6; cx.shadowColor='oklch(80% 0.16 60)'; cx.fill(); });
+    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${78+p.life*8}% 0.10 300 / ${p.life*0.7})`; cx.shadowBlur=6; cx.shadowColor='oklch(80% 0.10 300)'; cx.fill(); });
     cx.shadowBlur=0; requestAnimationFrame(loop);
   })();
 }
@@ -80,6 +80,6 @@ mountStackBrain(makeBrainPts);
 renderStack();
 renderCarousel();
 initParticles();
-setTimeout(()=>animLines(initStatLines(),{base:'oklch(70% 0.2 300 / 0.5)',glow:'oklch(72% 0.24 300 / 0.7)',pulse:'oklch(85% 0.2 320 / 0.9)'}),250);
-setTimeout(()=>animLines(initStackLines(),{base:'oklch(80% 0.16 150 / 0.45)',glow:'oklch(82% 0.18 150 / 0.6)',pulse:'oklch(88% 0.19 150 / 0.9)'}),300);
+setTimeout(()=>animLines(initStatLines(),{base:'oklch(72% 0.12 300 / 0.5)',glow:'oklch(74% 0.13 300 / 0.7)',pulse:'oklch(86% 0.10 300 / 0.9)'}),250);
+setTimeout(()=>animLines(initStackLines(),{base:'oklch(72% 0.12 300 / 0.45)',glow:'oklch(74% 0.13 300 / 0.6)',pulse:'oklch(86% 0.10 300 / 0.9)'}),300);
 window.addEventListener('resize',()=>centerMap());
