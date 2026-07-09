@@ -12,7 +12,10 @@
 .mind { display: flex; flex-direction: column; justify-content: center; }
 .const-stage { position: relative; width: 100%; height: 430px; margin: 10px 0 4px; }
 .const-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
-.brain-layer { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; }
+/* brain sits DEAD CENTER of the stage; number overlays its middle */
+.brain-layer { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 2; }
+.brain-layer canvas { display: block; }
+.brain-readout { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; pointer-events: none; }
 .node { position: absolute; text-align: center; transform: translate(-50%,-50%); z-index: 3; }
 .mind-foot { display: flex; flex-direction: column; gap: 10px; padding-bottom: 6px; }
 .stack-sheet { position: absolute; inset: 0; z-index: 55; background: linear-gradient(180deg, oklch(13% 0.03 155 / 0.94), oklch(9% 0.025 300 / 0.99)); backdrop-filter: blur(26px); -webkit-backdrop-filter: blur(26px); display: flex; flex-direction: column; padding: 0 24px calc(var(--safe-b) + 16px); opacity: 0; transform: translateY(20px) scale(0.98); pointer-events: none; transition: opacity 0.5s var(--ease), transform 0.55s var(--e-swap); }
