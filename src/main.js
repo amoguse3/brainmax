@@ -17,8 +17,8 @@ const LAV = {
   head:  'oklch(86% 0.12 300 / A)',
   core:  'oklch(97% 0.05 300 / A)'
 };
-const STAT_NODES = [[0.20,0.12],[0.80,0.14],[0.18,0.86],[0.82,0.88],[0.92,0.50]];
-let mindMode = 'stats';
+// symmetric layout mirrored about the vertical center line
+const STAT_NODES = [[0.22,0.18],[0.78,0.18],[0.12,0.52],[0.88,0.52],[0.50,0.90]];
 
 function renderStats(){
   document.getElementById('cqNum').textContent=S.cq;
@@ -32,18 +32,6 @@ function renderStats(){
 }
 
 function sizeCanvas(id){ const cv=document.getElementById(id); if(!cv) return null; const p=cv.parentElement; cv.width=p.offsetWidth; cv.height=p.offsetHeight; return cv; }
-
-function bindModeToggle(){
-  const mind=document.getElementById('mindView');
-  const btns=document.querySelectorAll('#modeToggle button');
-  btns.forEach(b=>b.addEventListener('click',()=>{
-    const m=b.dataset.mode; if(m===mindMode) return;
-    mindMode=m;
-    mind.dataset.mode=m;
-    btns.forEach(x=>x.classList.toggle('on',x.dataset.mode===m));
-    vib(10);
-  }));
-}
 
 function initParticles(){
   const cv=document.getElementById('fireCanvas'); if(!cv) return; const cx=cv.getContext('2d');
@@ -72,6 +60,14 @@ function renderCarousel(){
   tcTrack.addEventListener('touchend',e=>{ if(!cdrag) return; cdrag=false; const dx=e.changedTouches[0].clientX-csx; if(dx<-40&&tcIdx<exercises.length-1){ tcIdx++; updateCarousel(); vib(8); } else if(dx>40&&tcIdx>0){ tcIdx--; updateCarousel(); vib(8); } },{passive:true});
 }
 
+// Stack open/close sheet
+let stackOpen=false;
+function bindStackSheet(){
+  const sheet=document.getElementById('stackSheet');
+  document.getElementById('openStack').addEventListener('click',()=>{ sheet.classList.add('open'); stackOpen=true; setTimeout(()=>sizeCanvas('stackLines'),60); vib(10); });
+  document.getElementById('closeStack').addEventListener('click',()=>{ sheet.classList.remove('open'); stackOpen=false; vib(8); });
+}
+
 document.getElementById('frontierBtn').addEventListener('click',()=>startRotation());
 document.getElementById('addBtn').addEventListener('click',()=>{ renderOpts(); document.getElementById('modalBack').classList.add('open'); });
 document.getElementById('modalClose').addEventListener('click',()=>document.getElementById('modalBack').classList.remove('open'));
@@ -82,7 +78,7 @@ document.getElementById('goTrainHint').addEventListener('click',()=>goTo(1));
 renderStats();
 applyTheme(0);
 bindNav();
-bindModeToggle();
+bindStackSheet();
 bindReader();
 bindMap();
 bindGameShell();
@@ -93,8 +89,10 @@ initParticles();
 function boot(){
   mountBrain('brainCanvas',{points:660,scale:150});
   mountBrain('stackBrain',{points:560,scale:132});
-  const stage={ cv:sizeCanvas('statLines'), hubY:0.5, getNodes:()=> mindMode==='stats' ? STAT_NODES : stack.map((_,i)=>stackNodePos(i,stack.length)) };
-  animConstellation(stage, LAV);
-  window.addEventListener('resize',()=>{ sizeCanvas('statLines'); centerMap(); });
+  const statState={ cv:sizeCanvas('statLines'), hubY:0.5, nodes:STAT_NODES };
+  const stackState={ cv:sizeCanvas('stackLines'), hubY:0.5, getNodes:()=>stack.map((_,i)=>stackNodePos(i,stack.length)) };
+  animConstellation(statState, LAV);
+  animConstellation(stackState, LAV);
+  window.addEventListener('resize',()=>{ sizeCanvas('statLines'); sizeCanvas('stackLines'); centerMap(); });
 }
 setTimeout(boot,120);

@@ -8,16 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/tokens.css?v=5">
-  <link rel="stylesheet" href="./styles/base.css?v=5">
-  <link rel="stylesheet" href="./styles/layout.css?v=5">
-  <link rel="stylesheet" href="./styles/stats.css?v=5">
-  <link rel="stylesheet" href="./styles/train.css?v=5">
-  <link rel="stylesheet" href="./styles/stack.css?v=5">
-  <link rel="stylesheet" href="./styles/protocol.css?v=5">
-  <link rel="stylesheet" href="./styles/learn.css?v=5">
-  <link rel="stylesheet" href="./styles/reader.css?v=5">
-  <link rel="stylesheet" href="./styles/game.css?v=5">
+  <link rel="stylesheet" href="./styles/tokens.css?v=6">
+  <link rel="stylesheet" href="./styles/base.css?v=6">
+  <link rel="stylesheet" href="./styles/layout.css?v=6">
+  <link rel="stylesheet" href="./styles/stats.css?v=6">
+  <link rel="stylesheet" href="./styles/train.css?v=6">
+  <link rel="stylesheet" href="./styles/stack.css?v=6">
+  <link rel="stylesheet" href="./styles/protocol.css?v=6">
+  <link rel="stylesheet" href="./styles/learn.css?v=6">
+  <link rel="stylesheet" href="./styles/reader.css?v=6">
+  <link rel="stylesheet" href="./styles/game.css?v=6">
 </head>
 <body>
   <div class="aurora"><div class="aurora-blob ab1"></div><div class="aurora-blob ab2"></div><div class="aurora-blob ab3"></div></div>
@@ -26,43 +26,22 @@
     <header class="header"><div class="h-context" id="ctx">Intellect</div><div class="h-age" id="ageBadge">Brain age --</div></header>
     <div class="views"><div class="track" id="track">
 
-      <section class="view enter mind" data-view="mind" id="mindView" data-mode="stats">
-        <div class="mode-toggle" id="modeToggle">
-          <button class="on" data-mode="stats">Stats</button>
-          <button data-mode="stack">Stack</button>
-          <span class="mode-pill" id="modePill"></span>
-        </div>
-
-        <div class="const-stage" id="constStage">
+      <section class="view enter mind" data-view="mind" id="mindView">
+        <div class="const-stage">
           <canvas id="statLines"></canvas>
-
-          <div class="brain-layer stats-layer">
+          <div class="brain-layer">
             <canvas id="brainCanvas" width="440" height="400"></canvas>
             <div class="bc-cq" id="cqNum">100</div><div class="bc-lbl">CQ Score</div>
           </div>
-          <div class="brain-layer stack-layer">
-            <canvas id="stackBrain" width="420" height="380"></canvas>
-            <div class="sb-syn" id="synergyVal">+42%</div><div class="sb-lbl">Synergy</div>
-          </div>
-
-          <div class="node-group stats-nodes">
-            <div class="node" style="top:12%;left:20%"><div class="node-v nv-green" id="statAge">--</div><div class="node-l">Brain Age</div></div>
-            <div class="node" style="top:14%;left:80%"><div class="node-v nv-warm" id="stackStat">+42%</div><div class="node-l">Stack Boost</div></div>
-            <div class="node" style="top:86%;left:18%"><div class="node-v nv-accent" id="statSessions">0</div><div class="node-l">Sessions</div></div>
-            <div class="node" style="top:88%;left:82%"><div class="node-v nv-pink" id="statRecords">0</div><div class="node-l">Records</div></div>
-            <div class="node" style="top:50%;left:92%"><div class="node-v nv-cyan" id="statBest">0%</div><div class="node-l">Best Acc</div></div>
-          </div>
-          <div class="node-group stack-nodes" id="stackNodes"></div>
+          <div class="node" style="top:18%;left:22%"><div class="node-v nv-green" id="statAge">--</div><div class="node-l">Brain Age</div></div>
+          <div class="node" style="top:18%;left:78%"><div class="node-v nv-warm" id="stackStat">+42%</div><div class="node-l">Stack Boost</div></div>
+          <div class="node" style="top:52%;left:12%"><div class="node-v nv-accent" id="statSessions">0</div><div class="node-l">Sessions</div></div>
+          <div class="node" style="top:52%;left:88%"><div class="node-v nv-pink" id="statRecords">0</div><div class="node-l">Records</div></div>
+          <div class="node" style="top:90%;left:50%"><div class="node-v nv-cyan" id="statBest">0%</div><div class="node-l">Best Acc</div></div>
         </div>
-
         <div class="mind-foot">
-          <div class="foot-layer stats-foot">
-            <div class="glow-btn"><button class="gb-inner" id="frontierBtn">Start Training<span class="gb-sub" id="fireSub">Your frontier is waiting</span><canvas class="gb-particles" id="fireCanvas"></canvas></button></div>
-          </div>
-          <div class="foot-layer stack-foot">
-            <div class="stack-eff"><div class="eff-item"><div class="eff-v nv-green" id="effCount">5</div><div class="eff-l">Active</div></div><div class="eff-item"><div class="eff-v nv-warm" id="effTotal">+42%</div><div class="eff-l">Total Boost</div></div><div class="eff-item"><div class="eff-v nv-accent" id="effTop">Semax</div><div class="eff-l">Strongest</div></div></div>
-            <button class="stack-add" id="addBtn">+ Add compound</button>
-          </div>
+          <div class="glow-btn"><button class="gb-inner" id="frontierBtn">Start Training<span class="gb-sub" id="fireSub">Your frontier is waiting</span><canvas class="gb-particles" id="fireCanvas"></canvas></button></div>
+          <button class="open-stack" id="openStack"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Open stack</button>
         </div>
       </section>
 
@@ -85,6 +64,27 @@
         <div class="map-vp" id="mapVp"><div class="map-world" id="mapWorld"><canvas id="mapLines" width="900" height="900"></canvas></div></div>
       </section>
     </div></div>
+
+    <!-- Stack as its own smooth open/close sheet -->
+    <div class="stack-sheet" id="stackSheet">
+      <div class="sheet-top">
+        <div class="sheet-title">Your Stack</div>
+        <button class="sheet-close" id="closeStack"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Close</button>
+      </div>
+      <div class="const-stage sheet-stage">
+        <canvas id="stackLines"></canvas>
+        <div class="brain-layer">
+          <canvas id="stackBrain" width="420" height="380"></canvas>
+          <div class="sb-syn" id="synergyVal">+42%</div><div class="sb-lbl">Synergy</div>
+        </div>
+        <div class="node-group" id="stackNodes"></div>
+      </div>
+      <div class="sheet-foot">
+        <div class="stack-eff"><div class="eff-item"><div class="eff-v nv-green" id="effCount">5</div><div class="eff-l">Active</div></div><div class="eff-item"><div class="eff-v nv-warm" id="effTotal">+42%</div><div class="eff-l">Total Boost</div></div><div class="eff-item"><div class="eff-v nv-accent" id="effTop">Semax</div><div class="eff-l">Strongest</div></div></div>
+        <button class="stack-add" id="addBtn">+ Add compound</button>
+      </div>
+    </div>
+
     <div class="reader" id="reader"><div class="reader-top"><div class="reader-back" id="readerBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back</div></div><div class="reader-body" id="readerBody"></div></div>
     <div class="game" id="game"><div class="game-top"><div class="game-quit" id="gameQuit">✕</div><div class="game-title" id="gameTitle"></div><div class="game-level" id="gameLevel"></div></div><div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div><div class="game-progress"><div class="game-progress-fill" id="gameProg"></div></div><div class="game-body" id="gameBody"></div></div>
     <div class="modal-back" id="modalBack"><div class="modal"><div class="modal-h">Add compound</div><div id="compoundOpts"></div><div class="modal-close" id="modalClose">Cancel</div></div></div>
@@ -95,6 +95,6 @@
       <div class="tab" data-v="3"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="tab-l">Learn</span></div>
     </nav>
   </div>
-  <script type="module" src="./src/main.js?v=5"></script>
+  <script type="module" src="./src/main.js?v=6"></script>
 </body>
 </html>
