@@ -1,4 +1,5 @@
-// Symmetric, centered brain point-cloud with faint internal edges and traveling impulses.
+// Brain-shaped point cloud: wide, flat-bottomed, split into two hemispheres by a central
+// fissure, gently swaying front-facing (small tilt) instead of spinning like a ball.
 export function makeBrainPts(N){
   const pts=[];
   for(let i=0;i<N;i++){
@@ -6,14 +7,23 @@ export function makeBrainPts(N){
     const phi=Math.acos(1-2*t);
     const th=Math.PI*(1+Math.sqrt(5))*i;
     let x=Math.sin(phi)*Math.cos(th), y=Math.sin(phi)*Math.sin(th), z=Math.cos(phi);
-    x*=1.28; y*=0.96; z*=1.06;
-    const w=0.045*Math.sin(x*8)*Math.cos(z*8); // cortical folds, symmetric
-    pts.push({x:x+(x>0?w:-w), y:y+w*0.4, z, ph:Math.random()*Math.PI*2});
+    // brain proportions: wide (x), medium tall (y), deep (z)
+    x*=1.42; y*=0.9; z*=1.12;
+    // flatten the underside so the base is not a round ball
+    if(y<-0.15) y = -0.15 + (y+0.15)*0.5;
+    // lift a slight dome on top
+    if(y>0.4) y = 0.4 + (y-0.4)*1.15;
+    // central fissure: push points away from the x=0 midline into two hemispheres
+    const side = x>=0 ? 1 : -1;
+    x += side*0.12;
+    // cortical folds
+    const w=0.05*Math.sin(x*7)*Math.cos(z*7);
+    pts.push({x:x+side*Math.abs(w), y:y+w*0.4, z, ph:Math.random()*Math.PI*2});
   }
   return pts;
 }
 function buildEdges(pts){
-  const edges=[]; const maxD=0.4;
+  const edges=[]; const maxD=0.42;
   for(let i=0;i<pts.length;i++){
     let c=0;
     for(let j=i+1;j<pts.length && c<3;j++){
@@ -31,23 +41,32 @@ export function mountBrain(id, opt={}){
   const scale=opt.scale||150;
   const pts=makeBrainPts(N);
   const edges=buildEdges(pts);
-  let rot=0, tm=0, impulses=[], lastSpawn=0;
+  let tm=0, impulses=[], lastSpawn=0;
   (function draw(ts){
-    rot+=0.0045; tm+=0.02;
+    tm+=0.016;
+    // gentle front-facing sway: small yaw + tiny pitch, never a full spin
+    const yaw = Math.sin(tm*0.5)*0.42;
+    const pitch = Math.sin(tm*0.34)*0.10;
     cx.clearRect(0,0,W,H);
     const cxp=W/2, cyp=H/2;
-    const cos=Math.cos(rot), sin=Math.sin(rot);
+    const cy=Math.cos(yaw), sy=Math.sin(yaw);
+    const cp=Math.cos(pitch), sp=Math.sin(pitch);
     const proj=pts.map(p=>{
-      const anom=1+0.05*Math.sin(tm+p.ph);
-      const rx=(p.x*anom)*cos-(p.z*anom)*sin;
-      const rz=(p.x*anom)*sin+(p.z*anom)*cos;
-      return {sx:cxp+rx*scale, sy:cyp-(p.y*anom)*scale, depth:rz};
+      const breath=1+0.04*Math.sin(tm+p.ph);
+      let x=p.x*breath, y=p.y*breath, z=p.z*breath;
+      // yaw around vertical axis
+      let rx=x*cy - z*sy;
+      let rz=x*sy + z*cy;
+      // pitch around horizontal axis
+      let ry=y*cp - rz*sp;
+      rz=y*sp + rz*cp;
+      return {sx:cxp+rx*scale, sy:cyp-ry*scale, depth:rz};
     });
     cx.lineWidth=1;
     for(const e of edges){
       const pa=proj[e[0]], pb=proj[e[1]];
       const d=((pa.depth+pb.depth)/2+1.3)/2.6;
-      cx.strokeStyle=`oklch(72% 0.10 300 / ${0.02+d*0.09})`;
+      cx.strokeStyle=`oklch(72% 0.10 300 / ${0.02+d*0.08})`;
       cx.beginPath(); cx.moveTo(pa.sx,pa.sy); cx.lineTo(pb.sx,pb.sy); cx.stroke();
     }
     const order=proj.map((_,i)=>i).sort((a,b)=>proj[a].depth-proj[b].depth);
