@@ -1,17 +1,16 @@
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overflow: hidden; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-optical-sizing: auto; background: var(--bg); color: var(--text); font-size: 16px; overscroll-behavior: none; -webkit-user-select: none; user-select: none; }
+html, body { height: 100%; overflow: hidden; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-optical-sizing: auto; background: var(--bg); color: var(--text); font-size: 16px; overscroll-behavior: none; -webkit-user-select: none; user-select: none; -webkit-font-smoothing: antialiased; }
 button, input { font: inherit; }
-/* one display face everywhere (Bricolage Grotesque); JetBrains Mono stays only on numeric readouts */
 body, button, input,
 .h-age, .screen-title, .bc-cq, .node-v, .tc-name, .sb-syn, .eff-v,
 .reader-h1, .reader-body h2, .lock-title, .game-title, .cr-prompt,
 .cr-count, .results-title, .rst-v, .countdown, .stroop-word, .modal-h,
-.gb-sub, .rot-btn, .stroop-btn {
+.gb-sub, .rot-btn, .stroop-btn, .sheet-title {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   font-optical-sizing: auto;
 }
 .aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.aurora-blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.34; transition: background 1.6s var(--ease); mix-blend-mode: screen; }
+.aurora-blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.34; transition: background 1.2s var(--ease); mix-blend-mode: screen; }
 .ab1 { width: 440px; height: 440px; top: -12%; left: -22%; background: var(--a1); animation: drift1 22s ease-in-out infinite; }
 .ab2 { width: 380px; height: 380px; top: 30%; right: -28%; background: var(--a2); animation: drift2 26s ease-in-out infinite; }
 .ab3 { width: 360px; height: 360px; bottom: -10%; left: 12%; background: var(--a3); animation: drift3 24s ease-in-out infinite; }

@@ -5,11 +5,15 @@
 .node-v { font-size: 1.55rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
 .node-l { font-size: 0.56rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-top: 4px; white-space: nowrap; }
 .nv-green{color:var(--lav);text-shadow:0 0 16px oklch(83% 0.10 300 / 0.55)} .nv-warm{color:var(--lav-2);text-shadow:0 0 16px oklch(69% 0.12 300 / 0.55)} .nv-accent{color:var(--purple);text-shadow:0 0 16px oklch(72% 0.13 300 / 0.55)} .nv-pink{color:var(--lav);text-shadow:0 0 16px oklch(83% 0.10 300 / 0.5)} .nv-cyan{color:var(--lav-2);text-shadow:0 0 16px oklch(69% 0.12 300 / 0.5)}
-/* custom calm glow: lavender duotone edge + breathing aura + slow sheen */
-.glow-btn { position: relative; border-radius: 22px; padding: 1px; margin: 4px 0; isolation: isolate; background: linear-gradient(140deg, var(--lav) 0%, var(--lav-3) 44%, oklch(30% 0.05 300) 100%); }
-.glow-btn::after { content: ''; position: absolute; inset: -16px; border-radius: 34px; z-index: -1; background: radial-gradient(closest-side, oklch(70% 0.14 300 / 0.5), transparent 72%); filter: blur(22px); animation: auraBreathe 5s var(--ease) infinite; }
-.gb-inner { position: relative; width: 100%; background: linear-gradient(160deg, oklch(23% 0.05 300 / 0.92), oklch(15% 0.04 300 / 0.96)); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--text); border: none; padding: 18px; border-radius: 21px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: transform 0.15s var(--spring); overflow: hidden; }
-.gb-inner::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(115deg, transparent 34%, oklch(90% 0.07 300 / 0.16) 50%, transparent 64%); transform: translateX(-130%); animation: sheen 5s var(--ease) infinite; pointer-events: none; z-index: 3; }
+/* Stats CTA: gold on black, calm glow */
+.glow-btn { position: relative; border-radius: 22px; padding: 1px; margin: 4px 0; isolation: isolate; background: linear-gradient(140deg, var(--gold-1) 0%, var(--gold-3) 46%, oklch(28% 0.04 70) 100%); }
+.glow-btn::after { content: ''; position: absolute; inset: -16px; border-radius: 34px; z-index: -1; background: radial-gradient(closest-side, oklch(72% 0.14 78 / 0.42), transparent 72%); filter: blur(22px); animation: auraBreathe 5s var(--ease) infinite; }
+.gb-inner { position: relative; width: 100%; background: linear-gradient(160deg, oklch(20% 0.03 70 / 0.94), oklch(12% 0.02 70 / 0.97)); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--gold-1); border: none; padding: 18px; border-radius: 21px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: transform 0.15s var(--spring); overflow: hidden; }
+.gb-inner::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(115deg, transparent 34%, oklch(90% 0.08 80 / 0.18) 50%, transparent 64%); transform: translateX(-130%); animation: sheen 5s var(--ease) infinite; pointer-events: none; z-index: 3; }
 .gb-inner:active { transform: scale(0.97); }
-.gb-sub { display: block; font-size: 0.72rem; font-weight: 500; color: var(--text-3); margin-top: 3px; }
+.gb-sub { display: block; font-size: 0.72rem; font-weight: 500; color: oklch(72% 0.06 75 / 0.8); margin-top: 3px; }
 .gb-particles { position: absolute; inset: 0; pointer-events: none; z-index: 2; border-radius: 20px; overflow: hidden; }
+/* Open-stack button (on stats): quiet, hints at green */
+.open-stack { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 15px; border-radius: 16px; background: var(--glass); border: 1px solid var(--glass-brd); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: var(--grn); font-family: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: transform 0.14s var(--spring), background 0.3s; }
+.open-stack svg { width: 18px; height: 18px; stroke: var(--grn); fill: none; stroke-width: 2; }
+.open-stack:active { transform: scale(0.97); background: var(--glass-2); }
