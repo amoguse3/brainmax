@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#08050f">
   <title>BrainMax</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles/tokens.css">
   <link rel="stylesheet" href="./styles/base.css">
@@ -20,26 +22,37 @@
 <body>
   <div class="aurora"><div class="aurora-blob ab1"></div><div class="aurora-blob ab2"></div><div class="aurora-blob ab3"></div></div>
   <div class="dim"></div>
-  <div class="phone">
+
+  <div class="phone" id="app">
     <header class="header">
       <div class="h-context" id="ctx">Intellect</div>
       <div class="h-age" id="ageBadge">Brain age --</div>
     </header>
 
-    <div class="views">
+    <div class="views" id="views">
       <div class="track" id="track">
         <section class="view enter" data-view="stats">
           <div>
             <div class="constellation">
               <canvas id="statLines"></canvas>
-              <div class="brain-center"><canvas id="brainCanvas" width="300" height="270"></canvas><div class="bc-cq" id="cqNum">100</div><div class="bc-lbl">CQ Score</div></div>
+              <div class="brain-center">
+                <canvas id="brainCanvas" width="300" height="270"></canvas>
+                <div class="bc-cq" id="cqNum">100</div>
+                <div class="bc-lbl">CQ Score</div>
+              </div>
               <div class="node" style="top:14%;left:20%"><div class="node-v nv-green" id="statAge">--</div><div class="node-l">Brain Age</div></div>
               <div class="node" style="top:16%;left:80%"><div class="node-v nv-warm" id="stackStat">+42%</div><div class="node-l">Stack Boost</div></div>
               <div class="node" style="top:82%;left:18%"><div class="node-v nv-accent" id="statSessions">0</div><div class="node-l">Sessions</div></div>
               <div class="node" style="top:84%;left:82%"><div class="node-v nv-pink" id="statRecords">0</div><div class="node-l">Records</div></div>
               <div class="node" style="top:50%;left:90%"><div class="node-v nv-cyan" id="statBest">0%</div><div class="node-l">Best Acc</div></div>
             </div>
-            <div class="glow-btn"><button class="gb-inner" id="frontierBtn">Start Training<span class="gb-sub" id="fireSub">Your frontier is waiting</span><canvas class="gb-particles" id="fireCanvas"></canvas></button></div>
+            <div class="glow-btn">
+              <button class="gb-inner" id="frontierBtn">
+                Start Training
+                <span class="gb-sub" id="fireSub">Your frontier is waiting</span>
+                <canvas class="gb-particles" id="fireCanvas"></canvas>
+              </button>
+            </div>
           </div>
         </section>
 
@@ -59,7 +72,7 @@
 
         <section class="view enter" data-view="protocol">
           <div class="screen-head"><div class="screen-title">Protocol</div><div class="screen-sub">Today's sequence.</div></div>
-          <div class="lock-state" id="lockState"><div class="lock-icon"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div><div class="lock-title">Complete a session to unlock</div><div class="lock-desc">Your protocol generates after one training session.</div><div class="lock-progress"><div class="lock-bar"><div class="lock-fill" id="lockFill" style="width:0%"></div></div><div class="lock-count" id="lockCount">0 / 1 session</div></div><div class="lock-hint" id="goTrainHint">→ Go to Train</div></div>
+          <div class="lock-state" id="lockState"><div class="lock-icon"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div><div class="lock-title">Complete a session to unlock</div><div class="lock-desc">Your protocol generates after one training session.</div><div class="lock-progress"><div class="lock-bar"><div class="lock-fill" id="lockFill" style="width:0%"></div></div><div class="lock-count" id="lockCount">0 / 1 session</div></div><div class="lock-hint" id="goTrainLink">→ Go to Train</div></div>
           <div class="proto-wrap" id="protoWrap">
             <div class="proto-item"><div class="proto-check on"></div><div><div class="proto-n done">Mental Rotation</div><div class="proto-d">Parietal</div></div></div>
             <div class="proto-item"><div class="proto-check"></div><div><div class="proto-n">Adaptive Math</div><div class="proto-d">Frontal</div></div></div>
@@ -79,7 +92,7 @@
     <div class="game" id="game"><div class="game-top"><div class="game-quit" id="gameQuit">✕</div><div class="game-title" id="gameTitle"></div><div class="game-level" id="gameLevel"></div></div><div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div><div class="game-progress"><div class="game-progress-fill" id="gameProg"></div></div><div class="game-body" id="gameBody"></div></div>
     <div class="modal-back" id="modalBack"><div class="modal"><div class="modal-h">Add compound</div><div id="compoundOpts"></div><div class="modal-close" id="modalClose">Cancel</div></div></div>
 
-    <nav class="tabbar">
+    <nav class="tabbar" id="tabbar">
       <div class="tab active" data-v="0"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span class="tab-l">Stats</span></div>
       <div class="tab" data-v="1"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span class="tab-l">Train</span></div>
       <div class="tab" data-v="2"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span class="tab-l">Stack</span></div>
@@ -87,6 +100,7 @@
       <div class="tab" data-v="4"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="tab-l">Learn</span></div>
     </nav>
   </div>
+
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>

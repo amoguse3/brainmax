@@ -10,7 +10,9 @@
 .nv-green{color:var(--green);text-shadow:0 0 18px oklch(82% 0.19 150 / 0.8)} .nv-warm{color:var(--warm);text-shadow:0 0 18px oklch(84% 0.16 70 / 0.8)} .nv-accent{color:var(--purple);text-shadow:0 0 18px oklch(70% 0.26 300 / 0.9)} .nv-pink{color:var(--pink);text-shadow:0 0 18px oklch(74% 0.24 340 / 0.8)} .nv-cyan{color:var(--cyan);text-shadow:0 0 18px oklch(82% 0.16 200 / 0.8)}
 .glow-btn { position: relative; border-radius: 20px; padding: 1.5px; margin: 2px 0 20px; isolation: isolate; }
 .glow-btn::before { content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1.5px; background: conic-gradient(from var(--gr), transparent 0%, var(--gold1) 12%, var(--gold3) 22%, transparent 40%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: runborder 2.4s linear infinite; }
+@keyframes runborder { to { --gr: 360deg; } }
 .glow-btn::after { content: ''; position: absolute; inset: -8px; border-radius: 26px; background: radial-gradient(ellipse at center, oklch(75% 0.17 60 / 0.35), transparent 70%); filter: blur(14px); z-index: -1; animation: glowpulse 2.8s ease-in-out infinite; }
+@keyframes glowpulse { 0%,100%{opacity:0.5} 50%{opacity:0.85} }
 .gb-inner { position: relative; width: 100%; background: var(--glass-2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--text); border: none; padding: 18px; border-radius: 19px; font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: transform 0.15s var(--spring); overflow: hidden; }
 .gb-inner:active { transform: scale(0.97); }
 .gb-sub { display: block; font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 500; color: var(--text-3); margin-top: 3px; }

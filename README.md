@@ -1,12 +1,11 @@
 # BrainMax
 
-Brain training app refactored into a modular no-build architecture.
+Mobile-first cognitive training app.
 
 ## Structure
 
-- `index.html`: shell markup only
-- `styles/`: split by tokens, layout, and feature areas
-- `src/`: state, theme, navigation, visuals, data, and game modules
-- `src/games/`: one module per game plus shared engine
+- `index.html`: app shell only
+- `styles/`: split styles by surface
+- `src/`: state, modules, data, UI, games
 
-Runs directly from static hosting like GitHub Pages or raw.githack.
+No build step. Open with GitHub Pages or raw.githack.

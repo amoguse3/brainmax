@@ -8,13 +8,11 @@
 .lock-fill { height: 100%; background: linear-gradient(90deg,var(--gold1),var(--gold3)); border-radius: 4px; transition: width 0.7s var(--spring); }
 .lock-count { font-size: 0.74rem; color: var(--text-3); margin-top: 12px; font-family: 'JetBrains Mono', monospace; }
 .lock-hint { font-size: 0.82rem; color: var(--gold2); margin-top: 20px; font-weight: 700; cursor: pointer; }
-.proto-wrap { display: none; padding-bottom: 24px; }
-.proto-wrap.unlocked { display: block; }
+.proto-wrap { display: none; padding-bottom: 24px; } .proto-wrap.unlocked { display: block; }
 .proto-item { display: flex; align-items: center; gap: 15px; padding: 15px 4px; border-bottom: 1px solid var(--glass-brd); cursor: pointer; }
 .proto-item:last-child { border-bottom: none; }
 .proto-check { width: 25px; height: 25px; border-radius: 8px; border: 2px solid var(--glass-brd); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.3s var(--spring); }
 .proto-check.on { background: var(--green); border-color: var(--green); box-shadow: 0 0 14px var(--green); }
 .proto-check.on::after { content: '✓'; color: oklch(12% 0.02 150); font-size: 0.82rem; font-weight: 800; }
-.proto-n { font-size: 0.9rem; font-weight: 600; }
-.proto-n.done { color: var(--text-3); text-decoration: line-through; }
+.proto-n { font-size: 0.9rem; font-weight: 600; } .proto-n.done { color: var(--text-3); text-decoration: line-through; }
 .proto-d { font-size: 0.71rem; color: var(--text-3); margin-top: 2px; }

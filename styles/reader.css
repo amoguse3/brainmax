@@ -4,6 +4,7 @@
 .reader-back { display: flex; align-items: center; gap: 6px; color: var(--gold2); font-size: 0.9rem; font-weight: 700; cursor: pointer; }
 .reader-back svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 .reader-body { flex: 1; overflow-y: auto; padding: 24px 24px calc(var(--safe-b) + 40px); }
+.reader-body::-webkit-scrollbar { display: none; }
 .reader-tier { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; color: var(--gold2); }
 .reader-h1 { font-family: 'Fraunces', serif; font-size: 1.7rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }
 .reader-meta { font-size: 0.78rem; color: var(--text-3); margin-bottom: 26px; }
