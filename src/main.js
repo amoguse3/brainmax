@@ -12,11 +12,8 @@ import { exercises } from './data/exercises.js';
 import { bindGameShell } from './games/engine.js';
 import { startRotation } from './games/rotation.js';
 
-const LAV = {
-  trail: 'oklch(72% 0.12 300 / A)',
-  head:  'oklch(86% 0.12 300 / A)',
-  core:  'oklch(97% 0.05 300 / A)'
-};
+const LAV = { trail: 'oklch(72% 0.12 300 / A)', head: 'oklch(86% 0.12 300 / A)', core: 'oklch(97% 0.05 300 / A)' };
+const GRN = { trail: 'oklch(74% 0.15 152 / A)', head: 'oklch(86% 0.15 152 / A)', core: 'oklch(97% 0.06 152 / A)' };
 const STAT_NODES = [[0.22,0.18],[0.78,0.18],[0.12,0.52],[0.88,0.52],[0.50,0.90]];
 
 function renderStats(){
@@ -41,7 +38,7 @@ function initParticles(){
     cx.clearRect(0,0,cv.width,cv.height);
     if(cv.width>10&&Math.random()<0.45) parts.push({x:Math.random()*cv.width,y:cv.height+4,vy:-(0.4+Math.random()*0.8),vx:(Math.random()-0.5)*0.3,life:1,size:1+Math.random()*2});
     parts=parts.filter(p=>p.life>0);
-    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${80+p.life*6}% 0.10 300 / ${p.life*0.7})`; cx.shadowBlur=6; cx.shadowColor='oklch(82% 0.10 300)'; cx.fill(); });
+    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.life-=0.015; cx.beginPath(); cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2); cx.fillStyle=`oklch(${84+p.life*4}% 0.12 82 / ${p.life*0.7})`; cx.shadowBlur=6; cx.shadowColor='oklch(84% 0.12 82)'; cx.fill(); });
     cx.shadowBlur=0; requestAnimationFrame(loop);
   })();
 }
@@ -59,11 +56,15 @@ function renderCarousel(){
   tcTrack.addEventListener('touchend',e=>{ if(!cdrag) return; cdrag=false; const dx=e.changedTouches[0].clientX-csx; if(dx<-40&&tcIdx<exercises.length-1){ tcIdx++; updateCarousel(); vib(8); } else if(dx>40&&tcIdx>0){ tcIdx--; updateCarousel(); vib(8); } },{passive:true});
 }
 
+const AURORA_PURPLE = ['oklch(50% 0.14 300)','oklch(46% 0.12 288)','oklch(52% 0.13 318)'];
+const AURORA_GREEN  = ['oklch(52% 0.15 152)','oklch(50% 0.13 165)','oklch(54% 0.14 140)'];
+function setAurora(cols){ const r=document.documentElement.style; r.setProperty('--a1',cols[0]); r.setProperty('--a2',cols[1]); r.setProperty('--a3',cols[2]); }
+
 let stackOpen=false;
 function bindStackSheet(){
   const sheet=document.getElementById('stackSheet');
-  document.getElementById('openStack').addEventListener('click',()=>{ sheet.classList.add('open'); stackOpen=true; setTimeout(()=>sizeCanvas('stackLines'),60); vib(10); });
-  document.getElementById('closeStack').addEventListener('click',()=>{ sheet.classList.remove('open'); stackOpen=false; vib(8); });
+  document.getElementById('openStack').addEventListener('click',()=>{ sheet.classList.add('open'); stackOpen=true; setAurora(AURORA_GREEN); setTimeout(()=>sizeCanvas('stackLines'),60); vib(10); });
+  document.getElementById('closeStack').addEventListener('click',()=>{ sheet.classList.remove('open'); stackOpen=false; setAurora(AURORA_PURPLE); vib(8); });
 }
 
 document.getElementById('frontierBtn').addEventListener('click',()=>startRotation());
@@ -75,6 +76,7 @@ document.getElementById('goTrainHint').addEventListener('click',()=>goTo(1));
 
 renderStats();
 applyTheme(0);
+setAurora(AURORA_PURPLE);
 bindNav();
 bindStackSheet();
 bindReader();
@@ -90,7 +92,7 @@ function boot(){
   const statState={ cv:sizeCanvas('statLines'), hubY:0.5, nodes:STAT_NODES };
   const stackState={ cv:sizeCanvas('stackLines'), hubY:0.5, getNodes:()=>stack.map((_,i)=>stackNodePos(i,stack.length)) };
   animConstellation(statState, LAV);
-  animConstellation(stackState, LAV);
+  animConstellation(stackState, GRN);
   window.addEventListener('resize',()=>{ sizeCanvas('statLines'); sizeCanvas('stackLines'); centerMap(); });
 }
 setTimeout(boot,120);
