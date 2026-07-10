@@ -1,14 +1,12 @@
-import { S, vib } from '../state.js';
-import { openGame, setProg, finish } from './engine.js';
-// Memory Recall -> Ghost Grid. Like dual n-back, but with silent blank trials and jittered
-// timing to kill rhythm strategies. Track position and color N-back.
+import { S, vib } from '../state.js?v=18';
+import { openGame, setProg, finish } from './engine.js?v=18';
 const COLORS=['oklch(80% 0.12 300)','oklch(78% 0.11 265)','oklch(80% 0.11 200)','oklch(82% 0.10 330)'];
 export function startMemory(){
   openGame('Ghost Grid');
   const gBody=document.getElementById('gameBody'), gLevel=document.getElementById('gameLevel');
   let N=Math.max(2,S.levels.memory+1), trials=22+N*2, i=0;
   let seq=[], matchable=0, hits=0, falseA=0;
-  gBody.innerHTML=`<div class="game-hint">Tap POSITION and/or COLOR if the current flash matches ${N} steps back. Blank beats are traps, don\u2019t use rhythm.</div><div class="grid9" id="ng">${Array(9).fill('<div class="cell"></div>').join('')}</div><div class="rot-controls"><button class="rot-btn" id="bPos">POSITION</button><button class="rot-btn" id="bCol">COLOR</button></div>`;
+  gBody.innerHTML=`<div class="game-hint">Tap POSITION and/or COLOR if the current flash matches ${N} steps back. Blank beats are traps.</div><div class="grid9" id="ng">${Array(9).fill('<div class="cell"></div>').join('')}</div><div class="rot-controls"><button class="rot-btn" id="bPos">POSITION</button><button class="rot-btn" id="bCol">COLOR</button></div>`;
   const cells=[...document.querySelectorAll('#ng .cell')], bPos=document.getElementById('bPos'), bCol=document.getElementById('bCol');
   let cur={p:null,c:null}, responded={p:false,c:false};
   bPos.onclick=()=>{ if(responded.p)return; responded.p=true; const past=seq[seq.length-1-N]; if(past&&cur.p===past.p) hits++; else falseA++; vib(10); bPos.classList.add('correct'); };
@@ -24,12 +22,14 @@ export function startMemory(){
       cur={ p:(Math.random()*9)|0, c:(Math.random()*4)|0 };
       const past=seq[seq.length-N]; if(past && (past.p===cur.p || past.c===cur.c)) matchable++;
       cells[cur.p].classList.add('lit'); cells[cur.p].style.background=COLORS[cur.c];
-      setTimeout(()=>{ cells[cur.p]?.classList.remove('lit'); if(cells[cur.p]) cells[cur.p].style.background=''; }, 620);
+      setTimeout(()=>{ if(cells[cur.p]){ cells[cur.p].classList.remove('lit'); cells[cur.p].style.background=''; } }, 620);
     }
     seq.push(cur); i++;
-    setTimeout(tick, 1750 + Math.random()*520 - N*55);
+    gs_next=setTimeout(tick, 1750 + Math.random()*520 - N*55);
   }
+  let gs_next=null;
   function done(){
+    clearTimeout(gs_next);
     const acc=Math.max(0,Math.round(((hits/Math.max(1,matchable)) - falseA*0.035)*100));
     if(acc>=80) S.levels.memory=Math.min(9,N); else if(acc<50&&N>2) S.levels.memory=N-2;
     finish('\ud83c\udfaf',acc,2500,'hippo','memory', `${hits}/${matchable} hits`);

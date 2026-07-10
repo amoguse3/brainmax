@@ -1,29 +1,26 @@
-import { S, vib } from '../state.js';
-import { openGame, setProg, startTimer, stopTimer, finish } from './engine.js';
-// Living Equation: rule symbols mutate. Levels 1-10 teach chains.
-// 11+ anti-strategy: operators remap mid-round (e.g. ▲ now means ×).
+import { S, vib } from '../state.js?v=18';
+import { openGame, setProg, startTimer, stopTimer, finish } from './engine.js?v=18';
 export function startMath(){
   openGame('Living Equation');
   const gBody=document.getElementById('gameBody'), gLevel=document.getElementById('gameLevel');
   let lvl=S.levels.math, total=10, q=0, correct=0, streak=0, rt=[], val='', ans=0;
-  const sigs=['▲','◆','●'];
   function gen(L){
     const terms=Math.min(2+Math.floor(L/3),4);
     const maxN=6+L*3;
     const useSig=L>=5;
-    const map={'+':'+','-':'−','×':'×'};
-    const sigMap = useSig ? {'▲': L>=11 ? '×' : '+', '◆': L>=11 ? '+' : '−', '●':'×'} : null;
-    const ops=L<4?['+','-']:['+','-','×'];
+    const sigMap = useSig ? {'\u25b2': L>=11 ? '\u00d7' : '+', '\u25c6': L>=11 ? '+' : '\u2212', '\u25cf':'\u00d7'} : null;
+    const ops=L<4?['+','-']:['+','-','\u00d7'];
     let acc=0, expr='', legend='';
-    if(useSig){ legend = Object.entries(sigMap).map(([k,v])=>`${k}=${v}`).join('  '); }
+    if(useSig){ legend='\u25b2='+sigMap['\u25b2']+'  \u25c6='+sigMap['\u25c6']+'  \u25cf=\u00d7'; }
+    const dispFor=(op)=>{ if(!useSig) return op==='-'?'\u2212':(op==='\u00d7'?'\u00d7':'+'); return Object.keys(sigMap).find(k=>sigMap[k]===(op==='-'?'\u2212':op)) || op; };
     for(let i=0;i<terms;i++){
       const op=i===0?'+':ops[(Math.random()*ops.length)|0];
       const num=(Math.random()*maxN|0)+2;
-      const disp = useSig && i>0 ? Object.keys(sigMap).find(k=>sigMap[k]===op) : map[op]||op;
+      const disp=i===0?'':dispFor(op);
       if(i===0){ acc=num; expr=''+num; }
-      else if(op==='+'){ acc+=num; expr+=` ${disp} ${num}`; }
-      else if(op==='-'){ acc-=num; expr+=` ${disp} ${num}`; }
-      else { acc*=num; expr+=` ${disp} ${num}`; }
+      else if(op==='+'){ acc+=num; expr+=' '+disp+' '+num; }
+      else if(op==='-'){ acc-=num; expr+=' '+disp+' '+num; }
+      else { acc*=num; expr+=' '+disp+' '+num; }
     }
     return {expr,acc,legend};
   }
