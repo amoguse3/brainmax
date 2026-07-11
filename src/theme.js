@@ -1,3 +1,5 @@
+import './brand-system.js';
+
 export const themes = [
   {n:'Intellect', accent:'oklch(80% 0.11 300)', a:['oklch(56% 0.17 300)','oklch(50% 0.13 282)','oklch(58% 0.14 320)']},
   {n:'Training', accent:'oklch(84% 0.09 225)', a:['oklch(54% 0.16 298)','oklch(50% 0.11 235)','oklch(57% 0.14 315)']},
