@@ -1,9 +1,62 @@
 import { articles } from './data/articles.js';
 import { openArticle } from './reader.js';
-let mapScale=.6,mapX=0,mapY=0;
-const mapVp=document.getElementById('mapVp'),mapWorld=document.getElementById('mapWorld');
-export function drawMapLines(){const cv=document.getElementById('mapLines'),cx=cv.getContext('2d');cx.clearRect(0,0,900,900);cx.lineWidth=1;const center=articles[0];articles.forEach((a,i)=>{if(i===0)return;const un=a.un();cx.strokeStyle=un?'oklch(72% .09 282 / .16)':'oklch(40% .04 300 / .1)';const bxc=(center.x+a.x)/2+(a.y-center.y)*.08,byc=(center.y+a.y)/2-(a.x-center.x)*.08;cx.beginPath();cx.moveTo(center.x,center.y);cx.quadraticCurveTo(bxc,byc,a.x,a.y);cx.stroke();});}
-export function renderMap(){mapWorld.querySelectorAll('.map-node').forEach(n=>n.remove());drawMapLines();articles.forEach((a,i)=>{const un=a.un(),el=document.createElement('div');el.className='map-node';el.dataset.cat=a.cat;el.style.left=a.x+'px';el.style.top=a.y+'px';el.innerHTML=`<div class="map-circ ${un?'unlocked':'locked'}">${un?a.emoji:'·'}</div><div class="map-nm">${un?a.t:'Locked evidence'}</div><div class="map-cat">${a.zone}</div>`;if(un)el.onclick=()=>openArticle(a);mapWorld.appendChild(el);});}
-export function applyMapTransform(){mapWorld.style.transform=`translate(${mapX}px,${mapY}px) scale(${mapScale})`;}
-export function centerMap(){const vw=mapVp.offsetWidth,vh=mapVp.offsetHeight;mapScale=Math.min(.66,Math.max(.44,vw/650));mapX=vw/2-450*mapScale;mapY=vh/2-450*mapScale;applyMapTransform();}
-export function bindMap(){renderMap();setTimeout(centerMap,200);let drag=false,lx=0,ly=0,pinch=false,d0=0,s0=1;mapVp.addEventListener('touchstart',e=>{if(e.touches.length===2){pinch=true;d0=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);s0=mapScale;}else{drag=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;}},{passive:true});mapVp.addEventListener('touchmove',e=>{if(pinch&&e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);mapScale=Math.max(.32,Math.min(1.45,s0*d/d0));applyMapTransform();}else if(drag){mapX+=e.touches[0].clientX-lx;mapY+=e.touches[0].clientY-ly;lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyMapTransform();}},{passive:true});mapVp.addEventListener('touchend',e=>{if(!e.touches.length){drag=false;pinch=false;}},{passive:true});}
+
+const mapVp=document.getElementById('mapVp');
+const mapWorld=document.getElementById('mapWorld');
+const categoryOrder=['core','mechanism','training','lifestyle','learning','myth','case','evidence'];
+const categoryNames={core:'Start here',mechanism:'How cognition works',training:'Training science',lifestyle:'State and lifestyle',learning:'Learning that sticks',myth:'Myth Lab',case:'Case files',evidence:'Evidence skills'};
+
+function extractClaim(article){
+  const match=article.body.match(/<h2>The claim<\/h2><p>(.*?)<\/p>/);
+  return match?match[1].replace(/<[^>]+>/g,''):'';
+}
+function evidenceType(article){
+  const match=article.body.match(/<div class="evidence-meta"><span>(.*?)<\/span>/);
+  return match?match[1]:'Evidence';
+}
+function readTime(article){
+  const match=article.body.match(/<div class="evidence-meta">.*?<span>(.*?)<\/span><\/div>/);
+  return match?match[1]:'3 min';
+}
+
+export function renderMap(){
+  mapWorld.innerHTML='';
+  mapWorld.className='evidence-index';
+  categoryOrder.forEach(category=>{
+    const section=document.createElement('section');
+    section.className='evidence-section';
+    const entries=articles.filter(article=>article.cat===category);
+    if(!entries.length)return;
+    section.innerHTML=`<div class="evidence-section-head"><h2>${categoryNames[category]}</h2><span>${entries.length} notes</span></div>`;
+    entries.forEach((article,index)=>{
+      const unlocked=article.un();
+      const row=document.createElement('article');
+      row.className=`evidence-row ${unlocked?'unlocked':'locked'}`;
+      const globalIndex=articles.indexOf(article)+1;
+      row.innerHTML=`
+        <div class="evidence-mark">${unlocked?article.emoji:'·'}</div>
+        <div class="evidence-summary">
+          <div class="evidence-row-meta"><span>${article.zone}</span><span>${evidenceType(article)} · ${readTime(article)}</span></div>
+          <h3>${unlocked?article.t:'Locked evidence'}</h3>
+          <p>${unlocked?extractClaim(article):'Keep training to unlock this evidence note.'}</p>
+        </div>
+        <span class="evidence-number">${String(globalIndex).padStart(2,'0')}</span>`;
+      if(unlocked){
+        row.tabIndex=0;
+        row.setAttribute('role','button');
+        row.onclick=()=>openArticle(article);
+        row.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openArticle(article);}};
+      }
+      section.appendChild(row);
+    });
+    mapWorld.appendChild(section);
+  });
+}
+
+export function drawMapLines(){}
+export function applyMapTransform(){}
+export function centerMap(){mapVp.scrollTop=0;}
+export function bindMap(){
+  mapVp.classList.add('evidence-vp');
+  renderMap();
+}
