@@ -1,9 +1,62 @@
 import { articles } from './data/articles.js';
 import { openArticle } from './reader.js';
-let mapScale=0.6,mapX=0,mapY=0;
-const mapVp=document.getElementById('mapVp'), mapWorld=document.getElementById('mapWorld');
-export function drawMapLines(){ const cv=document.getElementById('mapLines'),cx=cv.getContext('2d'); cx.clearRect(0,0,900,900); cx.lineWidth=2; const center=articles[0]; articles.forEach((a,i)=>{ if(i===0)return; const un=a.un(); cx.strokeStyle=un?'oklch(70% 0.2 300 / 0.4)':'oklch(40% 0.05 300 / 0.3)'; cx.shadowBlur=un?8:0; cx.shadowColor='oklch(72% 0.24 300 / 0.5)'; const bxc=(center.x+a.x)/2+(a.y-center.y)*0.2,byc=(center.y+a.y)/2-(a.x-center.x)*0.2; cx.beginPath(); cx.moveTo(center.x,center.y); cx.quadraticCurveTo(bxc,byc,a.x,a.y); cx.stroke(); }); cx.shadowBlur=0; }
-export function renderMap(){ mapWorld.querySelectorAll('.map-node').forEach(n=>n.remove()); drawMapLines(); articles.forEach((a,i)=>{ const un=a.un(); const el=document.createElement('div'); el.className='map-node'; el.style.left=a.x+'px'; el.style.top=a.y+'px'; el.innerHTML=`<div class="map-circ ${un?'unlocked':'locked'}">${un?a.emoji:'🔒'}</div><div class="map-nm">${un?a.t:'Locked'}</div>`; if(un) el.onclick=()=>openArticle(a); mapWorld.appendChild(el); }); }
-export function applyMapTransform(){ mapWorld.style.transform=`translate(${mapX}px,${mapY}px) scale(${mapScale})`; }
-export function centerMap(){ const vw=mapVp.offsetWidth,vh=mapVp.offsetHeight; mapScale=0.55; mapX=vw/2-450*mapScale; mapY=vh/2-450*mapScale; applyMapTransform(); }
-export function bindMap(){ renderMap(); setTimeout(centerMap,300); let mdrag=false,mlx=0,mly=0,pinch=false,pd0=0,ps0=1; mapVp.addEventListener('touchstart',e=>{ if(e.touches.length===2){ pinch=true; pd0=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); ps0=mapScale; } else { mdrag=true; mlx=e.touches[0].clientX; mly=e.touches[0].clientY; } },{passive:true}); mapVp.addEventListener('touchmove',e=>{ if(pinch&&e.touches.length===2){ const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); mapScale=Math.max(0.35,Math.min(1.4,ps0*d/pd0)); applyMapTransform(); } else if(mdrag){ const dx=e.touches[0].clientX-mlx,dy=e.touches[0].clientY-mly; mapX+=dx; mapY+=dy; mlx=e.touches[0].clientX; mly=e.touches[0].clientY; applyMapTransform(); } },{passive:true}); mapVp.addEventListener('touchend',e=>{ if(e.touches.length===0){ mdrag=false; pinch=false; } },{passive:true}); }
+
+const mapVp=document.getElementById('mapVp');
+const mapWorld=document.getElementById('mapWorld');
+const categoryOrder=['core','mechanism','training','lifestyle','learning','myth','case','evidence'];
+const categoryNames={core:'Start here',mechanism:'How cognition works',training:'Training science',lifestyle:'State and lifestyle',learning:'Learning that sticks',myth:'Myth Lab',case:'Case files',evidence:'Evidence skills'};
+
+function extractClaim(article){
+  const match=article.body.match(/<h2>The claim<\/h2><p>(.*?)<\/p>/);
+  return match?match[1].replace(/<[^>]+>/g,''):'';
+}
+function evidenceType(article){
+  const match=article.body.match(/<div class="evidence-meta"><span>(.*?)<\/span>/);
+  return match?match[1]:'Evidence';
+}
+function readTime(article){
+  const match=article.body.match(/<div class="evidence-meta">.*?<span>(.*?)<\/span><\/div>/);
+  return match?match[1]:'3 min';
+}
+
+export function renderMap(){
+  mapWorld.innerHTML='';
+  mapWorld.className='evidence-index';
+  categoryOrder.forEach(category=>{
+    const section=document.createElement('section');
+    section.className='evidence-section';
+    const entries=articles.filter(article=>article.cat===category);
+    if(!entries.length)return;
+    section.innerHTML=`<div class="evidence-section-head"><h2>${categoryNames[category]}</h2><span>${entries.length} notes</span></div>`;
+    entries.forEach((article,index)=>{
+      const unlocked=article.un();
+      const row=document.createElement('article');
+      row.className=`evidence-row ${unlocked?'unlocked':'locked'}`;
+      const globalIndex=articles.indexOf(article)+1;
+      row.innerHTML=`
+        <div class="evidence-mark">${unlocked?article.emoji:'·'}</div>
+        <div class="evidence-summary">
+          <div class="evidence-row-meta"><span>${article.zone}</span><span>${evidenceType(article)} · ${readTime(article)}</span></div>
+          <h3>${unlocked?article.t:'Locked evidence'}</h3>
+          <p>${unlocked?extractClaim(article):'Keep training to unlock this evidence note.'}</p>
+        </div>
+        <span class="evidence-number">${String(globalIndex).padStart(2,'0')}</span>`;
+      if(unlocked){
+        row.tabIndex=0;
+        row.setAttribute('role','button');
+        row.onclick=()=>openArticle(article);
+        row.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openArticle(article);}};
+      }
+      section.appendChild(row);
+    });
+    mapWorld.appendChild(section);
+  });
+}
+
+export function drawMapLines(){}
+export function applyMapTransform(){}
+export function centerMap(){mapVp.scrollTop=0;}
+export function bindMap(){
+  mapVp.classList.add('evidence-vp');
+  renderMap();
+}
