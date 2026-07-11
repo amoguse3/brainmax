@@ -1,18 +1,25 @@
 .train-view { display: flex; flex-direction: column; height: 100%; }
 .tc-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
 .tc-track { display: flex; transition: transform 0.6s var(--smooth); will-change: transform; }
-.tc-slide { flex: 0 0 88%; padding: 0 5px; transition: all 0.6s var(--smooth); }
-.tc-slide:not(.active) { transform: scale(0.9); opacity: 0.5; }
+.tc-slide { --card-hue: 300; --card-accent: oklch(78% 0.15 var(--card-hue)); flex: 0 0 88%; padding: 0 5px; transition: transform 0.6s var(--smooth), opacity 0.6s var(--smooth); }
+.tc-slide:nth-child(4n+1) { --card-hue: 300; }
+.tc-slide:nth-child(4n+2) { --card-hue: 205; }
+.tc-slide:nth-child(4n+3) { --card-hue: 150; }
+.tc-slide:nth-child(4n+4) { --card-hue: 72; }
+.tc-slide:not(.active) { transform: scale(0.9); opacity: 0.42; }
 .tc-slide.active { transform: scale(1); opacity: 1; }
-.tc-big { border-radius: 26px; padding: 24px; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; cursor: pointer; background: linear-gradient(160deg, oklch(35% 0.14 300 / 0.5), oklch(22% 0.09 300 / 0.35)); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); border: 1px solid oklch(78% 0.1 300 / 0.3); box-shadow: 0 0 40px oklch(55% 0.2 300 / 0.25), inset 0 1px 0 oklch(85% 0.08 300 / 0.15); }
-.tc-emoji { font-size: 2.8rem; position: relative; z-index: 1; }
-.tc-lvl { position: absolute; top: 22px; right: 24px; z-index: 1; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; background: oklch(24% 0.06 300 / 0.5); backdrop-filter: blur(8px); padding: 5px 11px; border-radius: 10px; color: var(--text); border: 1px solid var(--glass-brd); }
-.tc-name { font-family: 'Fraunces', serif; font-size: 1.7rem; font-weight: 600; letter-spacing: -0.02em; position: relative; z-index: 1; margin-bottom: 6px; }
-.tc-zone { font-size: 0.78rem; font-weight: 600; color: var(--text); opacity: 0.8; position: relative; z-index: 1; text-transform: uppercase; letter-spacing: 0.06em; }
-.tc-play { position: relative; z-index: 1; margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(120deg,var(--gold1),var(--gold2)); color: oklch(18% 0.04 60); padding: 12px 22px; border-radius: 14px; font-weight: 700; font-size: 0.9rem; align-self: flex-start; box-shadow: 0 0 20px oklch(76% 0.16 60 / 0.4); }
-.tc-explain { margin: 14px 5px 0; padding: 16px 20px; border-radius: 18px; background: var(--glass); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--glass-brd); }
-.tc-explain-h { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold2); margin-bottom: 6px; }
+.tc-big { border-radius: 28px; padding: 24px; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; cursor: pointer; isolation: isolate; background: oklch(24% 0.055 var(--card-hue)); border: 1px solid oklch(76% 0.11 var(--card-hue) / 0.34); box-shadow: 0 24px 70px -38px oklch(65% 0.18 var(--card-hue) / 0.7), inset 0 1px 0 oklch(88% 0.05 var(--card-hue) / 0.16); }
+.tc-big::before { content: ''; position: absolute; width: 220px; height: 220px; top: -96px; right: -84px; z-index: -1; border-radius: 50%; background: radial-gradient(circle, oklch(64% 0.18 var(--card-hue) / 0.48), oklch(38% 0.1 var(--card-hue) / 0.12) 48%, transparent 72%); transform: translate3d(0,0,0); animation: cardOrbit 8s cubic-bezier(0.65,0,0.35,1) infinite; }
+.tc-big::after { content: ''; position: absolute; inset: 13px; z-index: -1; border: 1px solid oklch(82% 0.09 var(--card-hue) / 0.12); border-radius: 21px 21px 46px 21px; clip-path: polygon(0 0,100% 0,100% 64%,76% 64%,76% 100%,0 100%); opacity: 0.9; }
+.tc-emoji { font-size: 2.8rem; position: relative; z-index: 1; color: var(--card-accent); text-shadow: 0 0 24px oklch(72% 0.16 var(--card-hue) / 0.4); }
+.tc-lvl { position: absolute; top: 22px; right: 24px; z-index: 1; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; background: oklch(19% 0.04 var(--card-hue)); padding: 5px 11px; border-radius: 10px; color: var(--card-accent); border: 1px solid oklch(78% 0.1 var(--card-hue) / 0.24); }
+.tc-name { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.03em; position: relative; z-index: 1; margin-bottom: 6px; color: var(--text); }
+.tc-zone { font-size: 0.72rem; font-weight: 750; color: var(--card-accent); position: relative; z-index: 1; text-transform: uppercase; letter-spacing: 0.08em; }
+.tc-play { position: relative; z-index: 1; margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; background: var(--card-accent); color: oklch(17% 0.035 var(--card-hue)); padding: 12px 22px; border-radius: 14px; font-weight: 800; font-size: 0.9rem; align-self: flex-start; box-shadow: 0 12px 30px -14px oklch(72% 0.18 var(--card-hue)); }
+.tc-explain { margin: 14px 5px 0; padding: 16px 20px; border-radius: 18px; background: var(--surface-1); border: 1px solid var(--glass-brd); }
+.tc-explain-h { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--section-accent); margin-bottom: 6px; }
 .tc-explain-t { font-size: 0.88rem; line-height: 1.5; color: var(--text-2); }
 .tc-dots { display: flex; gap: 7px; justify-content: center; padding: 18px 0 8px; }
-.tc-dot { width: 7px; height: 7px; border-radius: 50%; background: oklch(38% 0.05 300); transition: all 0.5s var(--spring); }
-.tc-dot.on { width: 24px; border-radius: 4px; background: linear-gradient(90deg,var(--gold1),var(--gold3)); box-shadow: 0 0 10px oklch(76% 0.16 60 / 0.6); }
+.tc-dot { width: 7px; height: 7px; border-radius: 50%; background: oklch(38% 0.05 300); transition: transform 0.5s var(--spring), width 0.5s var(--spring), background 0.3s var(--ease); }
+.tc-dot.on { width: 24px; border-radius: 4px; background: var(--section-accent); box-shadow: 0 0 12px color-mix(in oklab, var(--section-accent) 58%, transparent); }
+@keyframes cardOrbit { 0%,100%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(-22px,18px,0) scale(1.12)} }
