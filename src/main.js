@@ -12,9 +12,21 @@ import { bindGameShell } from './games/engine.js';
 import { startRotation } from './games/rotation.js';
 import { startMath } from './games/math.js';
 import { startDual } from './games/dual.js';
+import { startInhibition, startAttention, startSwitching, startEpisodic, startAssociation, startMetacognition, startCreativity } from './games/cognitive-labs.js';
 import './games/lab.js';
 
-const starters={math:startMath,rotation:startRotation,dual:startDual};
+const starters={
+  math:startMath,
+  rotation:startRotation,
+  dual:startDual,
+  inhibition:startInhibition,
+  attention:startAttention,
+  switching:startSwitching,
+  episodic:startEpisodic,
+  association:startAssociation,
+  metacognition:startMetacognition,
+  creativity:startCreativity
+};
 
 function renderStats(){
   document.getElementById('cqNum').textContent=S.cq;
@@ -32,10 +44,11 @@ function initStackLines(){const cv=document.getElementById('stackLines'),p=cv.pa
 function initParticles(){const cv=document.getElementById('fireCanvas');if(!cv)return;const cx=cv.getContext('2d');function resize(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;}setTimeout(resize,200);window.addEventListener('resize',resize);let parts=[];(function loop(){cx.clearRect(0,0,cv.width,cv.height);if(cv.width>10&&Math.random()<.5)parts.push({x:Math.random()*cv.width,y:cv.height+4,vy:-(.4+Math.random()*.8),vx:(Math.random()-.5)*.3,life:1,size:1+Math.random()*2});parts=parts.filter(p=>p.life>0);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.life-=.015;cx.beginPath();cx.arc(p.x,p.y,Math.max(0,p.size*p.life),0,Math.PI*2);cx.fillStyle=`oklch(${78+p.life*8}% .10 300 / ${p.life*.7})`;cx.fill();});requestAnimationFrame(loop);})();}
 function renderCarousel(){
   const track=document.getElementById('tcTrack'),dots=document.getElementById('tcDots'),explain=document.getElementById('tcExplainT');let active=0;
-  track.innerHTML=exercises.map((e,i)=>`<div class="tc-slide" data-i="${i}"><div class="tc-big"><div class="tc-lvl">Load ${S.levels[e.lvl]||1}</div><div class="tc-emoji">${e.emoji}</div><div><div class="tc-name">${e.name}</div><div class="tc-zone">${e.zone}</div><div class="tc-play">${starters[e.id]?'▶ Run experiment':'In research'}</div></div></div></div>`).join('');
+  track.innerHTML=exercises.map((e,i)=>`<div class="tc-slide" data-i="${i}"><div class="tc-big"><div class="tc-lvl">Load ${S.levels[e.lvl]||1}</div><div class="tc-emoji">${e.emoji}</div><div><div class="tc-name">${e.name}</div><div class="tc-zone">${e.zone}</div><div class="tc-play">▶ Run experiment</div></div></div></div>`).join('');
   dots.innerHTML=exercises.map(()=>'<div class="tc-dot"></div>').join('');
   function update(){const width=88,gap=(100-width)/2;track.style.transform=`translateX(${gap-active*width}%)`;track.querySelectorAll('.tc-slide').forEach((slide,i)=>slide.classList.toggle('active',i===active));dots.querySelectorAll('.tc-dot').forEach((dot,i)=>dot.classList.toggle('on',i===active));explain.textContent=exercises[active].ex;}
-  update();track.querySelectorAll('.tc-slide').forEach((slide,i)=>slide.addEventListener('click',()=>{if(i===active&&starters[exercises[i].id])starters[exercises[i].id]();else{active=i;update();}}));
+  update();
+  track.querySelectorAll('.tc-slide').forEach((slide,i)=>slide.addEventListener('click',()=>{if(i===active)starters[exercises[i].id]();else{active=i;update();}}));
   let startX=0;track.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;},{passive:true});track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-startX;if(dx<-40&&active<exercises.length-1){active++;update();vib(8);}else if(dx>40&&active>0){active--;update();vib(8);}},{passive:true});
 }
 
