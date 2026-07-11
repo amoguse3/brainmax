@@ -1,6 +1,29 @@
 import { S, vib } from '../state.js';
-import { openGame, setProg, startTimer, stopTimer, finish, adapt } from './engine.js';
-function polycube(rotation,mirror){ const cubes=[[0,0],[1,0],[1,1],[2,1]]; const s=22; function iso(x,y,z){ const ix=(x-y)*s*0.87; const iy=(x+y)*s*0.5-z*s; return [ix,iy]; } let paths=''; cubes.forEach(([cx,cy])=>{ const top=[iso(cx,cy,1),iso(cx+1,cy,1),iso(cx+1,cy+1,1),iso(cx,cy+1,1)]; const left=[iso(cx,cy+1,1),iso(cx,cy+1,0),iso(cx,cy,0),iso(cx,cy,1)]; const right=[iso(cx+1,cy,1),iso(cx+1,cy,0),iso(cx+1,cy+1,0),iso(cx+1,cy+1,1)]; const P=a=>a.map(p=>p.join(',')).join(' '); paths+=`<polygon points="${P(top)}" fill="oklch(74% 0.2 300)" stroke="oklch(36% 0.06 300)" stroke-width="1.5"/>`; paths+=`<polygon points="${P(left)}" fill="oklch(54% 0.16 300)" stroke="oklch(36% 0.06 300)" stroke-width="1.5"/>`; paths+=`<polygon points="${P(right)}" fill="oklch(42% 0.12 300)" stroke="oklch(36% 0.06 300)" stroke-width="1.5"/>`; }); const mir=mirror?'scale(-1,1)':''; return `<svg viewBox="-70 -70 140 140"><g transform="rotate(${rotation}) ${mir}">${paths}</g></svg>`; }
-export function startRotation(){ openGame('Mental Rotation'); const lvl=S.levels.rotation,total=8; let q=0,correct=0,rt=[]; const angles=[45,90,135,180]; const gBody=document.getElementById('gameBody'), gLevel=document.getElementById('gameLevel'); function newQ(){ q++; if(q>total) return done(); setProg(q-1,total); gLevel.textContent=`Lv ${lvl} · ${q}/${total}`; const isMirror=Math.random()<0.5; const minA=Math.min(45+(lvl-1)*15,180); const rotA=angles[Math.floor(Math.random()*angles.length)]+(minA-45); gBody.innerHTML=`<div class="game-hint">Left is reference. Is the right the <b>same</b> object rotated, or a <b>mirror</b>?</div><div class="rot-pair"><div class="rot-fig">${polycube(0,false)}</div><div class="rot-vs">vs</div><div class="rot-fig">${polycube(rotA%360,isMirror)}</div></div><div class="rot-controls"><button class="rot-btn" id="rbSame">SAME</button><button class="rot-btn" id="rbMir">MIRROR</button></div>`; let answered=false; const answer=(pick)=>{ if(answered) return; answered=true; rt.push(stopTimer()); const sB=document.getElementById('rbSame'),mB=document.getElementById('rbMir'); sB.style.pointerEvents='none'; mB.style.pointerEvents='none'; const uMir=(pick==='mirror'); const right=(uMir===isMirror); const picked=uMir?mB:sB; const truth=isMirror?mB:sB; if(right){ correct++; picked.classList.add('correct'); vib(20); } else { picked.classList.add('wrong'); truth.classList.add('reveal'); vib([30,20,30]); } setTimeout(newQ,650); }; document.getElementById('rbSame').onclick=()=>answer('same'); document.getElementById('rbMir').onclick=()=>answer('mirror'); startTimer(Math.max(3000,7000-lvl*300),()=>answer('t')); }
-  function done(){ const acc=Math.round(correct/total*100); const avg=rt.length?rt.reduce((a,b)=>a+b,0)/rt.length:9999; adapt('rotation',acc); finish('🔮',acc,avg,'parietal','rotation'); }
-  newQ(); }
+import { openGame, setProg, startTimer, stopTimer, finish } from './engine.js';
+import { nextDifficulty, recordExperiment } from './lab.js';
+
+const SHAPES=[[[0,0,0],[1,0,0],[1,1,0],[2,1,0],[2,1,1]],[[0,0,0],[0,1,0],[1,1,0],[1,1,1],[1,2,1]],[[0,0,0],[1,0,0],[2,0,0],[1,1,0],[1,1,1]]];
+function iso(x,y,z){return [(x-y)*24,(x+y)*13-z*26];}
+function objectSvg(shape,angle,mirror){
+  const rad=angle*Math.PI/180, cos=Math.cos(rad), sin=Math.sin(rad);
+  const cubes=shape.map(([x,y,z])=>{const rx=(mirror?-x:x)*cos-y*sin,ry=(mirror?-x:x)*sin+y*cos;return {x:rx,y:ry,z,depth:rx+ry+z};}).sort((a,b)=>a.depth-b.depth);
+  const faces=cubes.map(c=>{const [x,y]=iso(c.x,c.y,c.z);return `<g transform="translate(${x} ${y})"><polygon points="0,-26 24,-13 0,0 -24,-13" fill="oklch(76% .13 300)"/><polygon points="-24,-13 0,0 0,26 -24,13" fill="oklch(48% .11 300)"/><polygon points="24,-13 0,0 0,26 24,13" fill="oklch(59% .12 300)"/></g>`;}).join('');
+  return `<svg viewBox="-105 -105 210 210" aria-hidden="true"><g transform="translate(0 8)">${faces}</g></svg>`;
+}
+
+export function startRotation(){
+  openGame('Spatial Rotation Lab');
+  const startedAt=Date.now(),total=10,trials=[],recent=[]; let index=0,level=S.levels.rotation||1;
+  const body=document.getElementById('gameBody'),levelEl=document.getElementById('gameLevel');
+  function round(){
+    if(index>=total)return done();
+    const shape=SHAPES[Math.floor(Math.random()*SHAPES.length)], mirror=Math.random()<.5;
+    const angles=[45,90,135,180,225,270], angle=angles[Math.floor(Math.random()*Math.min(angles.length,2+level))];
+    const limit=Math.max(3800,9000-level*420); setProg(index,total); levelEl.textContent=`Load ${level} · ${index+1}/${total}`;
+    body.innerHTML=`<div class="lab-kicker">Parietal load</div><div class="lab-prompt">Same object after rotation, or a mirrored structure?</div><div class="rot-pair"><div class="rot-fig">${objectSvg(shape,0,false)}</div><div class="rot-vs">vs</div><div class="rot-fig">${objectSvg(shape,angle,mirror)}</div></div><div class="rot-controls"><button class="rot-btn" data-pick="same">SAME</button><button class="rot-btn" data-pick="mirror">MIRROR</button></div>`;
+    let answered=false; const answer=pick=>{if(answered)return;answered=true;const rt=stopTimer(),correct=(pick==='mirror')===mirror;trials.push({level,correct,rt,angle,mirror});recent.push(correct);body.querySelectorAll('.rot-btn').forEach(b=>b.disabled=true);const truth=body.querySelector(`[data-pick="${mirror?'mirror':'same'}"]`);truth?.classList.add('correct');if(!correct)body.querySelector(`[data-pick="${pick}"]`)?.classList.add('wrong');vib(correct?10:[24,18,24]);level=nextDifficulty(level,recent);index+=1;setTimeout(round,500);};
+    body.querySelectorAll('.rot-btn').forEach(button=>button.onclick=()=>answer(button.dataset.pick));startTimer(limit,()=>answer('timeout'));
+  }
+  function done(){S.levels.rotation=level;const session=recordExperiment('rotation',trials,startedAt,level);finish('◈',session.accuracy,session.meanRtMs,'parietal','rotation',`Rotation load reached ${level}. Logged to N-of-1 Lab.`);}
+  round();
+}
