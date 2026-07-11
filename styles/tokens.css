@@ -1,38 +1,38 @@
 @property --gr { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
 :root {
-  /* purple-black base */
-  --bg: oklch(11% 0.03 300);
-  --glass: oklch(26% 0.055 300 / 0.3);
-  --glass-2: oklch(32% 0.065 300 / 0.42);
-  --glass-brd: oklch(80% 0.07 300 / 0.26);
+  --bg: oklch(12.2% 0.034 300);
+  --surface-1: oklch(17% 0.04 300);
+  --surface-2: oklch(22% 0.052 300);
+  --surface-3: oklch(28% 0.062 300);
+  --glass: oklch(27% 0.058 300 / 0.34);
+  --glass-2: oklch(34% 0.07 300 / 0.46);
+  --glass-brd: oklch(82% 0.075 300 / 0.29);
   --text: oklch(96% 0.012 300);
-  --text-2: oklch(76% 0.03 300);
-  --text-3: oklch(58% 0.03 300);
-  /* lavender system (single accent family) */
-  --lav: oklch(83% 0.10 300);
-  --lav-2: oklch(69% 0.12 300);
-  --lav-3: oklch(55% 0.12 300);
-  --purple: oklch(72% 0.13 300);
-  --purple-lo: oklch(58% 0.13 300);
-  /* legacy accent vars remapped into the lavender family for a calm 2-3 color palette */
-  --blue: oklch(74% 0.09 292);
-  --pink: oklch(80% 0.09 315);
-  --green: oklch(81% 0.09 300);
-  --warm: oklch(82% 0.09 312);
-  --cyan: oklch(80% 0.09 285);
-  --red: oklch(64% 0.16 20);
-  /* gold* now map to lavender, so all former gold gradients read as lavender */
-  --gold1: oklch(86% 0.09 300);
-  --gold2: oklch(75% 0.12 300);
-  --gold3: oklch(61% 0.13 300);
-  --glow: oklch(74% 0.13 300);
-  --glow2: oklch(80% 0.10 300);
+  --text-2: oklch(78% 0.032 300);
+  --text-3: oklch(61% 0.034 300);
+  --lav: oklch(84% 0.105 300);
+  --lav-2: oklch(71% 0.13 300);
+  --lav-3: oklch(57% 0.13 300);
+  --purple: oklch(74% 0.14 300);
+  --purple-lo: oklch(60% 0.14 300);
+  --blue: oklch(76% 0.095 292);
+  --pink: oklch(82% 0.095 315);
+  --green: oklch(82% 0.095 300);
+  --warm: oklch(84% 0.095 312);
+  --cyan: oklch(82% 0.095 285);
+  --red: oklch(66% 0.17 20);
+  --gold1: oklch(88% 0.095 300);
+  --gold2: oklch(77% 0.13 300);
+  --gold3: oklch(63% 0.14 300);
+  --glow: oklch(76% 0.14 300);
+  --glow2: oklch(82% 0.11 300);
+  --reward: oklch(87% 0.14 86);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
-  --spring: cubic-bezier(0.34, 1.3, 0.4, 1);
+  --spring: cubic-bezier(0.22, 1, 0.36, 1);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --smooth: cubic-bezier(0.45, 0, 0.15, 1);
-  --a1: oklch(50% 0.14 300);
-  --a2: oklch(46% 0.12 288);
-  --a3: oklch(52% 0.13 318);
+  --smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  --a1: oklch(55% 0.16 300);
+  --a2: oklch(51% 0.14 288);
+  --a3: oklch(57% 0.15 318);
 }
