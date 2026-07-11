@@ -1,8 +1,8 @@
 export const exercises = [
-  {id:'rotation',emoji:'🔮',name:'Mental Rotation',zone:'Parietal · Spatial',lvl:'rotation',ex:'Two 3D objects appear. Decide if the second is the same shape rotated, or a mirror. Trains the parietal lobe. Gains last 90 days.'},
-  {id:'math',emoji:'⚡',name:'Adaptive Math',zone:'Frontal · Calculation',lvl:'math',ex:'Timed arithmetic that scales to you: 3 right in a row levels up, a mistake drops you down. Trains frontal lobe + working memory.'},
-  {id:'memory',emoji:'🎯',name:'Memory Sequence',zone:'Hippocampus · Recall',lvl:'memory',ex:'Watch tiles light up, repeat the order. Span grows as you succeed. Directly trains the hippocampus.'},
-  {id:'stroop',emoji:'🎨',name:'Stroop Focus',zone:'Frontal · Inhibition',lvl:'stroop',ex:'The word RED in blue ink. Tap the ink color, not the word. Trains attention control and inhibition.'},
-  {id:'creative',emoji:'🌀',name:'Creative Flow',zone:'Creativity · Divergent',lvl:'creative',ex:'Name as many uses for an object as you can in 45s. Trains divergent thinking.'},
-  {id:'critical',emoji:'🧩',name:'Critical Thinking',zone:'Reasoning · Logic',lvl:'critical',ex:'Read an argument, spot the logical flaw. Builds a mental checklist for every claim.'}
+  {id:'math',emoji:'∑',name:'Adaptive Math Lab',zone:'Frontal · Calculation',lvl:'math',ex:'Mixed arithmetic with a live staircase. The target band is 70–85% accuracy, not effortless repetition.'},
+  {id:'rotation',emoji:'◈',name:'Spatial Rotation Lab',zone:'Parietal · Spatial',lvl:'rotation',ex:'Mentally rotate unfamiliar 3D structures and separate true rotations from mirrored copies.'},
+  {id:'dual',emoji:'◆',name:'Dual-Task Lab',zone:'Executive · Integrated',lvl:'dual',ex:'Rotate a labeled cube while solving arithmetic. Measures the cost of holding and manipulating two streams at once.'},
+  {id:'memory',emoji:'🎯',name:'Memory Sequence',zone:'Hippocampus · Recall',lvl:'memory',ex:'Coming next: delayed recall measured with alternate forms.'},
+  {id:'stroop',emoji:'🎨',name:'Stroop Focus',zone:'Frontal · Inhibition',lvl:'stroop',ex:'Coming next: interference control with response-time distributions.'},
+  {id:'creative',emoji:'🌀',name:'Creative Flow',zone:'Creativity · Divergent',lvl:'creative',ex:'Coming next: idea fluency and originality without fake brain-region claims.'}
 ];
