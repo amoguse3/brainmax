@@ -1,5 +1,6 @@
 import './brand-system.js';
 import './brand-blend.js';
+import './brand-human.js';
 
 export const themes = [
   {n:'Intellect', accent:'oklch(80% 0.11 300)', a:['oklch(56% 0.17 300)','oklch(50% 0.13 282)','oklch(58% 0.14 320)']},
