@@ -6,7 +6,7 @@ export const DEF = {
   zones:{frontal:15,parietal:15,hippo:15,creative:15,reason:15},
   levels:{rotation:1,math:1,memory:1,stroop:1,creative:1,critical:1},
   best:{},
-  neurons:{balance:0,lastTick:Date.now(),rewardedLevels:{},evolution:0}
+  neurons:{balance:0,lastTick:Date.now(),rewardedLevels:{},evolution:0,betaTester:false}
 };
 
 function migrate(raw){
@@ -22,17 +22,15 @@ function migrate(raw){
 }
 
 export let S=migrate(JSON.parse(localStorage.getItem('bmx8')||'null'));
+const betaParam=new URLSearchParams(location.search).get('beta');
+if(betaParam==='1')S.neurons.betaTester=true;
+if(betaParam==='0')S.neurons.betaTester=false;
 export let sessionDone=false;
 export function save(){localStorage.setItem('bmx8',JSON.stringify(S));}
 export function setSessionDone(val){sessionDone=val;}
 export function vib(pattern){if(navigator.vibrate)navigator.vibrate(pattern);}
-
-export function totalLevelUps(){
-  return Object.values(S.levels).reduce((sum,level)=>sum+Math.max(0,(Number(level)||1)-1),0);
-}
-export function neuronRate(){
-  return totalLevelUps()*0.02;
-}
+export function totalLevelUps(){return Object.values(S.levels).reduce((sum,level)=>sum+Math.max(0,(Number(level)||1)-1),0);}
+export function neuronRate(){return S.neurons.betaTester?100000000/3600:totalLevelUps()*.02;}
 export function settleNeurons(now=Date.now()){
   const elapsed=Math.max(0,Math.min(10*60*60,(now-(S.neurons.lastTick||now))/1000));
   const earned=elapsed*neuronRate();
@@ -42,22 +40,15 @@ export function settleNeurons(now=Date.now()){
   return earned;
 }
 export function rewardLevelUps(gameKey){
-  const current=Math.max(1,Number(S.levels[gameKey])||1);
-  const rewarded=Math.max(1,Number(S.neurons.rewardedLevels[gameKey])||1);
-  const gained=Math.max(0,current-rewarded);
-  if(gained){
-    S.neurons.balance+=gained*40;
-    S.neurons.rewardedLevels[gameKey]=current;
-    save();
-  }
+  const current=Math.max(1,Number(S.levels[gameKey])||1),rewarded=Math.max(1,Number(S.neurons.rewardedLevels[gameKey])||1),gained=Math.max(0,current-rewarded);
+  if(gained){S.neurons.balance+=gained*40;S.neurons.rewardedLevels[gameKey]=current;save();}
   return gained;
 }
 export function buyEvolution(tier,cost){
   settleNeurons();
   if(tier!==S.neurons.evolution+1||S.neurons.balance<cost)return false;
-  S.neurons.balance-=cost;
-  S.neurons.evolution=tier;
-  save();
+  S.neurons.balance-=cost;S.neurons.evolution=tier;save();
   window.dispatchEvent(new CustomEvent('brain:evolved',{detail:{tier}}));
   return true;
 }
+save();
