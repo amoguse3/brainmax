@@ -1,26 +1,62 @@
 import { applyTheme } from './theme.js';
-import { sessionDone, vib } from './state.js';
-import { flashLock } from './util.js';
-let current = 0;
-const NUM = 5;
-const track = document.getElementById('track');
-const tabs = document.querySelectorAll('.tab');
-const viewsEl = document.querySelector('.views');
-export function getCurrent(){ return current; }
-export function goTo(i){
-  if(i===3 && !sessionDone){ flashLock(); vib([20,30,20]); return; }
-  current = Math.max(0, Math.min(NUM-1, i));
-  track.style.transform = `translateX(-${current*100}%)`;
-  tabs.forEach((t,idx)=>t.classList.toggle('active', idx===current));
-  applyTheme(current);
-  const v = viewsEl.querySelectorAll('.view')[current];
-  if(v.classList.contains('enter')){ v.classList.remove('enter'); v.offsetHeight; v.classList.add('enter'); }
+import { vib } from './state.js';
+
+const protocolView=document.querySelector('.view[data-view="protocol"]');
+const protocolTab=document.getElementById('protoTab');
+if(protocolView)protocolView.style.display='none';
+if(protocolTab)protocolTab.style.display='none';
+
+let current=0;
+const track=document.getElementById('track');
+const tabs=[...document.querySelectorAll('.tab')].filter(tab=>tab.id!=='protoTab');
+const views=[...document.querySelectorAll('.view')].filter(view=>view.dataset.view!=='protocol');
+const viewsEl=document.querySelector('.views');
+const themeByView={stats:0,train:1,stack:2,learn:4};
+
+export function getCurrent(){return current;}
+export function goTo(index){
+  current=Math.max(0,Math.min(views.length-1,index));
+  track.style.transform=`translateX(-${current*100}%)`;
+  tabs.forEach((tab,tabIndex)=>tab.classList.toggle('active',tabIndex===current));
+  const view=views[current];
+  applyTheme(themeByView[view.dataset.view]??current);
+  if(view.classList.contains('enter')){
+    view.classList.remove('enter');
+    view.offsetHeight;
+    view.classList.add('enter');
+  }
+  if(view.dataset.view==='learn')window.dispatchEvent(new CustomEvent('map:center'));
   vib(6);
 }
 export function bindNav(){
-  tabs.forEach(t=>t.addEventListener('click',()=>goTo(parseInt(t.dataset.v,10))));
-  let sx=0,sy=0,drag=false,lk=null;
-  viewsEl.addEventListener('touchstart',e=>{ if(e.target.closest('.tc-track')||e.target.closest('.map-vp')) return; sx=e.touches[0].clientX; sy=e.touches[0].clientY; drag=true; lk=null; track.style.transition='none'; },{passive:true});
-  viewsEl.addEventListener('touchmove',e=>{ if(!drag) return; const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy; if(lk===null) lk=Math.abs(dx)>Math.abs(dy)?'x':'y'; if(lk==='x'){ const base=-current*100,pct=(dx/viewsEl.offsetWidth)*100; let n=base+pct; if(current===2&&dx<0&&!sessionDone) n=base+pct*0.25; if(current===0&&dx>0) n=base+pct*0.35; if(current===NUM-1&&dx<0) n=base+pct*0.35; track.style.transform=`translateX(${n}%)`; } },{passive:true});
-  viewsEl.addEventListener('touchend',e=>{ if(!drag) return; drag=false; track.style.transition='transform 0.7s var(--smooth)'; if(lk==='x'){ const dx=e.changedTouches[0].clientX-sx,th=viewsEl.offsetWidth*0.2; if(dx<-th&&current<NUM-1){ if(current===2&&!sessionDone) goTo(4); else goTo(current+1); } else if(dx>th&&current>0){ if(current===4&&!sessionDone) goTo(2); else goTo(current-1); } else goTo(current); } },{passive:true});
+  tabs.forEach((tab,index)=>tab.addEventListener('click',()=>goTo(index)));
+  let startX=0,startY=0,drag=false,axis=null;
+  viewsEl.addEventListener('touchstart',event=>{
+    if(event.target.closest('.tc-track')||event.target.closest('.map-vp'))return;
+    startX=event.touches[0].clientX;
+    startY=event.touches[0].clientY;
+    drag=true;
+    axis=null;
+    track.style.transition='none';
+  },{passive:true});
+  viewsEl.addEventListener('touchmove',event=>{
+    if(!drag)return;
+    const dx=event.touches[0].clientX-startX,dy=event.touches[0].clientY-startY;
+    if(axis===null)axis=Math.abs(dx)>Math.abs(dy)?'x':'y';
+    if(axis==='x'){
+      const base=-current*100,pct=dx/viewsEl.offsetWidth*100;
+      const edge=(current===0&&dx>0)||(current===views.length-1&&dx<0);
+      track.style.transform=`translateX(${base+pct*(edge?.35:1)}%)`;
+    }
+  },{passive:true});
+  viewsEl.addEventListener('touchend',event=>{
+    if(!drag)return;
+    drag=false;
+    track.style.transition='transform .56s var(--ease-enter, var(--smooth))';
+    if(axis!=='x')return goTo(current);
+    const dx=event.changedTouches[0].clientX-startX,threshold=viewsEl.offsetWidth*.2;
+    if(dx<-threshold)goTo(current+1);
+    else if(dx>threshold)goTo(current-1);
+    else goTo(current);
+  },{passive:true});
 }
