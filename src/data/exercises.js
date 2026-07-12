@@ -1,12 +1,10 @@
-export const exercises = [
-  {id:'math',emoji:'∑',name:'Math Chain',zone:'Calculation · Working memory',lvl:'math',ex:'Carry a number through a paced operation chain. Difficulty grows only after stable accuracy.'},
-  {id:'rotation',emoji:'◈',name:'Cube Rotation',zone:'Spatial imagery',lvl:'rotation',ex:'Use a complete six-face map, rotate the cube mentally, and predict the new top face.'},
-  {id:'dual',emoji:'◆',name:'Cube + Math',zone:'Executive · Dual task',lvl:'dual',ex:'Hold a calculation result while manipulating a second spatial stream.'},
-  {id:'inhibition',emoji:'●',name:'Impulse Brake',zone:'Inhibition · Go/No-Go',lvl:'inhibition',ex:'Build a fast response, then suppress it on rare stop signals.'},
-  {id:'attention',emoji:'◎',name:'Signal Watch',zone:'Sustained attention',lvl:'attention',ex:'Monitor a repetitive stream and catch rare A→X targets without false alarms.'},
-  {id:'switching',emoji:'⇄',name:'Rule Switch',zone:'Cognitive flexibility',lvl:'switching',ex:'Alternate parity and magnitude rules, measuring the cost of changing mental sets.'},
-  {id:'episodic',emoji:'◫',name:'Episode Builder',zone:'Episodic memory',lvl:'episodic',ex:'Encode vivid word-place scenes, then recall them with alternate forms across sessions.'},
-  {id:'association',emoji:'⌘',name:'Association Bridge',zone:'Convergent creativity',lvl:'association',ex:'Find one bridge word connecting three remote concepts.'},
-  {id:'metacognition',emoji:'◇',name:'Confidence Check',zone:'Metacognition',lvl:'metacognition',ex:'Predict confidence before answering and measure whether certainty matches accuracy.'},
-  {id:'creativity',emoji:'✦',name:'Creative Transfer',zone:'Divergent creativity',lvl:'creativity',ex:'Generate unusual usable ideas for rotating objects. We track fluency and transfer, not a fake creativity score.'}
+export const exercises=[
+ {id:'state',emoji:'⌬',name:'State Engine',zone:'Memory · Updating',lvl:'state',ex:'Track variables through simultaneous updates. Structure, span and interference scale without a level cap.'},
+ {id:'rotation',emoji:'◈',name:'Spatial Forge',zone:'Spatial · Transformation',lvl:'rotation',ex:'Rotate hidden structures, resist mirror traps and build a durable spatial model.'},
+ {id:'math',emoji:'∑',name:'Math Strategy',zone:'Frontal · Calculation',lvl:'math',ex:'Hold intermediate states and choose efficient operations. Accuracy unlocks speed, not the reverse.'},
+ {id:'switching',emoji:'⇄',name:'Rule Lab',zone:'Executive · Flexibility',lvl:'switching',ex:'Switch between competing rules and reduce the measurable cost of changing task sets.'},
+ {id:'episodic',emoji:'◫',name:'Episodic Worlds',zone:'Memory · What where when',lvl:'episodic',ex:'Encode scenes, retrieve without cues and revisit them after interference.'},
+ {id:'inhibition',emoji:'◎',name:'Inhibition Lab',zone:'Executive · Control',lvl:'inhibition',ex:'Stop automatic responses with mixed inhibition paradigms and adaptive timing.'},
+ {id:'creativity',emoji:'✦',name:'Creative Forge',zone:'Creativity · Transfer',lvl:'creativity',ex:'Solve changing real-world prompts under useful constraints. Variety matters more than word count.'},
+ {id:'dual',emoji:'◆',name:'Dual Task',zone:'Integrated · Advanced',lvl:'dual',ex:'Unlocked challenge that measures the cost of coordinating two already-trained skills.'}
 ];
